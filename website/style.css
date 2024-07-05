@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Desativa o scroll horizontal */
+}
+
+.container-imagem {
+  width: 100%; /* Ocupa toda a largura da tela */
+  height: auto; /* Ajusta a altura automaticamente */
+  overflow-y: auto; /* Permite o scroll vertical */
+}
+
+.container-imagem img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Garante que a imagem cubra toda a área do container */
+  object-position: left top; /* Alinha a imagem à esquerda e ao topo */
+}
