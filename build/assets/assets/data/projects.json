@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Hectares",
+    "description": "Morem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.",
+    "additionalInfo": "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+    "imagePath": "assets/images/hectares_preview.png",
+    "tags": ["FIGMA", "RUST", "UX/UI"],
+    "status": "IN PROGRESS"
+  },
+  {
+    "name": "Another Project",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "additionalInfo": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "imagePath": "assets/images/another_project.png",
+    "tags": ["UNITY", "ANIMATION", "SOUND DESIGN"],
+    "status": "COMPLETED"
+  }
+]
