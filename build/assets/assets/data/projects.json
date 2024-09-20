@@ -1,18 +1,106 @@
 [
   {
-    "name": "Hectares",
-    "description": "Morem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac aliquet odio mattis.",
-    "additionalInfo": "Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.",
+    "name": "The Name of the Rose Movie Poster",
+    "description": "A captivating illustration depicting characters from 'The Name of the Rose' film, crafted as a movie poster.",
+    "additionalInfo": "This project showcases character ensemble composition and atmospheric storytelling through digital illustration, bringing the essence of the film to life.",
+    "imagePath": "assets/images/nomedarosa.png",
+    "tags": [
+      "ILLUSTRATION",
+      "MOVIE POSTER",
+      "CHARACTER DESIGN",
+      "DIGITAL ART",
+      "PROCREATE"
+    ],
+    "status": "COMPLETED"
+  },
+  {
+    "name": "Dishonored Character Study",
+    "description": "A detailed character illustration inspired by the game Dishonored, showcasing intricate design elements and atmospheric lighting.",
+    "additionalInfo": "This project demonstrates advanced digital painting techniques and a deep understanding of character design, executed with precision in Procreate.",
+    "imagePath": "assets/images/dishonored.png",
+    "tags": [
+      "ILLUSTRATION",
+      "CHARACTER DESIGN",
+      "DIGITAL ART",
+      "PROCREATE",
+      "GAME ART"
+    ],
+    "status": "COMPLETED"
+  },
+
+  {
+    "name": "Hectares: Farm Cultivation Simulator",
+    "description": "A farming simulation game developed using Rust and the Bevy framework, offering an immersive agricultural experience.",
+    "additionalInfo": "This project combines sophisticated game mechanics with charming illustrations created in Procreate and Figma. It showcases the power of Rust in game development and demonstrates skills in both programming and digital art.",
     "imagePath": "assets/images/hectares_preview.png",
-    "tags": ["FIGMA", "RUST", "UX/UI"],
+    "tags": [
+      "GAME DEVELOPMENT",
+      "RUST",
+      "BEVY",
+      "FIGMA",
+      "PROCREATE",
+      "ILLUSTRATION",
+      "UX/UI",
+      "FARMING SIMULATOR"
+    ],
     "status": "IN PROGRESS"
   },
   {
-    "name": "Another Project",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "additionalInfo": "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "imagePath": "assets/images/another_project.png",
-    "tags": ["UNITY", "ANIMATION", "SOUND DESIGN"],
+    "name": "Card Game UI/UX Prototype",
+    "description": "A comprehensive UI/UX prototype for an unnamed card game, showcasing intuitive design and engaging user interface elements.",
+    "additionalInfo": "This Figma project explores various aspects of game UI/UX, focusing on card layout, user interaction, and visual appeal to enhance the gaming experience.",
+    "imagePath": "assets/images/cardlayout.png",
+    "tags": ["UI/UX", "FIGMA", "GAME DESIGN", "PROTOTYPING", "CARD GAME"],
     "status": "COMPLETED"
+  },
+  {
+    "name": "Greedy Bastards: Multi-Platform Dungeon Crawler",
+    "description": "A turn-based adventure dungeon crawler game developed on three different platforms: Godot, Phaser 3, and Rust.",
+    "additionalInfo": "This project showcases cross-platform development skills and adaptability in game programming. It explores the strengths of each platform while maintaining consistent gameplay across all versions.",
+    "imagePath": "assets/images/greedybastards.png",
+    "tags": [
+      "GAME DEVELOPMENT",
+      "GODOT",
+      "PHASER",
+      "RUST",
+      "DUNGEON CRAWLER",
+      "TURN-BASED",
+      "MULTI-PLATFORM"
+    ],
+    "status": "COMPLETED"
+  },
+  {
+    "name": "Navitas: Cross-Platform Adventure",
+    "description": "A dynamic game initially developed in Phaser 3 and later ported to Rust using the Bevy engine, showcasing adaptability in game development.",
+    "additionalInfo": "This project demonstrates proficiency in multiple technologies, combining illustrations created in Procreate with UI/UX design in Figma. The transition from JavaScript to Rust highlights versatility in programming languages and frameworks.",
+    "imagePath": "assets/images/navitas.png",
+    "tags": [
+      "GAME DEVELOPMENT",
+      "PHASER",
+      "RUST",
+      "BEVY",
+      "PROCREATE",
+      "FIGMA",
+      "ILLUSTRATION",
+      "UX/UI",
+      "CROSS-PLATFORM"
+    ],
+    "status": "COMPLETED"
+  },
+  {
+    "name": "Dungeons of Whatever: Multi-Platform Prototype",
+    "description": "A game concept prototype initially designed in Figma, then implemented in both Rust and Flutter to explore cross-platform development possibilities.",
+    "additionalInfo": "This project showcases the journey from initial game design to functional prototypes across different technologies. It demonstrates versatility in UI/UX design and programming across multiple platforms.",
+    "imagePath": "assets/images/dungeonsofwhatever.png",
+    "tags": [
+      "GAME DESIGN",
+      "PROTOTYPING",
+      "FIGMA",
+      "RUST",
+      "FLUTTER",
+      "UX/UI",
+      "CROSS-PLATFORM"
+    ],
+    "status": "PROTOTYPE"
   }
 ]
