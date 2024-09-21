@@ -24,6 +24,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Navigate to project directory
+        run: |
+          ls -R  # This will list all files and directories for debugging
+          cd website  # Adjust this if your Flutter project is in a different directory
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
