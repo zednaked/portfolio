@@ -4,13 +4,7 @@
     "description": "A captivating illustration depicting characters from 'The Name of the Rose' film, crafted as a movie poster.",
     "additionalInfo": "This project showcases character ensemble composition and atmospheric storytelling through digital illustration, bringing the essence of the film to life.",
     "imagePath": "assets/images/nomedarosa.png",
-    "tags": [
-      "ILLUSTRATION",
-      "MOVIE POSTER",
-      "CHARACTER DESIGN",
-      "DIGITAL ART",
-      "PROCREATE"
-    ],
+    "tags": ["ILLUSTRATION", "CHARACTER DESIGN", "DIGITAL ART", "PROCREATE"],
     "status": "COMPLETED"
   },
   {
@@ -18,13 +12,7 @@
     "description": "A detailed character illustration inspired by the game Dishonored, showcasing intricate design elements and atmospheric lighting.",
     "additionalInfo": "This project demonstrates advanced digital painting techniques and a deep understanding of character design, executed with precision in Procreate.",
     "imagePath": "assets/images/dishonored.png",
-    "tags": [
-      "ILLUSTRATION",
-      "CHARACTER DESIGN",
-      "DIGITAL ART",
-      "PROCREATE",
-      "GAME ART"
-    ],
+    "tags": ["ILLUSTRATION", "CHARACTER DESIGN", "DIGITAL ART", "PROCREATE"],
     "status": "COMPLETED"
   },
 
@@ -40,8 +28,7 @@
       "FIGMA",
       "PROCREATE",
       "ILLUSTRATION",
-      "UX/UI",
-      "FARMING SIMULATOR"
+      "UX/UI"
     ],
     "status": "IN PROGRESS"
   },
@@ -50,7 +37,7 @@
     "description": "A comprehensive UI/UX prototype for an unnamed card game, showcasing intuitive design and engaging user interface elements.",
     "additionalInfo": "This Figma project explores various aspects of game UI/UX, focusing on card layout, user interaction, and visual appeal to enhance the gaming experience.",
     "imagePath": "assets/images/cardlayout.png",
-    "tags": ["UI/UX", "FIGMA", "GAME DESIGN", "PROTOTYPING", "CARD GAME"],
+    "tags": ["UX/UI", "FIGMA", "GAME DEVELOPMENT", "PROTOTYPING"],
     "status": "COMPLETED"
   },
   {
@@ -58,15 +45,7 @@
     "description": "A turn-based adventure dungeon crawler game developed on three different platforms: Godot, Phaser 3, and Rust.",
     "additionalInfo": "This project showcases cross-platform development skills and adaptability in game programming. It explores the strengths of each platform while maintaining consistent gameplay across all versions.",
     "imagePath": "assets/images/greedybastards.png",
-    "tags": [
-      "GAME DEVELOPMENT",
-      "GODOT",
-      "PHASER",
-      "RUST",
-      "DUNGEON CRAWLER",
-      "TURN-BASED",
-      "MULTI-PLATFORM"
-    ],
+    "tags": ["GAME DEVELOPMENT", "GODOT", "PHASER", "RUST", "CROSS-PLATFORM"],
     "status": "COMPLETED"
   },
   {
@@ -76,7 +55,7 @@
     "imagePath": "assets/images/navitas.png",
     "tags": [
       "GAME DEVELOPMENT",
-      "PHASER",
+      "JAVASCRIPT",
       "RUST",
       "BEVY",
       "PROCREATE",
@@ -93,7 +72,7 @@
     "additionalInfo": "This project showcases the journey from initial game design to functional prototypes across different technologies. It demonstrates versatility in UI/UX design and programming across multiple platforms.",
     "imagePath": "assets/images/dungeonsofwhatever.png",
     "tags": [
-      "GAME DESIGN",
+      "GAME DEVELOPMENT",
       "PROTOTYPING",
       "FIGMA",
       "RUST",
