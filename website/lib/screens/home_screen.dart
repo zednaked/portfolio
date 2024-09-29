@@ -5,6 +5,26 @@ import '../models/project.dart';
 import '../services/project_service.dart';
 import '../services/tag_service.dart';
 
+// English constants
+const String kNameEN = 'THIAGO GONÇALVES';
+const String kTitleEN = '2D ARTIST + 2D ANIMATOR + GAMEDEV + SOUND DESIGNER';
+const String kAboutMeTitleEN = 'About Me';
+const String kAboutMeContentEN =
+    'With over 10 years of experience in the creative industry, I\'ve honed my skills as a multidisciplinary artist and developer. My passion lies in bringing ideas to life through various mediums, from traditional art to interactive experiences. Also gardener and beekeeper!';
+const String kSkillsTitleEN = 'Skills';
+const String kSkillsContentEN =
+    'As a creative polymath, I blend artistry with technology to craft immersive digital experiences. My toolkit spans from traditional illustration to cutting-edge game development, allowing me to breathe life into ideas across multiple platforms. Whether it\'s designing intuitive user interfaces, animating captivating characters, or engineering robust game systems, I thrive on pushing the boundaries of interactive storytelling.';
+
+// Portuguese constants
+const String kNamePT = 'THIAGO GONÇALVES';
+const String kTitlePT = 'ARTISTA 2D + ANIMADOR 2D + GAMEDEV + SOUND DESIGNER';
+const String kAboutMeTitlePT = 'Sobre Mim';
+const String kAboutMeContentPT =
+    'Com mais de uma década de experiência na indústria criativa, refinei e expandi minhas habilidades como artista e desenvolvedor multidisciplinar. Minha paixão reside em dar vida a ideias inovadoras através de uma ampla gama de meios, desde a arte tradicional até as mais avançadas experiências interativas. Esta jornada criativa não se limita apenas ao mundo digital; sou também um entusiasta jardineiro e apicultor!';
+const String kSkillsTitlePT = 'Habilidades';
+const String kSkillsContentPT =
+    'Como um artista multifacetado, fundo arte e tecnologia para criar experiências digitais envolventes e inovadoras. Minha expertise abrange desde ilustração tradicional até o desenvolvimento de jogos de última geração, permitindo-me transformar conceitos em realidade através de diversas plataformas. Seja concebendo interfaces intuitivas, dando vida a personagens memoráveis ou arquitetando sistemas de jogo complexos, minha paixão está em ultrapassar as fronteiras da narrativa interativa, sempre buscando novas formas de cativar e surpreender o público.';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -18,7 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Project> _allProjects = [];
   List<Project> _displayedProjects = [];
   int _currentPage = 1;
-  final int _projectsPerPage = 5;
+  final int _projectsPerPage = 4;
+  bool _isEnglish = false; // New variable to track language
 
   @override
   void initState() {
@@ -102,35 +123,72 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildHeader(double scaleFactor, BoxConstraints constraints) {
-    return SizedBox(
-      width: min(829 * scaleFactor, constraints.maxWidth - 120 * scaleFactor),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'THIAGO GONÇALVES',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 54 * scaleFactor,
-              fontWeight: FontWeight.w800,
-              height: 1,
-              letterSpacing: 5.40 * scaleFactor,
-            ),
-          ),
-          SizedBox(height: 12 * scaleFactor),
-          Opacity(
-            opacity: 0.90,
-            child: Text(
-              '2D ARTIST + 2D ANIMATOR + GAMEDEV + SOUND DESIGNER',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25 * scaleFactor,
-                fontWeight: FontWeight.w600,
-                height: 1,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width:
+              min(829 * scaleFactor, constraints.maxWidth - 120 * scaleFactor),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _isEnglish ? kNameEN : kNamePT,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 54 * scaleFactor,
+                  fontWeight: FontWeight.w800,
+                  height: 1,
+                  letterSpacing: 5.40 * scaleFactor,
+                ),
               ),
-            ),
+              SizedBox(height: 5 * scaleFactor),
+              Opacity(
+                opacity: 0.90,
+                child: Text(
+                  _isEnglish ? kTitleEN : kTitlePT,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25 * scaleFactor,
+                    fontWeight: FontWeight.w600,
+                    height: 1,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
+        SizedBox(height: 20 * scaleFactor),
+        Row(
+          children: [
+            _buildLanguageButton('🇺🇸 EN', true, scaleFactor),
+            SizedBox(width: 10 * scaleFactor),
+            _buildLanguageButton('🇧🇷 PT', false, scaleFactor),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLanguageButton(String text, bool isEnglish, double scaleFactor) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _isEnglish = isEnglish;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: _isEnglish == isEnglish ? Colors.white : Colors.grey,
+        foregroundColor: _isEnglish == isEnglish ? Colors.black : Colors.white,
+        padding: EdgeInsets.symmetric(
+          horizontal: 8 * scaleFactor,
+          vertical: 4 * scaleFactor,
+        ),
+        minimumSize: Size(30 * scaleFactor, 30 * scaleFactor),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 20 * scaleFactor),
       ),
     );
   }
@@ -167,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   color: Colors.white,
                   child: Text(
-                    'About Me',
+                    _isEnglish ? kAboutMeTitleEN : kAboutMeTitlePT,
                     style: GoogleFonts.roboto(
                       textStyle: TextStyle(
                         color: Color(0xFFA92756),
@@ -182,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                   padding: EdgeInsets.all(20 * scaleFactor),
                   child: Text(
-                    'Product Designer with 10+ years of experience in UI/UX, illustration, and animation. Expertise in motion design, character design, and storyboarding. Proficient Game Developer in Unity, Godot, Rust (bevy ggez, comfy), javascript (phaser).',
+                    _isEnglish ? kAboutMeContentEN : kAboutMeContentPT,
                     style: GoogleFonts.roboto(
                       textStyle: TextStyle(
                         color: Colors.black,
@@ -215,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
               vertical: 5.41 * scaleFactor,
             ),
             child: Text(
-              'Skills',
+              _isEnglish ? kSkillsTitleEN : kSkillsTitlePT,
               style: GoogleFonts.roboto(
                 textStyle: TextStyle(
                   color: Color(0xFFA92756),
@@ -230,7 +288,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,
             padding: EdgeInsets.all(20 * scaleFactor),
             child: Text(
-              'Creative full-stack game developer with expertise in illustration, animation, sound design, and technical implementation. Proficient in Unity, Godot, Rust, and JavaScript.',
+              _isEnglish ? kSkillsContentEN : kSkillsContentPT,
               style: GoogleFonts.roboto(
                 textStyle: TextStyle(
                   color: Colors.black,
@@ -355,7 +413,7 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 583.04 * scaleFactor,
             top: 247 * scaleFactor,
             child: Container(
-              width: 642.46 * scaleFactor,
+              width: 42.46 * scaleFactor,
               height: 239 * scaleFactor,
               decoration: BoxDecoration(color: Colors.white),
             ),
@@ -364,7 +422,7 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 580.58 * scaleFactor,
             top: 52 * scaleFactor,
             child: Container(
-              width: 360.15 * scaleFactor,
+              width: 60.15 * scaleFactor,
               height: 71 * scaleFactor,
               decoration: BoxDecoration(color: Colors.white),
             ),
@@ -373,17 +431,17 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 581.61 * scaleFactor,
             top: 121 * scaleFactor,
             child: Container(
-              width: 590.56 * scaleFactor,
-              height: 469 * scaleFactor,
+              width: 990.56 * scaleFactor,
+              height: 559 * scaleFactor,
               decoration: BoxDecoration(color: Colors.white),
             ),
           ),
           Positioned(
             left: 595.11 * scaleFactor,
-            top: 121 * scaleFactor,
+            top: 151 * scaleFactor,
             child: SizedBox(
               width: 608.21 * scaleFactor,
-              height: 211 * scaleFactor,
+              height: 180 * scaleFactor,
               child: Text(
                 project.description,
                 style: GoogleFonts.roboto(
@@ -400,7 +458,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Positioned(
             left: 595.11 * scaleFactor,
-            top: 338 * scaleFactor,
+            top: 320 * scaleFactor,
             child: SizedBox(
               width: 608.21 * scaleFactor,
               height: 211 * scaleFactor,
@@ -423,15 +481,15 @@ class _HomeScreenState extends State<HomeScreen> {
             top: 25 * scaleFactor,
             child: Container(
               width: 522.58 * scaleFactor,
-              height: 100 * scaleFactor,
+              height: 300 * scaleFactor,
               child: Stack(
                 children: [
                   Positioned(
                     left: 0,
                     top: 0,
                     child: Container(
-                      width: 360.15 * scaleFactor,
-                      height: 71 * scaleFactor,
+                      width: 960.15 * scaleFactor,
+                      height: 101 * scaleFactor,
                       decoration: BoxDecoration(color: Colors.white),
                     ),
                   ),
@@ -472,47 +530,55 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Positioned(
-            left: 591.92 * scaleFactor,
+            left: 593.92 * scaleFactor,
             top: 566 * scaleFactor,
-            child: Wrap(
-              spacing: 10 * scaleFactor,
-              runSpacing: 10 * scaleFactor,
-              children: project.tags
-                  .map((tag) => Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 20 * scaleFactor,
-                            vertical: 10 * scaleFactor),
-                        decoration: ShapeDecoration(
-                          color: Color(0xFFA7A7A7),
-                          shape: RoundedRectangleBorder(
+            child: Container(
+              width: 650 * scaleFactor,
+              child: Wrap(
+                spacing: 8 * scaleFactor,
+                runSpacing: 8 * scaleFactor,
+                children: project.tags
+                    .map((tag) => Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12 * scaleFactor,
+                            vertical: 6 * scaleFactor,
+                          ),
+                          decoration: ShapeDecoration(
+                            color: Color(0xFFA7A7A7),
+                            shape: RoundedRectangleBorder(
                               borderRadius:
-                                  BorderRadius.circular(8 * scaleFactor)),
-                        ),
-                        child: Text(
-                          tag,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.roboto(
-                            textStyle: TextStyle(
-                              color: Color(0xFFA92756),
-                              fontSize: 21 * scaleFactor,
-                              fontWeight: FontWeight.w700,
+                                  BorderRadius.circular(8 * scaleFactor),
                             ),
                           ),
-                        ),
-                      ))
-                  .toList(),
+                          child: Text(
+                            tag,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                                color: Color(0xFFA92756),
+                                fontSize: 16 * scaleFactor,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ))
+                    .toList(),
+              ),
             ),
           ),
           Positioned(
             left: 591.92 * scaleFactor,
-            top: 640 * scaleFactor,
+            top: 520 * scaleFactor,
             child: Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: 20 * scaleFactor, vertical: 10 * scaleFactor),
+                horizontal: 12 * scaleFactor,
+                vertical: 6 * scaleFactor,
+              ),
               decoration: ShapeDecoration(
-                color: Color(0xFFA7A7A7),
+                color: Color(0xFBB7BA7A7),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8 * scaleFactor)),
+                  borderRadius: BorderRadius.circular(8 * scaleFactor),
+                ),
               ),
               child: Text(
                 project.status,
@@ -520,7 +586,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: GoogleFonts.roboto(
                   textStyle: TextStyle(
                     color: Color(0xFFA92756),
-                    fontSize: 21 * scaleFactor,
+                    fontSize: 16 * scaleFactor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
