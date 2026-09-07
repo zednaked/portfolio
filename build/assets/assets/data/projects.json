@@ -1,10 +1,43 @@
 [
   {
+    "name": "Nirbija: Linux Plugin Host and Mixer",
+    "description": "A mixer you play, not a DAW you arrange. Channels, plugins in the strip, loop, record, session — no timeline. Hosts LV2, CLAP and VST3 in the same slot over JACK or PipeWire, with native plugin editors embedded.",
+    "additionalInfo": "45,000 lines of C++20 and Qt6. MIDI routing, Lua scripting, and 30 test binaries running under AddressSanitizer and ThreadSanitizer — real-time audio does not forgive a data race.",
+    "imagePath": "assets/images/nirbija.png",
+    "tags": [
+      "C++",
+      "QT",
+      "LINUX",
+      "AUDIO",
+      "SYSTEMS"
+    ],
+    "status": "IN PROGRESS"
+  },
+  {
+    "name": "ZGT: A Terminal Inside the Godot Editor",
+    "description": "A C++ GDExtension that puts a real terminal in the Godot editor's bottom panel. It runs your shell on a pseudoterminal and draws the character grid itself, so it behaves identically on X11 and Wayland with no window embedding.",
+    "additionalInfo": "Tabs, mouse forwarding, scrollback search and truecolor — enough to run nvim, htop or lazygit without leaving the editor.",
+    "imagePath": "assets/images/zgt.png",
+    "tags": [
+      "C++",
+      "GODOT",
+      "GDEXTENSION",
+      "LINUX",
+      "SYSTEMS"
+    ],
+    "status": "COMPLETED"
+  },
+  {
     "name": "The Name of the Rose Movie Poster",
     "description": "A captivating illustration depicting characters from 'The Name of the Rose' film, crafted as a movie poster.",
     "additionalInfo": "This project showcases character ensemble composition and atmospheric storytelling through digital illustration, bringing the essence of the film to life.",
     "imagePath": "assets/images/nomedarosa.png",
-    "tags": ["ILLUSTRATION", "CHARACTER DESIGN", "DIGITAL ART", "PROCREATE"],
+    "tags": [
+      "ILLUSTRATION",
+      "CHARACTER DESIGN",
+      "DIGITAL ART",
+      "PROCREATE"
+    ],
     "status": "COMPLETED"
   },
   {
@@ -12,10 +45,14 @@
     "description": "A detailed character illustration inspired by the game Dishonored, showcasing intricate design elements and atmospheric lighting.",
     "additionalInfo": "This project demonstrates advanced digital painting techniques and a deep understanding of character design, executed with precision in Procreate.",
     "imagePath": "assets/images/dishonored.png",
-    "tags": ["ILLUSTRATION", "CHARACTER DESIGN", "DIGITAL ART", "PROCREATE"],
+    "tags": [
+      "ILLUSTRATION",
+      "CHARACTER DESIGN",
+      "DIGITAL ART",
+      "PROCREATE"
+    ],
     "status": "COMPLETED"
   },
-
   {
     "name": "Hectares: Farm Cultivation Simulator",
     "description": "A farming simulation game developed using Rust and the Bevy framework, offering an immersive agricultural experience.",
@@ -37,7 +74,12 @@
     "description": "A comprehensive UI/UX prototype for an unnamed card game, showcasing intuitive design and engaging user interface elements.",
     "additionalInfo": "This Figma project explores various aspects of game UI/UX, focusing on card layout, user interaction, and visual appeal to enhance the gaming experience.",
     "imagePath": "assets/images/cardlayout.png",
-    "tags": ["UX/UI", "FIGMA", "GAME DEVELOPMENT", "PROTOTYPING"],
+    "tags": [
+      "UX/UI",
+      "FIGMA",
+      "GAME DEVELOPMENT",
+      "PROTOTYPING"
+    ],
     "status": "COMPLETED"
   },
   {
@@ -45,7 +87,13 @@
     "description": "A turn-based adventure dungeon crawler game developed on three different platforms: Godot, Phaser 3, and Rust.",
     "additionalInfo": "This project showcases cross-platform development skills and adaptability in game programming. It explores the strengths of each platform while maintaining consistent gameplay across all versions.",
     "imagePath": "assets/images/greedybastards.png",
-    "tags": ["GAME DEVELOPMENT", "GODOT", "PHASER", "RUST", "CROSS-PLATFORM"],
+    "tags": [
+      "GAME DEVELOPMENT",
+      "GODOT",
+      "PHASER",
+      "RUST",
+      "CROSS-PLATFORM"
+    ],
     "status": "COMPLETED"
   },
   {
