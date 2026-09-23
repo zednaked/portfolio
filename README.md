@@ -1,13 +1,21 @@
-# Portfólio Multidisciplinar
+# Portfolio: painting and illustration
 
-Este é um projeto de portfólio que apresenta meus trabalhos em diversas áreas criativas, incluindo pintura, animação, desenvolvimento de jogos, desenvolvimento web e música.
+Painting, illustration, character design and game art by Thiago Gonçalves.
+Live at https://zednaked.github.io/portfolio/
 
-## Visão Geral do Projeto
+Engineering work lives on [github.com/zednaked](https://github.com/zednaked).
 
-O site será desenvolvido como uma página de rolagem vertical contínua, utilizando Flutter para criar uma experiência interativa e responsiva. O portfólio será hospedado no GitHub Pages.
+## Layout
 
-## Características Principais
+- `site/` is the whole page: plain HTML, CSS, a small language switcher
+  (`lang.js`) and WebP images. No framework, no build step. GitHub Pages
+  serves this folder (`.github/workflows/static.yml`).
+- `legacy/` holds the previous Flutter Web version (`legacy/website`) and its
+  last build (`legacy/build`). It is kept for history and is not served.
 
-- Cards de projeto com informações resumidas
-- Categorização por área criativa
-- Seleção aleatória de projetos na página inicial
+## Adding a piece
+
+1. Export the image as WebP, no wider than twice its displayed size.
+2. Add a `<figure>` to `site/index.html` with `width`, `height`,
+   `loading="lazy"`, an `alt` that describes the work, and a `data-alt-pt`
+   and `data-pt` for the Portuguese text. English is the primary version.
