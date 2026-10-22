@@ -1,0 +1,102 @@
+import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import { gsap, FULL_MOTION } from './motion';
+import { ui } from './content';
+import { useLang } from './i18n';
+import { Header } from './Header';
+import { Gallery } from './Gallery';
+
+function About() {
+  const { t } = useLang();
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(FULL_MOTION, () => {
+        const tl = gsap.timeline({ delay: 0.5, defaults: { ease: 'power3.out' } });
+        tl.fromTo(
+          '.portrait',
+          { clipPath: 'inset(0% 0% 100% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power2.inOut' },
+        )
+          .from('.label', { scaleX: 0, transformOrigin: 'left center', duration: 0.45 }, 0.25)
+          .from('.box', { y: 24, duration: 0.6 }, 0.4);
+        // Only position moves on the text box: it stays visible from the
+        // first frame, so it can count as the largest paint right away.
+      });
+    },
+    { scope: root },
+  );
+
+  return (
+    <section className="wrap about" aria-labelledby="about-h" ref={root}>
+      <img
+        className="portrait"
+        src={`${import.meta.env.BASE_URL}img/portrait.webp`}
+        width={400}
+        height={399}
+        alt={t(ui.portraitAlt)}
+        fetchPriority="high"
+      />
+      <div>
+        <h2 className="label" id="about-h">{t(ui.aboutLabel)}</h2>
+        <p className="box">{t(ui.about)}</p>
+      </div>
+    </section>
+  );
+}
+
+function Engineering() {
+  const { t } = useLang();
+  return (
+    <section className="wrap" aria-labelledby="eng-h">
+      <h2 className="label" id="eng-h">{t(ui.engLabel)}</h2>
+      <p className="box">
+        {t(ui.eng)} <a href="https://github.com/zednaked">github.com/zednaked</a>
+      </p>
+    </section>
+  );
+}
+
+export function App() {
+  const { lang, t } = useLang();
+  const main = useRef<HTMLElement>(null);
+  const firstLang = useRef(true);
+
+  // A language switch fades the new text in, so the swap reads as intended.
+  useGSAP(
+    () => {
+      // The intro already reveals this text; only later switches fade it.
+      if (firstLang.current) {
+        firstLang.current = false;
+        return;
+      }
+      if (!window.matchMedia(FULL_MOTION).matches) return;
+      gsap.fromTo(
+        '.role, .box, figcaption, .label',
+        { autoAlpha: 0.2 },
+        { autoAlpha: 1, duration: 0.35, stagger: 0.02, overwrite: 'auto' },
+      );
+    },
+    { dependencies: [lang], revertOnUpdate: false },
+  );
+
+  return (
+    <div className="page">
+      <a className="skip" href="#work">{t(ui.skip)}</a>
+      <Header />
+      <main ref={main}>
+        <About />
+        <Gallery />
+        <Engineering />
+      </main>
+      <footer className="wrap foot">
+        <p>
+          Thiago Gonçalves · <a href="https://github.com/zednaked">GitHub</a>
+        </p>
+        <p className="colophon">{t(ui.colophon)}</p>
+      </footer>
+    </div>
+  );
+}

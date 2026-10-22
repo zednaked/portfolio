@@ -1,0 +1,248 @@
+:root {
+  --paper: #f0faf9;
+  --ink: #111;
+  --muted: #3d4a4f;
+  --accent: #a92756;
+  --focus: #1b4f63;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.55 Roboto, system-ui, -apple-system, "Segoe UI", sans-serif;
+  overflow-wrap: break-word;
+}
+
+/* The splash is wider than a phone; clip it here instead of letting it widen the page. */
+.page { position: relative; overflow-x: clip; }
+
+img { display: block; max-width: 100%; height: auto; }
+
+a { color: var(--accent); text-underline-offset: 0.15em; }
+a:hover { color: #7d1b3f; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+@media (min-width: 720px) {
+  .wrap { padding: 0 40px; }
+}
+
+.skip {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  background: #fff;
+  color: var(--ink);
+  padding: 8px 12px;
+  z-index: 3;
+}
+.skip:focus { top: 16px; }
+
+/* Header, white type over the paint splash */
+.top {
+  position: relative;
+  padding: clamp(48px, 9vw, 120px) 0 clamp(40px, 6vw, 72px);
+  color: #fff;
+}
+.top :focus-visible { outline-color: #fff; }
+
+/* The splash used to be the body background; as its own layer it can be
+   painted in and drift on scroll without repainting the page. */
+.splash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: max(100vw, 900px);
+  aspect-ratio: 1200 / 1417;
+  background: url("/img/splash.webp") no-repeat left top / 100% auto;
+  pointer-events: none;
+  will-change: transform, clip-path;
+}
+
+.name {
+  margin: 0;
+  font-size: clamp(2rem, 1.2rem + 3.6vw, 3.375rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 12px rgba(60, 10, 40, 0.35);
+}
+.name .line { display: inline-block; overflow: hidden; padding-bottom: 0.08em; vertical-align: top; }
+.name .char { display: inline-block; }
+
+.role {
+  margin: 0.4em 0 0;
+  font-size: clamp(1rem, 0.8rem + 1.1vw, 1.5625rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-shadow: 0 1px 8px rgba(60, 10, 40, 0.35);
+}
+
+.lang { display: flex; gap: 10px; margin-top: 20px; }
+.lang button {
+  min-width: 48px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: rgba(40, 10, 30, 0.55);
+  color: #fff;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  /* GSAP owns transform here; hover uses the separate translate property. */
+  transition: background-color 0.2s, color 0.2s, translate 0.2s;
+}
+.lang button:hover { translate: 0 -2px; }
+.lang button[aria-pressed="true"] { background: #fff; color: var(--ink); }
+
+/* White boxes with a magenta label, as in the original layout */
+.label {
+  display: inline-block;
+  margin: 0 0 16px;
+  padding: 6px 14px;
+  background: #fff;
+  color: var(--accent);
+  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.box {
+  margin: 0;
+  padding: 20px;
+  background: #fff;
+  font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.375rem);
+  line-height: 1.5;
+  max-width: 60ch;
+}
+
+main > section.wrap { padding-bottom: clamp(48px, 7vw, 80px); }
+
+.about {
+  display: grid;
+  gap: 24px;
+  align-items: start;
+}
+@media (min-width: 720px) {
+  .about { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 56px; }
+}
+.portrait {
+  width: 100%;
+  max-width: 360px;
+  border: 10px solid #eee;
+  background: #fff;
+}
+
+/* Gallery */
+#work:focus { outline: none; }
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+@media (min-width: 720px) {
+  .gallery .wide { grid-column: 1 / -1; }
+}
+
+figure {
+  margin: 0;
+  padding: 8px 8px 16px;
+  background: #fff;
+  box-shadow: 0 2px 14px rgba(20, 40, 50, 0.12);
+  transition: box-shadow 0.3s;
+}
+figure:hover { box-shadow: 0 10px 30px rgba(20, 40, 50, 0.2); }
+.wide { justify-self: start; width: 100%; max-width: 1003px; }
+
+/* The painting is a button that opens the viewer. */
+.reveal {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.reveal img { width: 100%; transition: scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.reveal:hover img { scale: 1.03; }
+img.pixel { image-rendering: pixelated; }
+
+figcaption { margin: 12px 8px 0; max-width: 60ch; }
+figcaption strong { display: block; font-size: 1.125rem; }
+figcaption span { color: var(--muted); }
+
+/* Viewer */
+.viewer {
+  width: min(96vw, 1100px);
+  max-height: 94vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+}
+.viewer::backdrop { background: rgba(30, 6, 20, 0.86); }
+.viewer-inner {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+.viewer img {
+  max-height: 78vh;
+  width: auto;
+  background: #fff;
+  border: 8px solid #fff;
+}
+.dialog-text { color: #fff; text-align: center; max-width: 60ch; }
+.dialog-text h3 { margin: 0; font-size: 1.25rem; }
+.dialog-text p { margin: 4px 0 0; color: #f1d9e3; }
+.close {
+  min-height: 44px;
+  padding: 0 18px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  font: 700 1rem Roboto, system-ui, sans-serif;
+  cursor: pointer;
+}
+.viewer :focus-visible { outline-color: #fff; }
+
+.foot { padding-bottom: 40px; color: var(--muted); font-size: 0.9375rem; }
+.foot p { margin: 0 0 6px; }
+.colophon { font-size: 0.875rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; }
+  .reveal:hover img { scale: none; }
+  .lang button:hover { translate: none; }
+}
