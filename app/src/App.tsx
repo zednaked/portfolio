@@ -5,6 +5,7 @@ import { ui } from './content';
 import { useLang } from './i18n';
 import { Header } from './Header';
 import { Gallery } from './Gallery';
+import { WebWork } from './WebWork';
 
 function About() {
   const { t } = useLang();
@@ -59,18 +60,6 @@ function About() {
   );
 }
 
-function Engineering() {
-  const { t } = useLang();
-  return (
-    <section className="wrap" aria-labelledby="eng-h">
-      <h2 className="label" id="eng-h">{t(ui.engLabel)}</h2>
-      <p className="box">
-        {t(ui.eng)} <a href="https://github.com/zednaked">github.com/zednaked</a>
-      </p>
-    </section>
-  );
-}
-
 export function App() {
   const { lang, t } = useLang();
   const main = useRef<HTMLElement>(null);
@@ -100,8 +89,8 @@ export function App() {
       <Header />
       <main ref={main}>
         <About />
+        <WebWork />
         <Gallery />
-        <Engineering />
       </main>
       <footer className="wrap foot">
         <p>
