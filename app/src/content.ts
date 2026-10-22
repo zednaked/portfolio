@@ -288,8 +288,8 @@ export const deskWork: WebPiece[] = [
     id: 'omahold',
     img: `${base}img/desk-omahold.webp`,
     video: `${base}video/omahold.mp4`,
-    width: 640,
-    height: 476,
+    width: 500,
+    height: 300,
     compact: true,
     title: { en: 'Omahold, a dwarven hold inside the shell', pt: 'Omahold, um forte de anões dentro do shell' },
     what: {

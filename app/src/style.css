@@ -254,6 +254,8 @@ main > section.wrap { padding-bottom: clamp(48px, 7vw, 80px); }
 .stat-label { display: block; color: var(--muted); font-size: 0.9375rem; line-height: 1.35; }
 
 .links { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+/* Text links beside a button still get a 44 px touch area. */
+.links a:not(.btn) { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
 .btn {
   display: inline-flex;
   align-items: center;
@@ -331,14 +333,14 @@ figcaption span { color: var(--muted); }
 /* Viewer */
 .viewer {
   width: min(96vw, 1100px);
-  max-height: 94vh;
+  max-height: 100dvh;
   padding: 0;
   cursor: zoom-out;
   border: 0;
   background: transparent;
   overflow: visible;
 }
-.viewer::backdrop { background: rgba(30, 6, 20, 0.86); }
+.viewer::backdrop { background: rgba(30, 6, 20, 0.95); }
 .viewer-inner {
   display: grid;
   gap: 16px;
@@ -346,7 +348,9 @@ figcaption span { color: var(--muted); }
 }
 .viewer img { cursor: default; }
 .viewer img {
-  max-height: 78vh;
+  /* Leaves room for the caption under it on any screen height. */
+  max-height: calc(100dvh - 190px);
+  max-width: 100%;
   width: auto;
   background: #fff;
   border: 8px solid #fff;
@@ -355,6 +359,11 @@ figcaption span { color: var(--muted); }
 .dialog-text h3 { margin: 0; font-size: 1.25rem; }
 .dialog-text p { margin: 4px 0 0; color: #f1d9e3; }
 .close {
+  /* Pinned to the corner, so it never ends up below a tall painting. */
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
   min-height: 44px;
   padding: 0 18px;
   border: 2px solid #fff;
@@ -365,6 +374,14 @@ figcaption span { color: var(--muted); }
   cursor: pointer;
 }
 .viewer :focus-visible { outline-color: #fff; }
+
+/* Phone on its side: painting and caption side by side. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .viewer { width: min(96vw, 1100px); }
+  .viewer-inner { grid-template-columns: auto minmax(0, 16rem); align-items: center; justify-content: center; }
+  .viewer img { max-height: calc(100dvh - 24px); }
+  .dialog-text { text-align: left; padding-right: 64px; }
+}
 
 .foot { padding-bottom: 40px; color: var(--muted); font-size: 0.9375rem; }
 .foot p { margin: 0 0 6px; }
