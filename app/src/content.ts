@@ -35,6 +35,16 @@ export const ui = {
     en: 'Portrait of Thiago Gonçalves, long dark hair and beard, plaid shirt, holding paintbrushes.',
     pt: 'Retrato de Thiago Gonçalves, cabelo comprido escuro e barba, camisa xadrez, segurando pincéis.',
   },
+  awardYear: { en: '2015 · Louvre, Paris', pt: '2015 · Louvre, Paris' },
+  award: {
+    en: 'Exhibited an oil painting at a salon at the Louvre, where it won best oil painting of the salon.',
+    pt: 'Expus uma pintura a óleo num salão no Louvre, onde ela ganhou o prêmio de melhor pintura a óleo do salão.',
+  },
+  showYear: { en: '2021 · Curitiba', pt: '2021 · Curitiba' },
+  show: {
+    en: 'Kleshas, a virtual exhibition backed by Fundação Cultural de Curitiba through its arts patronage program.',
+    pt: 'Kleshas, exposição virtual apoiada pela Fundação Cultural de Curitiba por meio do mecenato.',
+  },
   workLabel: { en: 'Work', pt: 'Trabalhos' },
   open: { en: 'View larger', pt: 'Ver maior' },
   close: { en: 'Close', pt: 'Fechar' },

@@ -70,7 +70,9 @@ export function Gallery() {
         absolute: true,
         scale: true,
       });
-      gsap.from(d.querySelectorAll('.dialog-text > *, .close'), { autoAlpha: 0, y: 12, stagger: 0.06, delay: 0.35 });
+      // opacity, not autoAlpha: visibility:hidden would drop the focus just
+      // placed on Close.
+      gsap.from(d.querySelectorAll('.dialog-text > *, .close'), { opacity: 0, y: 12, stagger: 0.06, delay: 0.35 });
     }
   }, [open]);
 

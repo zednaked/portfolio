@@ -21,9 +21,13 @@ function About() {
           { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power2.inOut' },
         )
           .from('.label', { scaleX: 0, transformOrigin: 'left center', duration: 0.45 }, 0.25)
-          .from('.box', { y: 24, duration: 0.6 }, 0.4);
-        // Only position moves on the text box: it stays visible from the
-        // first frame, so it can count as the largest paint right away.
+          // Only position moves on the text box: it stays visible from the
+          // first frame, so it can count as the largest paint right away.
+          .from('.box', { y: 24, duration: 0.6 }, 0.4)
+          // The award pops in like a stamp. It grows from smaller than its
+          // final size, so its first paint never outranks the text box as LCP.
+          .from('.award', { scale: 0.7, rotation: -8, autoAlpha: 0, duration: 0.5, ease: 'back.out(2.2)' }, 0.85)
+          .from('.show', { x: -20, autoAlpha: 0, duration: 0.45 }, 1.1);
       });
     },
     { scope: root },
@@ -42,6 +46,14 @@ function About() {
       <div>
         <h2 className="label" id="about-h">{t(ui.aboutLabel)}</h2>
         <p className="box">{t(ui.about)}</p>
+        <p className="award">
+          <strong>{t(ui.awardYear)}</strong>
+          <span>{t(ui.award)}</span>
+        </p>
+        <p className="show">
+          <strong>{t(ui.showYear)}</strong>
+          <span>{t(ui.show)}</span>
+        </p>
       </div>
     </section>
   );
