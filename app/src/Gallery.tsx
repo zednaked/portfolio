@@ -129,7 +129,10 @@ export function Gallery() {
           hide();
         }}
         onClick={(e) => {
-          if (e.target === e.currentTarget) hide();
+          // Anywhere but the painting closes, including the empty space
+          // around it inside the dialog box. Close has its own handler.
+          const target = e.target as HTMLElement;
+          if (!target.closest('.viewer img, .close')) hide();
         }}
       >
         {open && (

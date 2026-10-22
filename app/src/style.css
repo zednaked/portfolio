@@ -233,6 +233,7 @@ figcaption span { color: var(--muted); }
   width: min(96vw, 1100px);
   max-height: 94vh;
   padding: 0;
+  cursor: zoom-out;
   border: 0;
   background: transparent;
   overflow: visible;
@@ -243,6 +244,7 @@ figcaption span { color: var(--muted); }
   gap: 16px;
   justify-items: center;
 }
+.viewer img { cursor: default; }
 .viewer img {
   max-height: 78vh;
   width: auto;
