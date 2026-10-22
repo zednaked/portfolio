@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { pageStats, webUi, webWork } from './content';
+import { deskWork, pageStats, webUi, webWork } from './content';
 import { useLang } from './i18n';
 import { CaseCard, StatLine, useCaseMotion } from './cases';
 
@@ -14,9 +14,14 @@ export function WebWork() {
       <p className="intro">{t(webUi.intro)}</p>
 
       <div className="cases">
-        {webWork.map((piece) => (
+        {webWork.filter((p) => !p.compact).map((piece) => (
           <CaseCard piece={piece} key={piece.id} />
         ))}
+        <div className="cases-pair">
+          {[...deskWork, ...webWork.filter((p) => p.compact)].map((piece) => (
+            <CaseCard piece={piece} key={piece.id} />
+          ))}
+        </div>
 
         <article className="case self" aria-labelledby="case-self">
           <div className="case-body">

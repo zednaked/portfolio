@@ -8,7 +8,9 @@ export function Games() {
   const root = useRef<HTMLElement>(null);
   useCaseMotion(root, 'games-h');
 
-  const [featured, ...rest] = games;
+  const byId = (id: string) => games.find((g) => g.id === id)!;
+  const featured = byId('ciberteia');
+  const rest = [byId('reidaboca'), byId('rinha')];
   return (
     <section className="wrap web games" id="games" aria-labelledby="games-h" ref={root}>
       <h2 className="label" id="games-h">{t(gamesUi.label)}</h2>

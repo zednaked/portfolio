@@ -1,6 +1,6 @@
 import { useRef, type RefObject } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION } from './motion';
+import { gsap, ScrollTrigger, FULL_MOTION } from './motion';
 import { webUi, type Lang, type Stat, type WebPiece } from './content';
 import { useLang } from './i18n';
 
@@ -32,7 +32,22 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
   return (
     <article className={classes} aria-labelledby={`case-${piece.id}`}>
       <div className="shot" style={{ aspectRatio: `${piece.width} / ${piece.height}` }}>
-        <img src={piece.img} width={piece.width} height={piece.height} loading="lazy" decoding="async" alt={t(piece.alt)} />
+        {piece.video ? (
+          // Muted loop, fetched only when it plays; the poster is the still.
+          <video
+            src={piece.video}
+            poster={piece.img}
+            width={piece.width}
+            height={piece.height}
+            muted
+            loop
+            playsInline
+            preload="none"
+            aria-label={t(piece.alt)}
+          />
+        ) : (
+          <img src={piece.img} width={piece.width} height={piece.height} loading="lazy" decoding="async" alt={t(piece.alt)} />
+        )}
       </div>
       <div className="case-body">
         <h3 id={`case-${piece.id}`}>{t(piece.title)}</h3>
@@ -128,8 +143,24 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
             );
           });
 
+          // A clip plays only while its card is on screen.
+          const video = card.querySelector<HTMLVideoElement>('.shot video');
+          if (video) {
+            const play = () => void video.play().catch(() => {});
+            const pause = () => video.pause();
+            ScrollTrigger.create({
+              trigger: card,
+              start: 'top 90%',
+              end: 'bottom 10%',
+              onEnter: play,
+              onEnterBack: play,
+              onLeave: pause,
+              onLeaveBack: pause,
+            });
+          }
+
           // The screenshot drifts inside its frame while the card scrolls by.
-          const img = card.querySelector('.shot img');
+          const img = card.querySelector('.shot img, .shot video');
           if (img) {
             gsap.fromTo(
               img,

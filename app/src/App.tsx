@@ -91,8 +91,8 @@ export function App() {
       <Header />
       <main ref={main}>
         <About />
-        <WebWork />
         <Games />
+        <WebWork />
         <Proofs />
         <Gallery />
       </main>

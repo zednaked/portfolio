@@ -141,6 +141,8 @@ export interface WebPiece {
   phone?: boolean;
   compact?: boolean;
   liveLabel?: Text;
+  /** A short muted loop; `img` is its poster and the reduced-motion still. */
+  video?: string;
   title: Text;
   what: Text;
   role: Text;
@@ -155,8 +157,8 @@ export interface WebPiece {
 export const webUi = {
   label: { en: 'Interactive web', pt: 'Web interativa' },
   intro: {
-    en: 'Three things I built for the browser, each live, each with the number I measured on it.',
-    pt: 'Três coisas que construí para o navegador, todas no ar, cada uma com o número que medi nela.',
+    en: 'Things I built for the browser and the desktop, each with the number I measured on it.',
+    pt: 'Coisas que construí para o navegador e para a área de trabalho, cada uma com o número que medi nela.',
   },
   role: { en: 'My role', pt: 'Meu papel' },
   live: { en: 'Open it live', pt: 'Abrir no ar' },
@@ -174,8 +176,8 @@ export const webUi = {
 } satisfies Record<string, Text>;
 
 export const pageStats: Stat[] = [
-  { value: 0.2, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
-  { value: 0.2, decimals: 2, unit: ' s', label: { en: 'largest paint, phone', pt: 'maior pintura, celular' } },
+  { value: 0.22, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
+  { value: 0.22, decimals: 2, unit: ' s', label: { en: 'largest paint, phone', pt: 'maior pintura, celular' } },
   { value: 0, unit: '', label: { en: 'layout shift', pt: 'deslocamento de layout' } },
 ];
 
@@ -234,6 +236,7 @@ export const webWork: WebPiece[] = [
     width: 360,
     height: 480,
     phone: true,
+    compact: true,
     title: { en: 'A playable ad under the network cap', pt: 'Um anúncio jogável abaixo do teto da rede' },
     what: {
       en: 'One mechanic as a single self-contained HTML file, with every byte accounted for. Stubbing the WebGPU and Canvas renderers out of the bundle cut 66 KB with no change to the game.',
@@ -251,6 +254,60 @@ export const webWork: WebPiece[] = [
     },
     live: 'https://zednaked.github.io/playable-budget/',
     code: 'https://github.com/zednaked/playable-budget',
+  },
+];
+
+// Small worlds that live in the Omarchy desktop shell: QML, JavaScript, GLSL.
+export const deskWork: WebPiece[] = [
+  {
+    id: 'shanshui',
+    img: `${base}img/desk-shanshui.webp`,
+    video: `${base}video/shanshui.mp4`,
+    width: 640,
+    height: 360,
+    compact: true,
+    title: { en: 'Shan Shui, a landscape painted on the desktop', pt: 'Shan Shui, uma paisagem pintada na área de trabalho' },
+    what: {
+      en: 'An endless Chinese landscape scroll, painted stroke by stroke across the desktop in the colours of the active theme. The mountains are LingDong-\'s Shan Shui; the painting front, the shader and the shell plugin are mine.',
+      pt: 'Um rolo de paisagem chinesa sem fim, pintado traço a traço pela área de trabalho nas cores do tema ativo. As montanhas são o Shan Shui de LingDong-; a frente de pintura, o shader e o plugin do shell são meus.',
+    },
+    role: { en: 'Author of the plugin.', pt: 'Autor do plugin.' },
+    tech: ['QML', 'JavaScript', 'GLSL'],
+    stats: [
+      { value: 1, unit: '', label: { en: 'small shader on screen, two numbers compared per pixel', pt: 'shader pequeno na tela, dois números comparados por pixel' } },
+      { value: 0, unit: ' CPU', label: { en: 'when paused or under a fullscreen window', pt: 'pausado ou sob janela em tela cheia' } },
+    ],
+    alt: {
+      en: 'Shan Shui on a dark desktop: crimson ink mountains, trees and a pagoda drawn in fine strokes under the system bar.',
+      pt: 'Shan Shui numa área de trabalho escura: montanhas, árvores e um pagode em traços finos de tinta carmim, sob a barra do sistema.',
+    },
+    live: 'https://github.com/zednaked/omarchy-shanshui',
+    liveLabel: { en: 'See it on GitHub', pt: 'Ver no GitHub' },
+  },
+  {
+    id: 'omahold',
+    img: `${base}img/desk-omahold.webp`,
+    video: `${base}video/omahold.mp4`,
+    width: 640,
+    height: 476,
+    compact: true,
+    title: { en: 'Omahold, a dwarven hold inside the shell', pt: 'Omahold, um forte de anões dentro do shell' },
+    what: {
+      en: 'Seven dwarves with hunger, thirst, sleep, mood and trades dig, farm and brew in a world that keeps ticking while you work, drawn in the colours of the active theme.',
+      pt: 'Sete anões com fome, sede, sono, humor e ofícios cavam, plantam e fermentam num mundo que continua andando enquanto você trabalha, desenhado nas cores do tema ativo.',
+    },
+    role: { en: 'Alone: simulation and interface.', pt: 'Sozinho: simulação e interface.' },
+    tech: ['QML', 'JavaScript'],
+    stats: [
+      { value: 48, unit: '×30', label: { en: 'cells, 8 levels of depth', pt: 'células, 8 níveis de profundidade' } },
+      { value: 4, unit: '/s', label: { en: 'ticks with the panel open; nothing drawn when it is not visible', pt: 'ticks com o painel aberto; nada desenhado quando não está visível' } },
+    ],
+    alt: {
+      en: 'Omahold: a top-down pixel map of rooms carved out of rose-coloured rock, with dwarves as letters and a log of events below.',
+      pt: 'Omahold: um mapa em pixel visto de cima, com salas escavadas em rocha cor-de-rosa, anões como letras e um registro de eventos embaixo.',
+    },
+    live: 'https://github.com/zednaked/omahold',
+    liveLabel: { en: 'See it on GitHub', pt: 'Ver no GitHub' },
   },
 ];
 
@@ -292,8 +349,8 @@ const play: Text = { en: 'Play it', pt: 'Jogar' };
 export const gamesUi = {
   label: { en: 'Games', pt: 'Jogos' },
   intro: {
-    en: 'Games I made on my own, all playable in the browser. Most of my game work is client work under NDA; these are the ones I can show.',
-    pt: 'Jogos que fiz por conta própria, todos jogáveis no navegador. A maior parte do meu trabalho com jogos é para cliente, sob NDA; estes são os que posso mostrar.',
+    en: 'Games I made on my own. Most of my game work is client work under NDA; these are the ones I can show.',
+    pt: 'Jogos que fiz por conta própria. A maior parte do meu trabalho com jogos é para cliente, sob NDA; estes são os que posso mostrar.',
   },
 } satisfies Record<string, Text>;
 
@@ -330,6 +387,7 @@ export const games: WebPiece[] = [
   {
     id: 'rinha',
     img: `${base}img/game-rinha.webp`,
+    video: `${base}video/game-rinha.mp4`,
     width: 800,
     height: 450,
     compact: true,
@@ -349,25 +407,25 @@ export const games: WebPiece[] = [
     live: 'https://zedcave.itch.io/rinha',
   },
   {
-    id: 'gatil',
-    img: `${base}img/game-gatil.webp`,
-    width: 360,
-    height: 480,
-    phone: true,
+    id: 'reidaboca',
+    img: `${base}img/game-reidaboca.webp`,
+    video: `${base}video/game-reidaboca.mp4`,
+    width: 800,
+    height: 450,
     compact: true,
-    liveLabel: play,
-    title: { en: 'O Gatil, a puzzle against the clock', pt: 'O Gatil, um puzzle contra o relógio' },
+    liveLabel: { en: 'See it on itch', pt: 'Ver no itch' },
+    title: { en: 'O Rei da Boca, a tactical FPS', pt: 'O Rei da Boca, um FPS tático' },
     what: {
-      en: 'Match the cats before the timer runs out. For the browser and Android.',
-      pt: 'Combine os gatos antes do tempo acabar. Para o navegador e Android.',
+      en: 'First-person base defence with a day and night cycle: by day you tend the crops, repair the base and hire guards; by night the waves come. Destroy the rival base before it destroys yours.',
+      pt: 'Defesa de base em primeira pessoa com ciclo de dia e noite: de dia você cuida das plantas, repara a base e contrata seguranças; de noite vêm as ondas. Destrua a base rival antes que ela destrua a sua.',
     },
     role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
-    tech: ['Godot 4', 'HTML5', 'Android'],
+    tech: ['Godot 4', '3D', 'FPS'],
     stats: [],
     alt: {
-      en: 'O Gatil on a phone: a pink board of cat faces in seven colours, the score 2200, level 2 and a 1.7 second timer.',
-      pt: 'O Gatil no celular: um tabuleiro rosa de rostos de gato em sete cores, a pontuação 2200, nível 2 e um cronômetro de 1,7 segundo.',
+      en: 'O Rei da Boca in first person: a hand holding a pistol in a sunlit courtyard, with the base menu open over a workbench.',
+      pt: 'O Rei da Boca em primeira pessoa: uma mão segurando uma pistola num pátio ensolarado, com o menu da base aberto sobre uma bancada.',
     },
-    live: 'https://zedcave.itch.io/o-gatil',
+    live: 'https://zedcave.itch.io/o-rei-da-boca',
   },
 ];

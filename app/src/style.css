@@ -216,7 +216,7 @@ main > section.wrap { padding-bottom: clamp(48px, 7vw, 80px); }
   aspect-ratio: 8 / 5;
 }
 .phone .shot { aspect-ratio: 3 / 4; max-width: 300px; border-radius: 22px; border: 8px solid #111; }
-.shot img { width: 100%; height: 108%; object-fit: cover; }
+.shot img, .shot video { display: block; width: 100%; height: 108%; object-fit: cover; }
 
 .case-body h3 { margin: 0 0 8px; font-size: clamp(1.25rem, 1rem + 0.8vw, 1.6rem); line-height: 1.2; }
 .case-body p { margin: 0 0 12px; max-width: 60ch; }
