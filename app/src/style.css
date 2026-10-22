@@ -206,7 +206,7 @@ main > section.wrap { padding-bottom: clamp(48px, 7vw, 80px); }
   box-shadow: 0 2px 14px rgba(20, 40, 50, 0.12);
 }
 @media (min-width: 900px) {
-  .case { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; padding: 12px 28px 12px 12px; align-items: center; }
+  .case { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 32px; padding: 12px 28px 12px 12px; align-items: start; }
   .case.phone { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
   .case.self { grid-template-columns: 1fr; padding: 24px 28px; }
 }
@@ -269,14 +269,14 @@ main > section.wrap { padding-bottom: clamp(48px, 7vw, 80px); }
 
 .self { border-left: 8px solid var(--accent); }
 
-.proof-h {
-  display: inline-block;
-  margin: clamp(32px, 5vw, 56px) 0 12px;
-  padding: 4px 12px;
-  background: #fff;
-  color: var(--accent);
-  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+/* Two smaller game cards side by side */
+.cases-pair { display: grid; gap: clamp(28px, 4vw, 48px); }
+@media (min-width: 900px) {
+  .cases-pair { grid-template-columns: 1fr 1fr; align-items: start; }
+  .case.compact { grid-template-columns: 1fr; padding: 12px 12px 20px; }
+  .case.compact.phone { grid-template-columns: minmax(0, 200px) minmax(0, 1fr); align-items: start; }
 }
+.case.compact .phone-shot, .compact.phone .shot { max-width: 200px; }
 .proofs {
   display: grid;
   gap: 10px;

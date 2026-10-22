@@ -139,6 +139,8 @@ export interface WebPiece {
   width: number;
   height: number;
   phone?: boolean;
+  compact?: boolean;
+  liveLabel?: Text;
   title: Text;
   what: Text;
   role: Text;
@@ -147,7 +149,7 @@ export interface WebPiece {
   note?: Text;
   alt: Text;
   live: string;
-  code: string;
+  code?: string;
 }
 
 export const webUi = {
@@ -172,8 +174,8 @@ export const webUi = {
 } satisfies Record<string, Text>;
 
 export const pageStats: Stat[] = [
-  { value: 0.18, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
-  { value: 0.17, decimals: 2, unit: ' s', label: { en: 'largest paint, phone', pt: 'maior pintura, celular' } },
+  { value: 0.2, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
+  { value: 0.2, decimals: 2, unit: ' s', label: { en: 'largest paint, phone', pt: 'maior pintura, celular' } },
   { value: 0, unit: '', label: { en: 'layout shift', pt: 'deslocamento de layout' } },
 ];
 
@@ -282,5 +284,90 @@ export const proofs: Proof[] = [
     },
     link: 'https://github.com/alexwest1981/sonix/commit/cdb2447',
     linkText: 'sonix cdb2447',
+  },
+];
+
+const play: Text = { en: 'Play it', pt: 'Jogar' };
+
+export const gamesUi = {
+  label: { en: 'Games', pt: 'Jogos' },
+  intro: {
+    en: 'Games I made on my own, all playable in the browser. Most of my game work is client work under NDA; these are the ones I can show.',
+    pt: 'Jogos que fiz por conta própria, todos jogáveis no navegador. A maior parte do meu trabalho com jogos é para cliente, sob NDA; estes são os que posso mostrar.',
+  },
+} satisfies Record<string, Text>;
+
+export const games: WebPiece[] = [
+  {
+    id: 'ciberteia',
+    img: `${base}img/game-ciberteia.webp`,
+    width: 800,
+    height: 450,
+    liveLabel: play,
+    title: { en: 'Ciberteia, a multiplayer cyberpunk text RPG', pt: 'Ciberteia, um RPG de texto cyberpunk multiplayer' },
+    what: {
+      en: 'Explore districts, jack into cyberspace, steal credits from other players. When someone takes down the Chrome Dragon, everyone goes back to level 1. Every rule runs on the server; the Godot client only draws the state and sends what the player wants to do.',
+      pt: 'Explore distritos, invada o ciberespaço, roube créditos de outros jogadores. Quando alguém derruba o Chrome Dragon, todos voltam ao nível 1. Toda regra roda no servidor; o cliente Godot só desenha o estado e envia o que o jogador quer fazer.',
+    },
+    role: {
+      en: 'Alone: design, writing, the Godot client, the Cloudflare server, the synthesized audio.',
+      pt: 'Sozinho: design, texto, o cliente Godot, o servidor na Cloudflare, o áudio sintetizado.',
+    },
+    tech: ['Godot 4.7 web', 'Shaders', 'TypeScript', 'Cloudflare Workers', 'Durable Objects', 'D1', 'WebSocket'],
+    stats: [
+      { value: 0, unit: '', label: { en: 'art files: every visual is shaders, type and text', pt: 'arquivos de arte: todo o visual é shader, tipografia e texto' } },
+      { value: 14, unit: '', label: { en: 'sounds, all synthesized by a script', pt: 'sons, todos sintetizados por script' } },
+      { value: 720, unit: ' → 1', label: { en: 'requests per player-hour: polling every 5 s vs a hibernating WebSocket', pt: 'requisições por jogador por hora: polling a cada 5 s contra WebSocket com hibernação' } },
+      { value: 0, unit: ' USD', label: { en: 'a month, on the Cloudflare free tier', pt: 'por mês, no plano gratuito da Cloudflare' } },
+    ],
+    note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
+    alt: {
+      en: 'Ciberteia in play: a green-on-black terminal interface with a CRT glow and colour fringing over a neon grid, showing the district Arcologia Flutuante, its locations and the player\'s health and experience bars.',
+      pt: 'Ciberteia em jogo: uma interface de terminal verde sobre preto, com brilho de CRT e franjas de cor sobre uma grade neon, mostrando o distrito Arcologia Flutuante, seus locais e as barras de vida e experiência do jogador.',
+    },
+    live: 'https://ciberteia-api.zednaked.workers.dev/',
+  },
+  {
+    id: 'rinha',
+    img: `${base}img/game-rinha.webp`,
+    width: 800,
+    height: 450,
+    compact: true,
+    liveLabel: play,
+    title: { en: 'Rinha, a tactical RTS', pt: 'Rinha, um RTS tático' },
+    what: {
+      en: 'Real-time strategy in the browser. Here, four AI players on Hard, watched in spectator mode.',
+      pt: 'Estratégia em tempo real no navegador. Aqui, quatro IAs no modo difícil, vistas no modo espectador.',
+    },
+    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
+    tech: ['Godot 4', 'HTML5'],
+    stats: [],
+    alt: {
+      en: 'Rinha in spectator mode: a top-down map with a base, units in blue, a minimap in the corner and a score panel for four AI players.',
+      pt: 'Rinha no modo espectador: um mapa visto de cima com uma base, unidades em azul, um minimapa no canto e o placar de quatro IAs.',
+    },
+    live: 'https://zedcave.itch.io/rinha',
+  },
+  {
+    id: 'gatil',
+    img: `${base}img/game-gatil.webp`,
+    width: 360,
+    height: 480,
+    phone: true,
+    compact: true,
+    liveLabel: play,
+    title: { en: 'O Gatil, a puzzle against the clock', pt: 'O Gatil, um puzzle contra o relógio' },
+    what: {
+      en: 'Match the cats before the timer runs out. For the browser and Android.',
+      pt: 'Combine os gatos antes do tempo acabar. Para o navegador e Android.',
+    },
+    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
+    tech: ['Godot 4', 'HTML5', 'Android'],
+    stats: [],
+    alt: {
+      en: 'O Gatil on a phone: a pink board of cat faces in seven colours, the score 2200, level 2 and a 1.7 second timer.',
+      pt: 'O Gatil no celular: um tabuleiro rosa de rostos de gato em sete cores, a pontuação 2200, nível 2 e um cronômetro de 1,7 segundo.',
+    },
+    live: 'https://zedcave.itch.io/o-gatil',
   },
 ];

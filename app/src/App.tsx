@@ -6,6 +6,8 @@ import { useLang } from './i18n';
 import { Header } from './Header';
 import { Gallery } from './Gallery';
 import { WebWork } from './WebWork';
+import { Games } from './Games';
+import { Proofs } from './Proofs';
 
 function About() {
   const { t } = useLang();
@@ -90,6 +92,8 @@ export function App() {
       <main ref={main}>
         <About />
         <WebWork />
+        <Games />
+        <Proofs />
         <Gallery />
       </main>
       <footer className="wrap foot">
