@@ -18,13 +18,13 @@ export interface Artwork {
 
 export const ui = {
   title: {
-    en: 'Thiago Gonçalves: painting and illustration',
-    pt: 'Thiago Gonçalves: pintura e ilustração',
+    en: 'Thiago Gonçalves: painting and creative web',
+    pt: 'Thiago Gonçalves: pintura e web criativa',
   },
   skip: { en: 'Skip to the work', pt: 'Pular para os trabalhos' },
   role: {
-    en: '2D ARTIST + 2D ANIMATOR + GAMEDEV + SOUND DESIGNER',
-    pt: 'ARTISTA 2D + ANIMADOR 2D + GAMEDEV + SOUND DESIGNER',
+    en: 'PAINTER + CREATIVE DEVELOPER',
+    pt: 'PINTOR + DESENVOLVEDOR CRIATIVO',
   },
   aboutLabel: { en: 'About me', pt: 'Sobre mim' },
   about: {
