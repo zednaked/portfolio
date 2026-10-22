@@ -28,17 +28,17 @@ export const ui = {
   },
   aboutLabel: { en: 'About me', pt: 'Sobre mim' },
   about: {
-    en: 'I learned oil painting through the classical method, then moved to digital painting on the iPad, where most of the work below was made. This page holds illustration, character design and the art I made for games. I am also a gardener and a beekeeper.',
-    pt: 'Aprendi pintura a óleo pelo método clássico e depois passei para a pintura digital no iPad, onde foi feita a maior parte do que está abaixo. Aqui ficam ilustração, character design e a arte que fiz para jogos. Também sou jardineiro e apicultor.',
+    en: 'I learned oil painting through the classical method, and the first portraits below are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art that follow were made. I am also a gardener and a beekeeper.',
+    pt: 'Aprendi pintura a óleo pelo método clássico, e os primeiros retratos abaixo são óleo sobre tela. Depois passei para a pintura digital no iPad, onde foram feitos a ilustração, o character design e a arte de jogos que vêm em seguida. Também sou jardineiro e apicultor.',
   },
   portraitAlt: {
     en: 'Portrait of Thiago Gonçalves, long dark hair and beard, plaid shirt, holding paintbrushes.',
     pt: 'Retrato de Thiago Gonçalves, cabelo comprido escuro e barba, camisa xadrez, segurando pincéis.',
   },
-  awardYear: { en: '2015 · Louvre, Paris', pt: '2015 · Louvre, Paris' },
+  awardYear: { en: '2015 · Carrousel du Louvre, Paris', pt: '2015 · Carrousel du Louvre, Paris' },
   award: {
-    en: 'Exhibited an oil painting at a salon at the Louvre, where it won best oil painting of the salon.',
-    pt: 'Expus uma pintura a óleo num salão no Louvre, onde ela ganhou o prêmio de melhor pintura a óleo do salão.',
+    en: 'Gold medal for an oil painting at the Artcom Expo International exhibition, Carrousel du Louvre, October 2015.',
+    pt: 'Medalha de ouro com uma pintura a óleo na exposição Artcom Expo International, no Carrousel du Louvre, em outubro de 2015.',
   },
   showYear: { en: '2021 · Curitiba', pt: '2021 · Curitiba' },
   show: {
@@ -62,6 +62,45 @@ export const ui = {
 const base = import.meta.env.BASE_URL;
 
 export const artworks: Artwork[] = [
+  {
+    id: 'pirate',
+    src: `${base}img/oil-pirate-medal.webp`,
+    width: 900,
+    height: 1011,
+    title: { en: 'Portrait of a pirate, gold medal', pt: 'Retrato de um pirata, medalha de ouro' },
+    caption: {
+      en: 'Oil on canvas. Gold medal at the Artcom Expo International exhibition, Carrousel du Louvre, Paris, 2015.',
+      pt: 'Óleo sobre tela. Medalha de ouro na exposição Artcom Expo International, Carrousel du Louvre, Paris, 2015.',
+    },
+    alt: {
+      en: 'Oil portrait of a pirate in a wide hat, red coat and long braided beard, in an ornate gilded frame with a gold medal hanging from a red and blue ribbon.',
+      pt: 'Retrato a óleo de um pirata de chapéu largo, casaco vermelho e barba longa trançada, numa moldura dourada ornamentada, com uma medalha de ouro pendurada numa fita vermelha e azul.',
+    },
+  },
+  {
+    id: 'elder',
+    src: `${base}img/oil-elder.webp`,
+    width: 760,
+    height: 1081,
+    title: { en: 'Old man in a turban', pt: 'Ancião de turbante' },
+    caption: { en: 'Oil on canvas.', pt: 'Óleo sobre tela.' },
+    alt: {
+      en: 'Oil portrait of an old man with a long white beard and a striped turban, looking straight ahead, his shoulders left in loose red strokes that run down the canvas.',
+      pt: 'Retrato a óleo de um ancião de longa barba branca e turbante listrado, olhando de frente, com os ombros em pinceladas soltas de vermelho que escorrem pela tela.',
+    },
+  },
+  {
+    id: 'headscarf',
+    src: `${base}img/oil-headscarf.webp`,
+    width: 760,
+    height: 1135,
+    title: { en: 'Man in a white headscarf', pt: 'Homem de lenço branco' },
+    caption: { en: 'Oil on canvas.', pt: 'Óleo sobre tela.' },
+    alt: {
+      en: 'Oil portrait of a bearded man in three-quarter view wearing a white headscarf held by an orange band, against loose green brushwork.',
+      pt: 'Retrato a óleo de um homem barbado em três quartos, com lenço branco preso por uma faixa laranja, sobre pinceladas soltas de verde.',
+    },
+  },
   {
     id: 'rose',
     src: `${base}img/name-of-the-rose.webp`,
