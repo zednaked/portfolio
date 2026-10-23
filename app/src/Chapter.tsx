@@ -31,77 +31,93 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
   const root = useRef<HTMLDivElement>(null);
   const [start, end] = SHAPE_CLIP[chapter.shape];
 
-  useIdleGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(FULL_MOTION, () => {
-        const card = root.current!.querySelector<HTMLElement>('.ch-card')!;
-        // Entrance, once: letters rise one by one, the numeral slides, the shape turns in.
-        const intro = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top 75%', once: true } });
-        intro
-          .from(card.querySelectorAll('.ch-word .lt'), { yPercent: 105, duration: 0.8, stagger: 0.07, ease: 'power4.out' })
-          .from(card.querySelector('.ch-num'), { xPercent: -120, opacity: 0, duration: 0.6, ease: 'power4.out' }, 0)
-          .from(card.querySelector('.ch-shape'), { scale: 0, rotation: -90, duration: 0.9, ease: 'back.out(1.6)' }, 0)
-          .from(card.querySelector('.ch-frag'), { x: -80, opacity: 0, duration: 0.9, ease: 'power3.out' }, 0.25)
-          .from(card.querySelector('.ch-sub'), { y: 20, opacity: 0, duration: 0.6 }, 0.4);
+  useIdleGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(FULL_MOTION, () => {
+      const card = root.current?.querySelector<HTMLElement>('.ch-card');
+      if (!card) return;
+      // Entrance, once: letters rise one by one, the numeral slides, the shape turns in.
+      const intro = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top 75%', once: true } });
+      intro
+        .from(card.querySelectorAll('.ch-word .lt'), {
+          yPercent: 105,
+          duration: 0.8,
+          stagger: 0.07,
+          ease: 'power4.out',
+        })
+        .from(card.querySelector('.ch-num'), { xPercent: -120, opacity: 0, duration: 0.6, ease: 'power4.out' }, 0)
+        .from(card.querySelector('.ch-shape'), { scale: 0, rotation: -90, duration: 0.9, ease: 'back.out(1.6)' }, 0)
+        .from(card.querySelector('.ch-frag'), { x: -80, opacity: 0, duration: 0.9, ease: 'power3.out' }, 0.25)
+        .from(card.querySelector('.ch-sub'), { y: 20, opacity: 0, duration: 0.6 }, 0.4);
 
-        // The exit, scrubbed by the scroll: collapse into the shape.
-        gsap.fromTo(
-          card,
-          { clipPath: start },
-          {
-            clipPath: end,
-            // A steady collapse paced with the content rising under it: the
-            // shape uncovers the first lines as they come up and is gone
-            // before they reach the top of the screen.
-            ease: 'none',
-            scrollTrigger: { trigger: root.current, start: 'top top', end: '+=55%', scrub: 0.6 },
-          },
-        );
-        // While it holds, the shape keeps turning and the word drifts, so a held
-        // finger still sees life.
-        gsap.to(card.querySelector('.ch-shape'), {
-          rotation: chapter.shape === 'circle' ? 0 : 45,
-          scale: 1.08,
+      // The exit, scrubbed by the scroll: collapse into the shape.
+      gsap.fromTo(
+        card,
+        { clipPath: start },
+        {
+          clipPath: end,
+          // A steady collapse paced with the content rising under it: the
+          // shape uncovers the first lines as they come up and is gone
+          // before they reach the top of the screen.
           ease: 'none',
-          scrollTrigger: { trigger: root.current, start: 'top bottom', end: '+=180%', scrub: true },
-        });
-        gsap.to(card.querySelector('.ch-word'), {
-          xPercent: -6,
-          ease: 'none',
-          scrollTrigger: { trigger: root.current, start: 'top bottom', end: '+=180%', scrub: true },
-        });
+          scrollTrigger: { trigger: root.current, start: 'top top', end: '+=55%', scrub: 0.6 },
+        },
+      );
+      // While it holds, the shape keeps turning and the word drifts, so a held
+      // finger still sees life.
+      gsap.to(card.querySelector('.ch-shape'), {
+        rotation: chapter.shape === 'circle' ? 0 : 45,
+        scale: 1.08,
+        ease: 'none',
+        scrollTrigger: { trigger: root.current, start: 'top bottom', end: '+=180%', scrub: true },
       });
-      mm.add(GENTLE_MOTION, () => {
-        const card = root.current!.querySelector<HTMLElement>('.ch-card')!;
-        gsap.from(card.querySelectorAll('.ch-num, .ch-word, .ch-shape, .ch-frag, .ch-sub'), {
-          opacity: 0, duration: 0.8, stagger: 0.12,
-          scrollTrigger: { trigger: root.current, start: 'top 75%', once: true },
-        });
-        // No travel: the card dissolves into the act underneath.
-        gsap.to(card, { opacity: 0, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: '+=55%', scrub: true } });
+      gsap.to(card.querySelector('.ch-word'), {
+        xPercent: -6,
+        ease: 'none',
+        scrollTrigger: { trigger: root.current, start: 'top bottom', end: '+=180%', scrub: true },
       });
-    },
-    root,
-  );
+    });
+    mm.add(GENTLE_MOTION, () => {
+      const card = root.current?.querySelector<HTMLElement>('.ch-card');
+      if (!card) return;
+      gsap.from(card.querySelectorAll('.ch-num, .ch-word, .ch-shape, .ch-frag, .ch-sub'), {
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        scrollTrigger: { trigger: root.current, start: 'top 75%', once: true },
+      });
+      // No travel: the card dissolves into the act underneath.
+      gsap.to(card, {
+        opacity: 0,
+        ease: 'none',
+        scrollTrigger: { trigger: root.current, start: 'top top', end: '+=55%', scrub: true },
+      });
+    });
+  }, root);
 
   const shape = { circle: 'shape-circle', tri: 'shape-tri', square: 'shape-square' }[chapter.shape];
   return (
     <div className="act" id={chapter.id} ref={root} style={actColors(chapter.color)}>
       <div className="ch-hold">
-      <div className="ch-card" aria-hidden="true" style={{ background: chapter.bg, color: chapter.ink }}>
-        <div className="tex-paper" />
-        <div className="tex-xerox" />
-        <div className={`ch-shape ${shape}`} style={{ background: chapter.color }} />
-        <div className="ch-num" style={{ color: chapter.color }}>{chapter.num}</div>
-        <div className="ch-word">
-          {[...chapter.word].map((c, i) => (
-            <i className="lt" key={i}>{c}</i>
-          ))}
+        <div className="ch-card" aria-hidden="true" style={{ background: chapter.bg, color: chapter.ink }}>
+          <div className="tex-paper" />
+          <div className="tex-xerox" />
+          <div className={`ch-shape ${shape}`} style={{ background: chapter.color }} />
+          <div className="ch-num" style={{ color: chapter.color }}>
+            {chapter.num}
+          </div>
+          <div className="ch-word">
+            {[...chapter.word].map((c, i) => (
+              <i className="lt" key={i}>
+                {c}
+              </i>
+            ))}
+          </div>
+          <div className="ch-frag" style={{ WebkitTextStroke: `3px ${chapter.color}` }}>
+            {chapter.word}
+          </div>
+          <p className="ch-sub">{t(chapter.sub)}</p>
         </div>
-        <div className="ch-frag" style={{ WebkitTextStroke: `3px ${chapter.color}` }}>{chapter.word}</div>
-        <p className="ch-sub">{t(chapter.sub)}</p>
-      </div>
       </div>
       <div className="act-body">{children}</div>
     </div>

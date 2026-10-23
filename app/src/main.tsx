@@ -4,7 +4,10 @@ import { LangProvider } from './i18n';
 import { App } from './App';
 import './style.css';
 
-createRoot(document.getElementById('root')!).render(
+const el = document.getElementById('root');
+if (!el) throw new Error('index.html has no #root');
+
+createRoot(el).render(
   <StrictMode>
     <LangProvider>
       <App />

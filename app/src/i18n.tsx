@@ -36,11 +36,7 @@ export function LangProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  return (
-    <LangContext.Provider value={{ lang, setLang, t: (text) => text[lang] }}>
-      {children}
-    </LangContext.Provider>
-  );
+  return <LangContext.Provider value={{ lang, setLang, t: (text) => text[lang] }}>{children}</LangContext.Provider>;
 }
 
 export function useLang(): LangState {

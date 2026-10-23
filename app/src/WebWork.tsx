@@ -10,13 +10,17 @@ export function WebWork() {
 
   return (
     <section className="wrap web" id="web" aria-labelledby="web-h" ref={root}>
-      <h2 className="label" id="web-h">{t(webUi.label)}</h2>
+      <h2 className="label" id="web-h">
+        {t(webUi.label)}
+      </h2>
       <p className="intro">{t(webUi.intro)}</p>
 
       <div className="cases">
-        {webWork.filter((p) => !p.compact).map((piece) => (
-          <CaseCard piece={piece} key={piece.id} />
-        ))}
+        {webWork
+          .filter((p) => !p.compact)
+          .map((piece) => (
+            <CaseCard piece={piece} key={piece.id} />
+          ))}
         <div className="cases-pair">
           {[...deskWork, ...webWork.filter((p) => p.compact)].map((piece) => (
             <CaseCard piece={piece} key={piece.id} />

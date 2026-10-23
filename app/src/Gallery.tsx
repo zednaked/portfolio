@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
-import { gsap, Flip, FULL_MOTION, GENTLE_MOTION, prefersReducedMotion, useIdleGSAP } from './motion';
+import { gsap, Flip, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
 import { artworks, ui, type Artwork } from './content';
 import { useLang } from './i18n';
 
@@ -31,67 +31,85 @@ export function Gallery() {
     return () => io.disconnect();
   }, []);
 
-  useIdleGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(FULL_MOTION, () => {
-        // The paintings run sideways while you scroll down: the section pins,
-        // the strip moves, each painting is uncovered as it comes in.
-        const track = root.current!.querySelector<HTMLElement>('.gallery')!;
-        const dist = () => Math.max(0, track.scrollWidth - window.innerWidth + 96);
-        const run = gsap.to(track, {
-          x: () => -dist(),
-          ease: 'none',
-          scrollTrigger: {
-            trigger: root.current,
-            start: 'top top',
-            end: () => `+=${dist()}`,
-            pin: true,
-            scrub: 0.6,
-            invalidateOnRefresh: true,
-          },
-        });
-        // The strip moves by transform, so the browser can't scroll a focused
-        // painting into view by itself: Tab onto one and the page scrolls to
-        // the point where the strip shows it.
-        const st = run.scrollTrigger;
-        const onFocus = (e: FocusEvent) => {
-          const piece = e.target instanceof Element ? e.target.closest<HTMLElement>('.piece') : null;
-          const d = dist();
-          if (!piece || !st || !d) return;
-          const p = gsap.utils.clamp(0, 1, (piece.offsetLeft - 48) / d);
-          window.scrollTo(0, st.start + p * (st.end - st.start));
-        };
-        track.addEventListener('focusin', onFocus);
+  useIdleGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add(FULL_MOTION, () => {
+      // The paintings run sideways while you scroll down: the section pins,
+      // the strip moves, each painting is uncovered as it comes in.
+      const track = root.current?.querySelector<HTMLElement>('.gallery');
+      if (!track) return;
+      const dist = () => Math.max(0, track.scrollWidth - window.innerWidth + 96);
+      const run = gsap.to(track, {
+        x: () => -dist(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: root.current,
+          start: 'top top',
+          end: () => `+=${dist()}`,
+          pin: true,
+          scrub: 0.6,
+          invalidateOnRefresh: true,
+        },
+      });
+      // The strip moves by transform, so the browser can't scroll a focused
+      // painting into view by itself: Tab onto one and the page scrolls to
+      // the point where the strip shows it.
+      const st = run.scrollTrigger;
+      const onFocus = (e: FocusEvent) => {
+        const piece = e.target instanceof Element ? e.target.closest<HTMLElement>('.piece') : null;
+        const d = dist();
+        if (!piece || !st || !d) return;
+        const p = gsap.utils.clamp(0, 1, (piece.offsetLeft - 48) / d);
+        window.scrollTo(0, st.start + p * (st.end - st.start));
+      };
+      track.addEventListener('focusin', onFocus);
 
-        gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
-          gsap.fromTo(
-            piece.querySelector('.reveal'),
-            { clipPath: 'inset(100% 0% 0% 0%)' },
-            {
-              clipPath: 'inset(0% 0% 0% 0%)',
-              duration: 0.9,
-              ease: 'power2.inOut',
-              scrollTrigger: { trigger: piece, containerAnimation: run, start: 'left 95%', toggleActions: 'play none none reverse' },
+      gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
+        gsap.fromTo(
+          piece.querySelector('.reveal'),
+          { clipPath: 'inset(100% 0% 0% 0%)' },
+          {
+            clipPath: 'inset(0% 0% 0% 0%)',
+            duration: 0.9,
+            ease: 'power2.inOut',
+            scrollTrigger: {
+              trigger: piece,
+              containerAnimation: run,
+              start: 'left 95%',
+              toggleActions: 'play none none reverse',
             },
-          );
-          // The painting drifts inside its frame against the strip's motion.
-          gsap.fromTo(
-            piece.querySelector('.reveal img'),
-            { xPercent: -6, scale: 1.14 },
-            { xPercent: 6, scale: 1.14, ease: 'none', scrollTrigger: { trigger: piece, containerAnimation: run, start: 'left right', end: 'right left', scrub: true } },
-          );
-        });
-        return () => track.removeEventListener('focusin', onFocus);
+          },
+        );
+        // The painting drifts inside its frame against the strip's motion.
+        gsap.fromTo(
+          piece.querySelector('.reveal img'),
+          { xPercent: -6, scale: 1.14 },
+          {
+            xPercent: 6,
+            scale: 1.14,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: piece,
+              containerAnimation: run,
+              start: 'left right',
+              end: 'right left',
+              scrub: true,
+            },
+          },
+        );
       });
-      mm.add(GENTLE_MOTION, () => {
-        gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
-          gsap.from(piece, { opacity: 0, duration: 0.7, scrollTrigger: { trigger: piece, start: 'top 88%', once: true } });
+      return () => track.removeEventListener('focusin', onFocus);
+    });
+    mm.add(GENTLE_MOTION, () => {
+      gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
+        gsap.from(piece, {
+          opacity: 0,
+          duration: 0.7,
+          scrollTrigger: { trigger: piece, start: 'top 88%', once: true },
         });
       });
-    },
-    root,
-  );
+    });
+  }, root);
 
   // The enlarged image takes over from the thumbnail: Flip measures the
   // thumbnail, the dialog renders, and the big image animates out of it.
@@ -109,7 +127,7 @@ export function Gallery() {
     // put keyboard users on Close explicitly.
     d.querySelector<HTMLButtonElement>('.close')?.focus();
     const state = flipState.current;
-    if (state && !prefersReducedMotion()) {
+    if (state && FULL) {
       Flip.from(state, {
         targets: d.querySelector('img'),
         duration: 0.6,
@@ -132,13 +150,22 @@ export function Gallery() {
       setOpen(null);
       back?.focus();
     };
-    if (prefersReducedMotion()) return finish();
-    gsap.to(d, { autoAlpha: 0, duration: 0.25, onComplete: () => { gsap.set(d, { clearProps: 'all' }); finish(); } });
+    if (!FULL) return finish();
+    gsap.to(d, {
+      autoAlpha: 0,
+      duration: 0.25,
+      onComplete: () => {
+        gsap.set(d, { clearProps: 'all' });
+        finish();
+      },
+    });
   };
 
   return (
     <section className="wrap paint-strip" id="work" aria-labelledby="work-h" tabIndex={-1} ref={root}>
-      <h2 className="label" id="work-h">{t(ui.workLabel)}</h2>
+      <h2 className="label" id="work-h">
+        {t(ui.workLabel)}
+      </h2>
       <div className="gallery">
         {artworks.map((art) => (
           <figure className={art.wide ? 'piece wide' : 'piece'} key={art.id}>
@@ -167,6 +194,9 @@ export function Gallery() {
         ))}
       </div>
 
+      {/* A click on the backdrop closes, as in any lightbox; the keyboard has
+          Esc (onCancel) and the Close button, so no key handler is missing. */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */}
       <dialog
         ref={dialog}
         className="viewer"

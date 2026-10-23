@@ -52,7 +52,9 @@ function About() {
         fetchPriority="high"
       />
       <div>
-        <h2 className="label" id="about-h">{t(ui.aboutLabel)}</h2>
+        <h2 className="label" id="about-h">
+          {t(ui.aboutLabel)}
+        </h2>
         <p className="box">{t(ui.about)}</p>
         <p className="award">
           <strong>{t(ui.awardYear)}</strong>
@@ -69,7 +71,6 @@ function About() {
 
 export function App() {
   const { lang, t } = useLang();
-  const main = useRef<HTMLElement>(null);
   const firstLang = useRef(true);
 
   // A language switch fades the new text in, so the swap reads as intended.
@@ -92,9 +93,11 @@ export function App() {
 
   return (
     <div className="page">
-      <a className="skip" href="#work">{t(ui.skip)}</a>
+      <a className="skip" href="#work">
+        {t(ui.skip)}
+      </a>
       <Header />
-      <main ref={main}>
+      <main>
         <Reel />
         <About />
         <Marquee words={['PAINT', 'PLAY', 'CODE']} />

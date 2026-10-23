@@ -48,11 +48,8 @@ export const ui = {
   workLabel: { en: 'Work', pt: 'Trabalhos' },
   open: { en: 'View larger', pt: 'Ver maior' },
   close: { en: 'Close', pt: 'Fechar' },
-  engLabel: { en: 'Engineering', pt: 'Engenharia' },
-  eng: {
-    en: 'Engineering work (Godot, C++, game development and audio tools) lives on GitHub, next to the code:',
-    pt: 'O trabalho de engenharia (Godot, C++, desenvolvimento de jogos e ferramentas de áudio) fica no GitHub, ao lado do código:',
-  },
+  motionDown: { en: 'Turn motion down', pt: 'Reduzir o movimento' },
+  motionUp: { en: 'Turn full motion on', pt: 'Ligar o movimento completo' },
   colophon: {
     en: 'This page and the reel share one language: Bauhaus shapes, paper, halftone, grain. React, TypeScript and GSAP; gentler motion when your system asks for it, full motion one tap away.',
     pt: 'Esta página e o reel falam a mesma língua: formas Bauhaus, papel, retícula, grão. React, TypeScript e GSAP; movimento mais suave quando o sistema pede, o completo a um toque.',
@@ -237,7 +234,12 @@ export const webWork: WebPiece[] = [
     role: { en: 'Alone: data pipeline, simulation, interface.', pt: 'Sozinho: dados, simulação, interface.' },
     tech: ['three.js', 'GLSL', 'Vite', 'Service Worker'],
     stats: [
-      { value: 2.4, decimals: 1, unit: ' M', label: { en: 'water cells, one shader pass per step', pt: 'células de água, uma passada de shader por passo' } },
+      {
+        value: 2.4,
+        decimals: 1,
+        unit: ' M',
+        label: { en: 'water cells, one shader pass per step', pt: 'células de água, uma passada de shader por passo' },
+      },
       { value: 81, unit: ' fps', label: { en: 'on an integrated laptop GPU', pt: 'numa GPU integrada de notebook' } },
       { value: 5.9, decimals: 1, unit: ' ms', label: { en: 'per simulation step', pt: 'por passo de simulação' } },
     ],
@@ -259,10 +261,20 @@ export const webWork: WebPiece[] = [
       en: 'The firmware of a pocket synth, compiled to WebAssembly and running in an AudioWorklet, played from the computer keyboard or any MIDI keyboard.',
       pt: 'O firmware de um sintetizador de bolso, compilado para WebAssembly e rodando num AudioWorklet, tocado pelo teclado do computador ou por qualquer teclado MIDI.',
     },
-    role: { en: 'Author of the firmware fork and of the web studio.', pt: 'Autor do fork do firmware e do estúdio web.' },
+    role: {
+      en: 'Author of the firmware fork and of the web studio.',
+      pt: 'Autor do fork do firmware e do estúdio web.',
+    },
     tech: ['WebAssembly', 'AudioWorklet', 'Web MIDI', 'Canvas'],
     stats: [
-      { value: 13, unit: '', label: { en: 'synth engines, the same code as the hardware', pt: 'motores de síntese, o mesmo código do hardware' } },
+      {
+        value: 13,
+        unit: '',
+        label: {
+          en: 'synth engines, the same code as the hardware',
+          pt: 'motores de síntese, o mesmo código do hardware',
+        },
+      },
       { value: 4, unit: '', label: { en: 'tracks with a step sequencer', pt: 'trilhas com sequenciador' } },
     ],
     alt: {
@@ -288,7 +300,12 @@ export const webWork: WebPiece[] = [
     tech: ['PixiJS v8', 'WebGL', 'esbuild'],
     stats: [
       { value: 630, unit: ' KB', label: { en: 'the whole ad, one file', pt: 'o anúncio inteiro, um arquivo' } },
-      { value: 30.8, decimals: 1, unit: '%', label: { en: 'of the 2 MB cap Meta allows', pt: 'do teto de 2 MB da Meta' } },
+      {
+        value: 30.8,
+        decimals: 1,
+        unit: '%',
+        label: { en: 'of the 2 MB cap Meta allows', pt: 'do teto de 2 MB da Meta' },
+      },
     ],
     alt: {
       en: 'The playable ad mid-game: a brown bunny between floating grass platforms, gold coins, a 4 of 5 coin counter and the hint Hold left or right to steer.',
@@ -308,16 +325,30 @@ export const deskWork: WebPiece[] = [
     width: 640,
     height: 360,
     compact: true,
-    title: { en: 'Shan Shui, a landscape painted on the desktop', pt: 'Shan Shui, uma paisagem pintada na área de trabalho' },
+    title: {
+      en: 'Shan Shui, a landscape painted on the desktop',
+      pt: 'Shan Shui, uma paisagem pintada na área de trabalho',
+    },
     what: {
-      en: 'An endless Chinese landscape scroll, painted stroke by stroke across the desktop in the colours of the active theme. The mountains are LingDong-\'s Shan Shui; the painting front, the shader and the shell plugin are mine.',
+      en: "An endless Chinese landscape scroll, painted stroke by stroke across the desktop in the colours of the active theme. The mountains are LingDong-'s Shan Shui; the painting front, the shader and the shell plugin are mine.",
       pt: 'Um rolo de paisagem chinesa sem fim, pintado traço a traço pela área de trabalho nas cores do tema ativo. As montanhas são o Shan Shui de LingDong-; a frente de pintura, o shader e o plugin do shell são meus.',
     },
     role: { en: 'Author of the plugin.', pt: 'Autor do plugin.' },
     tech: ['QML', 'JavaScript', 'GLSL'],
     stats: [
-      { value: 1, unit: '', label: { en: 'small shader on screen, two numbers compared per pixel', pt: 'shader pequeno na tela, dois números comparados por pixel' } },
-      { value: 0, unit: ' CPU', label: { en: 'when paused or under a fullscreen window', pt: 'pausado ou sob janela em tela cheia' } },
+      {
+        value: 1,
+        unit: '',
+        label: {
+          en: 'small shader on screen, two numbers compared per pixel',
+          pt: 'shader pequeno na tela, dois números comparados por pixel',
+        },
+      },
+      {
+        value: 0,
+        unit: ' CPU',
+        label: { en: 'when paused or under a fullscreen window', pt: 'pausado ou sob janela em tela cheia' },
+      },
     ],
     alt: {
       en: 'Shan Shui on a dark desktop: crimson ink mountains, trees and a pagoda drawn in fine strokes under the system bar.',
@@ -342,7 +373,14 @@ export const deskWork: WebPiece[] = [
     tech: ['QML', 'JavaScript'],
     stats: [
       { value: 48, unit: '×30', label: { en: 'cells, 8 levels of depth', pt: 'células, 8 níveis de profundidade' } },
-      { value: 4, unit: '/s', label: { en: 'ticks with the panel open; nothing drawn when it is not visible', pt: 'ticks com o painel aberto; nada desenhado quando não está visível' } },
+      {
+        value: 4,
+        unit: '/s',
+        label: {
+          en: 'ticks with the panel open; nothing drawn when it is not visible',
+          pt: 'ticks com o painel aberto; nada desenhado quando não está visível',
+        },
+      },
     ],
     alt: {
       en: 'Omahold: a top-down pixel map of rooms carved out of rose-coloured rock, with dwarves as letters and a log of events below.',
@@ -403,7 +441,10 @@ export const games: WebPiece[] = [
     width: 800,
     height: 450,
     liveLabel: play,
-    title: { en: 'Ciberteia, a multiplayer cyberpunk text RPG', pt: 'Ciberteia, um RPG de texto cyberpunk multiplayer' },
+    title: {
+      en: 'Ciberteia, a multiplayer cyberpunk text RPG',
+      pt: 'Ciberteia, um RPG de texto cyberpunk multiplayer',
+    },
     what: {
       en: 'Explore districts, jack into cyberspace, steal credits from other players. When someone takes down the Chrome Dragon, everyone goes back to level 1. Every rule runs on the server; the Godot client only draws the state and sends what the player wants to do.',
       pt: 'Explore distritos, invada o ciberespaço, roube créditos de outros jogadores. Quando alguém derruba o Chrome Dragon, todos voltam ao nível 1. Toda regra roda no servidor; o cliente Godot só desenha o estado e envia o que o jogador quer fazer.',
@@ -414,39 +455,39 @@ export const games: WebPiece[] = [
     },
     tech: ['Godot 4.7 web', 'Shaders', 'TypeScript', 'Cloudflare Workers', 'Durable Objects', 'D1', 'WebSocket'],
     stats: [
-      { value: 0, unit: '', label: { en: 'art files: every visual is shaders, type and text', pt: 'arquivos de arte: todo o visual é shader, tipografia e texto' } },
-      { value: 14, unit: '', label: { en: 'sounds, all synthesized by a script', pt: 'sons, todos sintetizados por script' } },
-      { value: 720, unit: ' → 1', label: { en: 'requests per player-hour: polling every 5 s vs a hibernating WebSocket', pt: 'requisições por jogador por hora: polling a cada 5 s contra WebSocket com hibernação' } },
-      { value: 0, unit: ' USD', label: { en: 'a month, on the Cloudflare free tier', pt: 'por mês, no plano gratuito da Cloudflare' } },
+      {
+        value: 0,
+        unit: '',
+        label: {
+          en: 'art files: every visual is shaders, type and text',
+          pt: 'arquivos de arte: todo o visual é shader, tipografia e texto',
+        },
+      },
+      {
+        value: 14,
+        unit: '',
+        label: { en: 'sounds, all synthesized by a script', pt: 'sons, todos sintetizados por script' },
+      },
+      {
+        value: 720,
+        unit: ' → 1',
+        label: {
+          en: 'requests per player-hour: polling every 5 s vs a hibernating WebSocket',
+          pt: 'requisições por jogador por hora: polling a cada 5 s contra WebSocket com hibernação',
+        },
+      },
+      {
+        value: 0,
+        unit: ' USD',
+        label: { en: 'a month, on the Cloudflare free tier', pt: 'por mês, no plano gratuito da Cloudflare' },
+      },
     ],
     note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
     alt: {
-      en: 'Ciberteia in play: a green-on-black terminal interface with a CRT glow and colour fringing over a neon grid, showing the district Arcologia Flutuante, its locations and the player\'s health and experience bars.',
+      en: "Ciberteia in play: a green-on-black terminal interface with a CRT glow and colour fringing over a neon grid, showing the district Arcologia Flutuante, its locations and the player's health and experience bars.",
       pt: 'Ciberteia em jogo: uma interface de terminal verde sobre preto, com brilho de CRT e franjas de cor sobre uma grade neon, mostrando o distrito Arcologia Flutuante, seus locais e as barras de vida e experiência do jogador.',
     },
     live: 'https://ciberteia-api.zednaked.workers.dev/',
-  },
-  {
-    id: 'rinha',
-    img: `${base}img/game-rinha.webp`,
-    video: `${base}video/game-rinha.mp4`,
-    width: 800,
-    height: 450,
-    compact: true,
-    liveLabel: play,
-    title: { en: 'Rinha, a tactical RTS', pt: 'Rinha, um RTS tático' },
-    what: {
-      en: 'Real-time strategy in the browser. Here, four AI players on Hard, watched in spectator mode.',
-      pt: 'Estratégia em tempo real no navegador. Aqui, quatro IAs no modo difícil, vistas no modo espectador.',
-    },
-    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
-    tech: ['Godot 4', 'HTML5'],
-    stats: [],
-    alt: {
-      en: 'Rinha in spectator mode: a top-down map with a base, units in blue, a minimap in the corner and a score panel for four AI players.',
-      pt: 'Rinha no modo espectador: um mapa visto de cima com uma base, unidades em azul, um minimapa no canto e o placar de quatro IAs.',
-    },
-    live: 'https://zedcave.itch.io/rinha',
   },
   {
     id: 'reidaboca',
@@ -470,6 +511,28 @@ export const games: WebPiece[] = [
     },
     live: 'https://zedcave.itch.io/o-rei-da-boca',
   },
+  {
+    id: 'rinha',
+    img: `${base}img/game-rinha.webp`,
+    video: `${base}video/game-rinha.mp4`,
+    width: 800,
+    height: 450,
+    compact: true,
+    liveLabel: play,
+    title: { en: 'Rinha, a tactical RTS', pt: 'Rinha, um RTS tático' },
+    what: {
+      en: 'Real-time strategy in the browser. Here, four AI players on Hard, watched in spectator mode.',
+      pt: 'Estratégia em tempo real no navegador. Aqui, quatro IAs no modo difícil, vistas no modo espectador.',
+    },
+    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
+    tech: ['Godot 4', 'HTML5'],
+    stats: [],
+    alt: {
+      en: 'Rinha in spectator mode: a top-down map with a base, units in blue, a minimap in the corner and a score panel for four AI players.',
+      pt: 'Rinha no modo espectador: um mapa visto de cima com uma base, unidades em azul, um minimapa no canto e o placar de quatro IAs.',
+    },
+    live: 'https://zedcave.itch.io/rinha',
+  },
 ];
 
 // Chapters, the reel and the closing signature: the same story the reel tells.
@@ -488,15 +551,33 @@ export const BAUHAUS = { red: '#d7261e', yellow: '#f2b705', blue: '#1d3f9e', bla
 
 export const chapters: Record<'paint' | 'play' | 'code', Chapter> = {
   paint: {
-    id: 'paint', num: 'I.', word: 'PAINT', shape: 'circle', color: BAUHAUS.red, ink: BAUHAUS.black, bg: BAUHAUS.cream,
+    id: 'paint',
+    num: 'I.',
+    word: 'PAINT',
+    shape: 'circle',
+    color: BAUHAUS.red,
+    ink: BAUHAUS.black,
+    bg: BAUHAUS.cream,
     sub: { en: 'Oil on canvas, then the iPad', pt: 'Óleo sobre tela, depois o iPad' },
   },
   play: {
-    id: 'play', num: 'II.', word: 'PLAY', shape: 'tri', color: BAUHAUS.yellow, ink: BAUHAUS.cream, bg: BAUHAUS.black,
+    id: 'play',
+    num: 'II.',
+    word: 'PLAY',
+    shape: 'tri',
+    color: BAUHAUS.yellow,
+    ink: BAUHAUS.cream,
+    bg: BAUHAUS.black,
     sub: { en: 'Games I made', pt: 'Jogos que fiz' },
   },
   code: {
-    id: 'code', num: 'III.', word: 'CODE', shape: 'square', color: BAUHAUS.blue, ink: BAUHAUS.black, bg: BAUHAUS.cream,
+    id: 'code',
+    num: 'III.',
+    word: 'CODE',
+    shape: 'square',
+    color: BAUHAUS.blue,
+    ink: BAUHAUS.black,
+    bg: BAUHAUS.cream,
     sub: { en: 'Built for the browser and the desktop', pt: 'Feito para o navegador e a área de trabalho' },
   },
 };

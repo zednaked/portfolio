@@ -30,10 +30,6 @@ export const GENTLE_MOTION = FULL ? 'not all' : 'all';
 
 document.documentElement.classList.add(FULL ? 'motion-full' : 'motion-reduced');
 
-export function prefersReducedMotion(): boolean {
-  return !FULL;
-}
-
 export function setMotion(pref: MotionPref) {
   try {
     localStorage.setItem('motion', pref);

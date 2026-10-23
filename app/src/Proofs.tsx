@@ -5,7 +5,9 @@ export function Proofs() {
   const { t } = useLang();
   return (
     <section className="wrap" aria-labelledby="proof-h">
-      <h2 className="label" id="proof-h">{t(webUi.proofLabel)}</h2>
+      <h2 className="label" id="proof-h">
+        {t(webUi.proofLabel)}
+      </h2>
       <ul className="proofs">
         {proofs.map((proof) => (
           <li key={proof.link}>

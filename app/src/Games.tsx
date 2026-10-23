@@ -8,12 +8,13 @@ export function Games() {
   const root = useRef<HTMLElement>(null);
   useCaseMotion(root, 'games-h');
 
-  const byId = (id: string) => games.find((g) => g.id === id)!;
-  const featured = byId('ciberteia');
-  const rest = [byId('reidaboca'), byId('rinha')];
+  // The order is the data's: the first game leads, the rest pair up below.
+  const [featured, ...rest] = games;
   return (
     <section className="wrap web games" id="games" aria-labelledby="games-h" ref={root}>
-      <h2 className="label" id="games-h">{t(gamesUi.label)}</h2>
+      <h2 className="label" id="games-h">
+        {t(gamesUi.label)}
+      </h2>
       <p className="intro">{t(gamesUi.intro)}</p>
       <div className="cases">
         <CaseCard piece={featured} />

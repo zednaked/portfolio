@@ -1,37 +1,54 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thiago Gonçalves: painting and creative web</title>
-<meta name="description" content="Thiago Gonçalves, painter and creative developer: oil and digital painting, and interactive work for the browser in three.js, WebAssembly and PixiJS.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://zednaked.github.io/portfolio/">
-<meta property="og:title" content="Thiago Gonçalves: painter + creative developer">
-<meta property="og:description" content="Oil painting, games and code for the browser, told in three chapters: PAINT, PLAY, CODE. With the reel.">
-<meta property="og:image" content="https://zednaked.github.io/portfolio/img/og-card.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="628">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#0b0b0b">
-<!-- The reel poster is the largest paint above the fold: fetch it before the
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Thiago Gonçalves: painting and creative web</title>
+    <meta
+      name="description"
+      content="Thiago Gonçalves, painter and creative developer: oil and digital painting, and interactive work for the browser in three.js, WebAssembly and PixiJS."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://zednaked.github.io/portfolio/" />
+    <meta property="og:title" content="Thiago Gonçalves: painter + creative developer" />
+    <meta
+      property="og:description"
+      content="Oil painting, games and code for the browser, told in three chapters: PAINT, PLAY, CODE. With the reel."
+    />
+    <meta property="og:image" content="https://zednaked.github.io/portfolio/img/og-card.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0b0b0b" />
+    <!-- The reel poster is the largest paint above the fold: fetch it before the
      JS that renders it, at the size the screen needs. -->
-<link rel="preload" as="image" href="/img/reel-poster-640.webp" fetchpriority="high" media="(max-width: 760px)">
-<link rel="preload" as="image" href="/img/reel-poster.webp" fetchpriority="high" media="(min-width: 761px)">
-<link rel="preload" as="image" href="/img/splash.webp">
-<link rel="preload" as="font" type="font/woff2" href="/fonts/anton.woff2" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Roboto without blocking the first paint; the fallback stack holds the layout until it lands. -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"></noscript>
-</head>
-<body>
-<div id="root"></div>
-<noscript><p style="padding:16px">This page needs JavaScript. The art is also on <a href="https://github.com/zednaked">github.com/zednaked</a>.</p></noscript>
-<script type="module" src="/src/main.tsx"></script>
-</body>
+    <link rel="preload" as="image" href="/img/reel-poster-640.webp" fetchpriority="high" media="(max-width: 760px)" />
+    <link rel="preload" as="image" href="/img/reel-poster.webp" fetchpriority="high" media="(min-width: 761px)" />
+    <link rel="preload" as="image" href="/img/splash.webp" />
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/anton.woff2" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Roboto without blocking the first paint; the fallback stack holds the layout until it lands. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"
+      media="print"
+      onload="this.media = 'all'"
+    />
+    <noscript
+      ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"
+    /></noscript>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript
+      ><p style="padding: 16px">
+        This page needs JavaScript. The art is also on <a href="https://github.com/zednaked">github.com/zednaked</a>.
+      </p></noscript
+    >
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

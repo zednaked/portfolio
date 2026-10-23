@@ -22,7 +22,14 @@ export function Reel() {
         // The poster paints at once (it is the largest thing above the fold);
         // only the play button and the tag arrive.
         gsap.from('.reel-tag', { clipPath: 'inset(0 100% 0 0)', duration: 0.6, delay: 0.3, ease: 'power3.out' });
-        gsap.from('.reel-play', { scale: 0, rotation: -90, duration: 0.8, delay: 0.5, ease: 'back.out(2)', scrollTrigger: { trigger: root.current, start: 'top 85%', once: true } });
+        gsap.from('.reel-play', {
+          scale: 0,
+          rotation: -90,
+          duration: 0.8,
+          delay: 0.5,
+          ease: 'back.out(2)',
+          scrollTrigger: { trigger: root.current, start: 'top 85%', once: true },
+        });
         // The frame leans back a little as it leaves, like a screen on a table.
         gsap.to('.reel-frame', {
           rotationX: 8,
@@ -58,11 +65,18 @@ export function Reel() {
           playsInline
           controls={playing}
           aria-label={t(reelUi.label)}
-        />
+        >
+          {/* No speech: the tracks give the music and the words on screen, off
+              until the viewer turns them on, so the edit plays as cut. */}
+          <track kind="captions" src={`${base}video/reel.en.vtt`} srcLang="en" label="English" />
+          <track kind="captions" src={`${base}video/reel.pt.vtt`} srcLang="pt-BR" label="Português" />
+        </video>
         {!playing && (
           <button type="button" className="reel-play" onClick={play}>
             <span className="sr-only">{t(reelUi.play)}</span>
-            <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M38 28 L74 50 L38 72 Z" /></svg>
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <path d="M38 28 L74 50 L38 72 Z" />
+            </svg>
           </button>
         )}
         <span className="reel-tag">{t(reelUi.label)}</span>
