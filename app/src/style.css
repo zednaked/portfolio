@@ -404,9 +404,9 @@ figcaption span { color: var(--muted); }
 .act { position: relative; }
 .ch-hold { position: relative; height: 185vh; margin-bottom: -185vh; z-index: 20; pointer-events: none; }
 .ch-card { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-/* The act starts a screen down: its first lines arrive as the card above
-   collapses, never underneath it while it still covers the page. */
-.act-body { position: relative; z-index: 1; padding-top: 100vh; padding-top: 100svh; }
+/* The act starts in the lower part of the screen, under the card: the card's
+   collapse uncovers it as it rises, and is gone before it reaches the top. */
+.act-body { position: relative; z-index: 1; padding-top: 60vh; padding-top: 60svh; }
 .ch-shape { position: absolute; left: 73%; top: 50%; width: min(42vw, 62vh); aspect-ratio: 1; translate: -50% -50%; }
 .shape-circle { border-radius: 50%; }
 .shape-tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
@@ -432,8 +432,17 @@ figcaption span { color: var(--muted); }
 /* PAINT runs sideways */
 .motion-full .paint-strip { max-width: none; padding-top: 10vh; min-height: 100vh; }
 .motion-full .paint-strip .gallery { display: flex; flex-wrap: nowrap; align-items: center; gap: 4vw; width: max-content; padding: 0 6vw; }
-.motion-full .paint-strip .gallery .piece { width: min(70vw, 460px); flex: none; }
-.motion-full .paint-strip .gallery .piece.wide { width: min(86vw, 820px); }
+/* Each painting fits the screen it is pinned to: as tall as the room left
+   under the label and above its caption, never wider than its column. The
+   figure takes the image's width, so the caption sits under it. */
+.motion-full .paint-strip .gallery .piece { --cap: min(70vw, 460px); width: min-content; flex: none; }
+.motion-full .paint-strip .gallery .piece.wide { --cap: min(86vw, 820px); max-width: none; }
+.motion-full .paint-strip .reveal img {
+  width: auto;
+  max-width: none;
+  height: min(calc(100svh - 10vh - 230px), 680px, calc(var(--cap) * var(--r)));
+  aspect-ratio: 1 / var(--r);
+}
 .motion-full .paint-strip .reveal img { will-change: transform; }
 .motion-full .paint-strip #work-h { margin-left: 6vw; }
 
@@ -468,19 +477,17 @@ figcaption span { color: var(--muted); }
 .stat-num::after { color: var(--b-yellow); opacity: 0.45; transform: translate(calc(var(--gx) * -1), calc(var(--gy) * -1)); }
 
 /* Film layer */
-/* A pre-rendered noise tile, plain alpha over the page: no SVG filter to
-   recompute and no blend mode to repaint under every scrolled frame. */
-.film-grain, .film-riso { position: fixed; inset: -8%; pointer-events: none; z-index: 60; }
-.film-grain { opacity: 0.16; background: url("/img/grain.png") repeat; background-size: 128px;
-  animation: grain 0.6s steps(6) infinite; will-change: translate; }
+/* Grain and halftone are applied to the page like paper, not floated over
+   the window: they scroll with what you read instead of sliding across it.
+   A pre-rendered tile with plain alpha, so nothing is recomputed per frame. */
+#root { position: relative; }
+.film-grain, .film-riso { position: absolute; inset: 0; pointer-events: none; z-index: 60; }
+.film-grain { opacity: 0.16; background: url("/img/grain.png") repeat; background-size: 128px; }
 .film-riso { opacity: 0.04; background-image: radial-gradient(rgba(10,10,10,0.9) 26%, transparent 30%);
-  background-size: 7px 7px; transform: rotate(45deg); }
-/* Phones get the still grain and no halftone: the GPU budget goes to scrolling. */
+  background-size: 7px 7px; }
 @media (max-width: 760px), (pointer: coarse) {
-  .film-grain { animation: none; will-change: auto; }
   .film-riso { display: none; }
 }
-@keyframes grain { 0% { translate: 0 0; } 20% { translate: -4% 3%; } 40% { translate: 3% -5%; } 60% { translate: -6% -2%; } 80% { translate: 5% 4%; } 100% { translate: 0 0; } }
 .film-tc { position: fixed; right: 18px; bottom: 14px; z-index: 61; margin: 0; padding: 4px 8px; background: rgba(11,11,11,0.72); color: var(--b-cream);
   font: 500 11px "Roboto"; letter-spacing: 0.16em; pointer-events: none; }
 .film-tc span { font-variant-numeric: tabular-nums; font-weight: 700; }
@@ -512,7 +519,6 @@ figcaption span { color: var(--muted); }
 }
 
 /* Reduced motion keeps the structure (cards hold, then fade) and drops travel */
-.motion-reduced .film-grain { animation: none; }
 
 /* The Motion switch, beside the timecode */
 .motion-btn { position: fixed; right: 18px; bottom: 40px; z-index: 62; display: flex; align-items: center; gap: 8px;

@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import { gsap, Flip, FULL_MOTION, GENTLE_MOTION, prefersReducedMotion, useIdleGSAP } from './motion';
 import { artworks, ui, type Artwork } from './content';
 import { useLang } from './i18n';
@@ -152,6 +152,7 @@ export function Gallery() {
                 data-src={art.src}
                 width={art.width}
                 height={art.height}
+                style={{ '--r': art.height / art.width } as CSSProperties}
                 decoding="async"
                 alt={t(art.alt)}
                 className={art.pixel ? 'pixel' : undefined}
