@@ -440,9 +440,16 @@ figcaption span { color: var(--muted); }
 .motion-full .paint-strip .reveal img {
   width: auto;
   max-width: none;
-  height: min(calc(100svh - 10vh - 230px), 680px, calc(var(--cap) * var(--r)));
+  /* Room for the label and a two-line caption, in rem so it grows with the
+     reader's zoom and font size. */
+  height: min(calc(100svh - 10vh - 13rem), 680px, calc(var(--cap) * var(--r)));
   aspect-ratio: 1 / var(--r);
 }
+/* In the strip a caption is a tag, not the text: two lines each, aligned on a
+   common top. The full caption is in the viewer. */
+.motion-full .paint-strip .gallery { align-items: flex-start; }
+.motion-full .paint-strip figcaption strong,
+.motion-full .paint-strip figcaption span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
 .motion-full .paint-strip .reveal img { will-change: transform; }
 .motion-full .paint-strip #work-h { margin-left: 6vw; }
 
