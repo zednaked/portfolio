@@ -8,6 +8,11 @@ import { Gallery } from './Gallery';
 import { WebWork } from './WebWork';
 import { Games } from './Games';
 import { Proofs } from './Proofs';
+import { Act } from './Chapter';
+import { Reel } from './Reel';
+import { Finale } from './Finale';
+import { Film, Marquee } from './Film';
+import { chapters } from './content';
 
 function About() {
   const { t } = useLang();
@@ -90,12 +95,22 @@ export function App() {
       <a className="skip" href="#work">{t(ui.skip)}</a>
       <Header />
       <main ref={main}>
+        <Reel />
         <About />
-        <Games />
-        <WebWork />
+        <Marquee words={['PAINT', 'PLAY', 'CODE']} />
+        <Act chapter={chapters.paint}>
+          <Gallery />
+        </Act>
+        <Act chapter={chapters.play}>
+          <Games />
+        </Act>
+        <Act chapter={chapters.code}>
+          <WebWork />
+        </Act>
         <Proofs />
-        <Gallery />
+        <Finale />
       </main>
+      <Film />
       <footer className="wrap foot">
         <p>
           Thiago Gonçalves · <a href="https://github.com/zednaked">GitHub</a>

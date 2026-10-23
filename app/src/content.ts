@@ -54,8 +54,8 @@ export const ui = {
     pt: 'O trabalho de engenharia (Godot, C++, desenvolvimento de jogos e ferramentas de áudio) fica no GitHub, ao lado do código:',
   },
   colophon: {
-    en: 'This page: React, TypeScript and GSAP, motion off when your system asks for reduced motion.',
-    pt: 'Esta página: React, TypeScript e GSAP, sem movimento quando o sistema pede movimento reduzido.',
+    en: 'This page and the reel share one language: Bauhaus shapes, paper, halftone, grain. React, TypeScript and GSAP; all motion off when your system asks for reduced motion.',
+    pt: 'Esta página e o reel falam a mesma língua: formas Bauhaus, papel, retícula, grão. React, TypeScript e GSAP; todo movimento desliga quando o sistema pede movimento reduzido.',
   },
 } satisfies Record<string, Text>;
 
@@ -204,8 +204,8 @@ export const webUi = {
   code: { en: 'Code', pt: 'Código' },
   pageLabel: { en: 'This page', pt: 'Esta página' },
   page: {
-    en: 'React, TypeScript and GSAP (ScrollTrigger, Flip). Median of five loads in headless Chromium, from a local server, so network time is not in it:',
-    pt: 'React, TypeScript e GSAP (ScrollTrigger, Flip). Mediana de cinco carregamentos no Chromium headless, com servidor local, então o tempo de rede não entra:',
+    en: 'React, TypeScript and GSAP (ScrollTrigger, Flip): chapter cards that collapse into their shape as you scroll, a strip that runs sideways, media that lean with your scroll speed. Median of five loads in headless Chromium, from a local server, so network time is not in it:',
+    pt: 'React, TypeScript e GSAP (ScrollTrigger, Flip): cartelas que encolhem na própria forma conforme a rolagem, uma tira que corre de lado, imagens que inclinam com a velocidade. Mediana de cinco carregamentos no Chromium headless, com servidor local, então o tempo de rede não entra:',
   },
   pageA11y: {
     en: 'Every animation is off when the system asks for reduced motion. The viewer opens from the painting, closes with Escape or a click outside, and puts the focus back where it was. Alt text in both languages.',
@@ -215,8 +215,8 @@ export const webUi = {
 } satisfies Record<string, Text>;
 
 export const pageStats: Stat[] = [
-  { value: 0.22, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
-  { value: 0.22, decimals: 2, unit: ' s', label: { en: 'largest paint, phone', pt: 'maior pintura, celular' } },
+  { value: 0.38, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
+  { value: 0.35, decimals: 2, unit: ' s', label: { en: 'largest paint, phone', pt: 'maior pintura, celular' } },
   { value: 0, unit: '', label: { en: 'layout shift', pt: 'deslocamento de layout' } },
 ];
 
@@ -468,3 +468,46 @@ export const games: WebPiece[] = [
     live: 'https://zedcave.itch.io/o-rei-da-boca',
   },
 ];
+
+// Chapters, the reel and the closing signature: the same story the reel tells.
+export interface Chapter {
+  id: string;
+  num: string;
+  word: string;
+  shape: 'circle' | 'tri' | 'square';
+  color: string;
+  ink: string;
+  bg: string;
+  sub: Text;
+}
+
+export const BAUHAUS = { red: '#d7261e', yellow: '#f2b705', blue: '#1d3f9e', black: '#0b0b0b', cream: '#f1ead8' };
+
+export const chapters: Record<'paint' | 'play' | 'code', Chapter> = {
+  paint: {
+    id: 'paint', num: 'I.', word: 'PAINT', shape: 'circle', color: BAUHAUS.red, ink: BAUHAUS.black, bg: BAUHAUS.cream,
+    sub: { en: 'Oil on canvas, then the iPad', pt: 'Óleo sobre tela, depois o iPad' },
+  },
+  play: {
+    id: 'play', num: 'II.', word: 'PLAY', shape: 'tri', color: BAUHAUS.yellow, ink: BAUHAUS.cream, bg: BAUHAUS.black,
+    sub: { en: 'Games I made', pt: 'Jogos que fiz' },
+  },
+  code: {
+    id: 'code', num: 'III.', word: 'CODE', shape: 'square', color: BAUHAUS.blue, ink: BAUHAUS.black, bg: BAUHAUS.cream,
+    sub: { en: 'Built for the browser and the desktop', pt: 'Feito para o navegador e a área de trabalho' },
+  },
+};
+
+export const reelUi = {
+  label: { en: 'Reel · 62 s', pt: 'Reel · 62 s' },
+  play: { en: 'Play the reel', pt: 'Ver o reel' },
+  note: {
+    en: 'Edited in code: HyperFrames, GSAP and a GLSL paint shader, cut to my own track at 137 BPM. Backgrounds from Caligari (1920) and Nosferatu (1922), public domain.',
+    pt: 'Montado em código: HyperFrames, GSAP e um shader de tinta em GLSL, cortado numa trilha minha a 137 BPM. Fundos de Caligari (1920) e Nosferatu (1922), domínio público.',
+  },
+} satisfies Record<string, Text>;
+
+export const finaleUi = {
+  role: { en: 'PAINTER + CREATIVE DEVELOPER', pt: 'PINTOR + DESENVOLVEDOR CRIATIVO' },
+  remote: { en: 'Curitiba, Brazil · remote, any time zone', pt: 'Curitiba, Brasil · remoto, qualquer fuso' },
+} satisfies Record<string, Text>;

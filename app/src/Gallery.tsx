@@ -16,30 +16,39 @@ export function Gallery() {
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
-        // Each piece is uncovered by a brush stroke that runs bottom to top,
-        // while the painting settles from a slight zoom. Plays once.
-        gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
-          const tl = gsap.timeline({
-            scrollTrigger: { trigger: piece, start: 'top 85%', once: true },
-            defaults: { ease: 'power3.out' },
-          });
-          tl.from(piece, { y: 60, autoAlpha: 0, duration: 0.6 })
-            .fromTo(
-              piece.querySelector('.reveal'),
-              { clipPath: 'inset(100% 0% 0% 0%)' },
-              { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'power2.inOut' },
-              0.1,
-            )
-            .from(piece.querySelector('.reveal img'), { scale: 1.25, duration: 1.3 }, 0.1)
-            .from(piece.querySelectorAll('figcaption > *'), { x: -24, autoAlpha: 0, stagger: 0.08, duration: 0.5 }, 0.6);
+        // The paintings run sideways while you scroll down: the section pins,
+        // the strip moves, each painting is uncovered as it comes in.
+        const track = root.current!.querySelector<HTMLElement>('.gallery')!;
+        const dist = () => Math.max(0, track.scrollWidth - window.innerWidth + 96);
+        const run = gsap.to(track, {
+          x: () => -dist(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: root.current,
+            start: 'top top',
+            end: () => `+=${dist()}`,
+            pin: true,
+            scrub: 0.6,
+            invalidateOnRefresh: true,
+          },
         });
-
-        gsap.from('#work-h', {
-          scaleX: 0,
-          transformOrigin: 'left center',
-          duration: 0.5,
-          ease: 'power2.out',
-          scrollTrigger: { trigger: '#work-h', start: 'top 90%', once: true },
+        gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
+          gsap.fromTo(
+            piece.querySelector('.reveal'),
+            { clipPath: 'inset(100% 0% 0% 0%)' },
+            {
+              clipPath: 'inset(0% 0% 0% 0%)',
+              duration: 0.9,
+              ease: 'power2.inOut',
+              scrollTrigger: { trigger: piece, containerAnimation: run, start: 'left 95%', toggleActions: 'play none none reverse' },
+            },
+          );
+          // The painting drifts inside its frame against the strip's motion.
+          gsap.fromTo(
+            piece.querySelector('.reveal img'),
+            { xPercent: -6, scale: 1.14 },
+            { xPercent: 6, scale: 1.14, ease: 'none', scrollTrigger: { trigger: piece, containerAnimation: run, start: 'left right', end: 'right left', scrub: true } },
+          );
         });
       });
     },
@@ -90,7 +99,7 @@ export function Gallery() {
   };
 
   return (
-    <section className="wrap" id="work" aria-labelledby="work-h" tabIndex={-1} ref={root}>
+    <section className="wrap paint-strip" id="work" aria-labelledby="work-h" tabIndex={-1} ref={root}>
       <h2 className="label" id="work-h">{t(ui.workLabel)}</h2>
       <div className="gallery">
         {artworks.map((art) => (

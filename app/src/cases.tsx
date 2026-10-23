@@ -17,7 +17,7 @@ export function StatLine({ stat }: { stat: Stat }) {
   const decimals = stat.decimals ?? 0;
   return (
     <li className="stat">
-      <span className="stat-num" data-value={stat.value} data-decimals={decimals}>
+      <span className="stat-num" data-value={stat.value} data-decimals={decimals} data-txt={format(stat.value, decimals, lang)}>
         {format(stat.value, decimals, lang)}
       </span>
       <span className="stat-unit">{stat.unit}</span>
@@ -31,6 +31,9 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
   const classes = ['case', piece.phone && 'phone', piece.compact && 'compact'].filter(Boolean).join(' ');
   return (
     <article className={classes} aria-labelledby={`case-${piece.id}`}>
+      <i className="cn cn0" aria-hidden="true" /><i className="cn cn1" aria-hidden="true" />
+      <i className="cn cn2" aria-hidden="true" /><i className="cn cn3" aria-hidden="true" />
+      <b className="dot dot-c" aria-hidden="true" /><b className="dot dot-s" aria-hidden="true" /><b className="dot dot-t" aria-hidden="true" />
       <div className="shot" style={{ aspectRatio: `${piece.width} / ${piece.height}` }}>
         {piece.video ? (
           // Muted loop, fetched only when it plays; the poster is the still.
@@ -123,6 +126,18 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
             );
           }
           tl.from(card.querySelectorAll('.chip'), { y: 10, autoAlpha: 0, stagger: 0.05, duration: 0.35 }, 0.5);
+          // The reel's micro chain: exposure kiss, viewfinder corners, three small shapes.
+          const media = card.querySelector('.shot img, .shot video');
+          if (media) tl.fromTo(media, { filter: 'brightness(1.35)' }, { filter: 'brightness(1)', duration: 0.5, ease: 'power2.out' }, 0.2);
+          tl.from(card.querySelectorAll('.cn'), { scale: 1.8, opacity: 0, duration: 0.45, stagger: 0.08, ease: 'power3.out' }, 0.15)
+            .from(card.querySelectorAll('.dot'), { scale: 0, duration: 0.45, stagger: 0.12, ease: 'back.out(3)' }, 0.45)
+            .from(card.querySelectorAll('.stat-num'), { '--ghost': 0, duration: 0.01 }, 0);
+          // Ghosts off register, jumping a few frames after each number lands.
+          card.querySelectorAll<HTMLElement>('.stat-num').forEach((el, i) => {
+            const jumps = [[-6, 3], [5, -2], [-3, -3], [2, 1]];
+            jumps.forEach(([x, y], k) => tl.set(el, { '--gx': `${x}px`, '--gy': `${y}px` }, 1.2 + i * 0.12 + k * 0.07));
+            tl.set(el, { '--gx': '2px', '--gy': '1px' }, 1.5 + i * 0.12);
+          });
 
           // Numbers count up from zero to the value already in the text.
           card.querySelectorAll<HTMLElement>('.stat-num').forEach((el, i) => {

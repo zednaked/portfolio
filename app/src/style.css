@@ -392,3 +392,122 @@ figcaption span { color: var(--muted); }
   .reveal:hover img { scale: none; }
   .lang button:hover, .btn:hover { translate: none; }
 }
+
+/* ===================== v3: the reel's language on the page ===================== */
+@font-face { font-family: "Anton"; src: url("/fonts/anton.woff2") format("woff2"); font-display: swap; }
+:root { --b-red: #d7261e; --b-yellow: #f2b705; --b-blue: #1d3f9e; --b-black: #0b0b0b; --b-cream: #f1ead8; }
+
+/* Paper and photocopy, as on the reel's cards */
+.tex-paper, .tex-xerox { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; }
+.tex-paper { background: url("/img/paper.webp") 0 0 / 640px 640px repeat; opacity: 0.55; }
+.tex-xerox { background: url("/img/xerox.webp") 0 0 / 640px 640px repeat; opacity: 0.4; }
+
+/* Acts: a chapter card held on screen, collapsing into its shape as you scroll */
+.act { position: relative; }
+.ch-hold { position: relative; height: 185vh; margin-bottom: -185vh; z-index: 20; pointer-events: none; }
+.ch-card { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.act-body { position: relative; z-index: 1; padding-top: 12vh; }
+.ch-shape { position: absolute; left: 73%; top: 50%; width: min(42vw, 62vh); aspect-ratio: 1; translate: -50% -50%; }
+.shape-circle { border-radius: 50%; }
+.shape-tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.ch-num { position: absolute; left: 7vw; top: 14vh; font: 400 clamp(64px, 11vw, 170px)/1 "Anton"; }
+.ch-word { position: absolute; left: 6.5vw; top: 30vh; font: 400 clamp(110px, 24vw, 400px)/1 "Anton"; overflow: hidden; white-space: nowrap; }
+.ch-word .lt { display: inline-block; font-style: normal; }
+.ch-frag { position: absolute; left: 7.5vw; top: 31vh; font: 400 clamp(110px, 24vw, 400px)/1 "Anton"; color: transparent; opacity: 0.55;
+  clip-path: inset(46% 0 0 0); transform: translate(1.4vw, 1.2vh) rotate(-2deg); white-space: nowrap; }
+.ch-sub { position: absolute; left: 7vw; bottom: 12vh; margin: 0; font: 700 clamp(16px, 1.6vw, 24px) "Roboto"; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+@media (max-width: 720px) {
+  .ch-shape { left: 70%; top: 30%; width: 52vw; }
+  .ch-word, .ch-frag { top: 46vh; }
+}
+
+/* A band of words that runs with the scroll */
+.marquee { overflow: hidden; padding: 18px 0; background: var(--b-black); color: var(--b-cream); }
+.marquee-track { display: flex; width: max-content; gap: 0; will-change: transform; }
+.mq { font: 400 clamp(48px, 8vw, 120px)/1 "Anton"; letter-spacing: 0.02em; padding: 0 0.35em; white-space: nowrap; }
+.mq b { font-size: 0.35em; vertical-align: middle; margin-left: 0.5em; }
+.mq0 b { color: var(--b-red); } .mq1 b { color: var(--b-blue); } .mq2 b { color: var(--b-yellow); }
+.mq1 { color: transparent; -webkit-text-stroke: 2px var(--b-cream); }
+
+/* PAINT runs sideways */
+@media (prefers-reduced-motion: no-preference) {
+  .paint-strip { max-width: none; padding-top: 10vh; min-height: 100vh; }
+  .paint-strip .gallery { display: flex; flex-wrap: nowrap; align-items: center; gap: 4vw; width: max-content; padding: 0 6vw; }
+  .paint-strip .gallery .piece { width: min(70vw, 460px); flex: none; }
+  .paint-strip .gallery .piece.wide { width: min(86vw, 820px); }
+  .paint-strip .reveal img { will-change: transform; }
+  .paint-strip #work-h { margin-left: 6vw; }
+}
+
+/* Reel */
+.reel { padding-bottom: clamp(48px, 7vw, 80px); perspective: 1200px; }
+.reel-frame { position: relative; background: #000; box-shadow: 0 30px 80px rgba(20, 2, 10, 0.4); transform-origin: 50% 100%; }
+.reel-frame video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; }
+.reel-play { position: absolute; left: 50%; top: 50%; width: clamp(84px, 12vw, 150px); aspect-ratio: 1; translate: -50% -50%;
+  border: 0; border-radius: 50%; background: var(--b-red); cursor: pointer; box-shadow: 0 0 0 6px var(--b-cream); }
+.reel-play svg { width: 60%; fill: var(--b-cream); }
+.reel-play:hover { background: var(--b-blue); }
+.reel-tag { position: absolute; left: 16px; top: 16px; padding: 6px 12px; background: var(--b-black); color: var(--b-yellow);
+  font: 700 14px "Roboto"; letter-spacing: 0.14em; text-transform: uppercase; }
+.reel-note { margin: 14px 0 0; max-width: 70ch; padding: 12px 18px; background: #fff; color: var(--muted); font-size: 0.9375rem; }
+
+/* Case micro chain: viewfinder corners and three small shapes */
+.case { position: relative; transform-style: preserve-3d; }
+.cn { position: absolute; width: 26px; height: 26px; border: 0 solid var(--b-black); z-index: 2; pointer-events: none; }
+.cn0 { left: -10px; top: -10px; border-left-width: 3px; border-top-width: 3px; }
+.cn1 { right: -10px; top: -10px; border-right-width: 3px; border-top-width: 3px; }
+.cn2 { left: -10px; bottom: -10px; border-left-width: 3px; border-bottom-width: 3px; }
+.cn3 { right: -10px; bottom: -10px; border-right-width: 3px; border-bottom-width: 3px; }
+.dot { position: absolute; z-index: 2; pointer-events: none; }
+.dot-c { width: 14px; height: 14px; border-radius: 50%; background: var(--b-red); right: 22px; top: -26px; }
+.dot-s { width: 12px; height: 12px; background: var(--b-blue); right: -26px; top: 40%; }
+.dot-t { width: 16px; height: 14px; background: var(--b-yellow); clip-path: polygon(50% 0, 100% 100%, 0 100%); left: -28px; bottom: 30%; }
+
+/* Numbers with two ghosts off register (the reel's Se7en smear) */
+.stat-num { position: relative; --gx: 2px; --gy: 1px; }
+.stat-num::before, .stat-num::after { content: attr(data-txt); position: absolute; left: 0; top: 0; pointer-events: none; mix-blend-mode: multiply; }
+.stat-num::before { color: var(--b-blue); opacity: 0.35; transform: translate(var(--gx), var(--gy)); }
+.stat-num::after { color: var(--b-yellow); opacity: 0.45; transform: translate(calc(var(--gx) * -1), calc(var(--gy) * -1)); }
+
+/* Film layer */
+.film-grain, .film-riso { position: fixed; inset: -50%; pointer-events: none; z-index: 60; }
+.film-grain { opacity: 0.09; mix-blend-mode: multiply;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1.4 -0.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 0.6s steps(6) infinite; }
+.film-riso { opacity: 0.05; mix-blend-mode: multiply; background-image: radial-gradient(rgba(10,10,10,0.9) 26%, transparent 30%);
+  background-size: 7px 7px; transform: rotate(45deg); }
+@keyframes grain { 0% { translate: 0 0; } 20% { translate: -4% 3%; } 40% { translate: 3% -5%; } 60% { translate: -6% -2%; } 80% { translate: 5% 4%; } 100% { translate: 0 0; } }
+.film-tc { position: fixed; right: 18px; bottom: 14px; z-index: 61; margin: 0; padding: 4px 8px; background: rgba(11,11,11,0.72); color: var(--b-cream);
+  font: 500 11px "Roboto"; letter-spacing: 0.16em; pointer-events: none; }
+.film-tc span { font-variant-numeric: tabular-nums; font-weight: 700; }
+
+/* Finale: burn, then the signature */
+.finale { position: relative; height: 200vh; }
+.finale-card { position: sticky; top: 0; height: 100vh; overflow: hidden; background: var(--b-cream); color: var(--b-black); }
+.f-circle { position: absolute; left: 66%; top: 12vh; width: min(30vw, 46vh); aspect-ratio: 1; border-radius: 50%; background: var(--b-red); }
+.f-square { position: absolute; left: 60%; top: 50vh; width: min(20vw, 30vh); aspect-ratio: 1; background: var(--b-blue); }
+.f-tri { position: absolute; left: 80%; top: 54vh; width: min(18vw, 28vh); aspect-ratio: 1; background: var(--b-yellow); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.f-name { position: absolute; left: 7vw; top: 18vh; margin: 0; font: 400 clamp(64px, 12vw, 190px)/0.95 "Anton"; }
+.f-name > span > span { display: block; overflow: hidden; }
+.f-name .lt { display: inline-block; font-style: normal; }
+.f-role { position: absolute; left: 7.3vw; top: calc(18vh + clamp(128px, 24vw, 380px)); margin: 0; font: 700 clamp(16px, 1.8vw, 28px)/1.4 "Roboto"; letter-spacing: 0.1em; }
+.f-role small { font-weight: 400; letter-spacing: 0.04em; font-size: 0.7em; color: var(--muted); }
+.f-links { position: absolute; left: 7.3vw; bottom: 12vh; margin: 0; display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-dark { background: var(--b-black); }
+.burn { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; filter: blur(6px); opacity: 0; }
+.b1 { background: radial-gradient(circle at 86% 82%, #fffdf2 0%, #ffe7a0 7%, #ff9a36 15%, rgba(214,52,18,0.85) 24%, rgba(120,10,6,0.35) 34%, transparent 46%); transform-origin: 86% 82%; }
+.b2 { background: radial-gradient(circle at 12% 15%, #fffdf2 0%, #ffe7a0 7%, #ff9a36 15%, rgba(214,52,18,0.85) 24%, rgba(120,10,6,0.35) 34%, transparent 46%); transform-origin: 12% 15%; }
+.b3 { background: radial-gradient(circle at 62% 30%, #fffdf2 0%, #ffe7a0 7%, #ff9a36 15%, rgba(214,52,18,0.85) 24%, rgba(120,10,6,0.35) 34%, transparent 46%); transform-origin: 62% 30%; }
+@media (max-width: 720px) {
+  .f-circle { left: 54%; top: 56vh; width: 40vw; } .f-square { left: 38%; top: 72vh; width: 28vw; } .f-tri { left: 72%; top: 74vh; width: 24vw; }
+  .f-links { bottom: 4vh; }
+}
+
+/* Reduced motion: everything still, nothing sticky, no grain */
+@media (prefers-reduced-motion: reduce) {
+  .ch-hold { height: auto; margin-bottom: 0; }
+  .ch-card { position: relative; height: 70vh; }
+  .act-body { padding-top: 6vh; }
+  .finale { height: auto; } .finale-card { position: relative; }
+  .film-grain { animation: none; }
+}
