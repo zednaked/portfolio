@@ -1,6 +1,5 @@
-import { useLayoutEffect, useRef, useState } from 'react';
-import { useGSAP } from '@gsap/react';
-import { gsap, Flip, FULL_MOTION, GENTLE_MOTION, prefersReducedMotion } from './motion';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { gsap, Flip, FULL_MOTION, GENTLE_MOTION, prefersReducedMotion, useIdleGSAP } from './motion';
 import { artworks, ui, type Artwork } from './content';
 import { useLang } from './i18n';
 
@@ -12,7 +11,27 @@ export function Gallery() {
   const flipState = useRef<Flip.FlipState | null>(null);
   const opener = useRef<HTMLButtonElement | null>(null);
 
-  useGSAP(
+  // Native lazy loading looks at vertical distance only, and the strip sits
+  // pinned: every painting "to the side" was fetched on the first load. Each
+  // one is fetched when it comes within a screen of view, in either axis.
+  useEffect(() => {
+    const imgs = root.current?.querySelectorAll<HTMLImageElement>('.gallery img[data-src]');
+    if (!imgs) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting || !(e.target instanceof HTMLImageElement)) continue;
+          e.target.src = e.target.dataset.src ?? '';
+          io.unobserve(e.target);
+        }
+      },
+      { rootMargin: '600px 100%' },
+    );
+    imgs.forEach((img) => io.observe(img));
+    return () => io.disconnect();
+  }, []);
+
+  useIdleGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
@@ -71,7 +90,7 @@ export function Gallery() {
         });
       });
     },
-    { scope: root },
+    root,
   );
 
   // The enlarged image takes over from the thumbnail: Flip measures the
@@ -130,10 +149,9 @@ export function Gallery() {
               onClick={(e) => show(art, e.currentTarget)}
             >
               <img
-                src={art.src}
+                data-src={art.src}
                 width={art.width}
                 height={art.height}
-                loading="lazy"
                 decoding="async"
                 alt={t(art.alt)}
                 className={art.pixel ? 'pixel' : undefined}

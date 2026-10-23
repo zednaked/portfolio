@@ -1,6 +1,5 @@
 import { useRef, useState, type RefObject } from 'react';
-import { useGSAP } from '@gsap/react';
-import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION } from './motion';
+import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
 import { webUi, type Lang, type Stat, type WebPiece } from './content';
 import { useLang } from './i18n';
 
@@ -128,7 +127,7 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
   const langRef = useRef(lang);
   langRef.current = lang;
 
-  useGSAP(
+  useIdleGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
@@ -240,6 +239,6 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
         });
       });
     },
-    { scope: root },
+    root,
   );
 }

@@ -1,6 +1,5 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
-import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION, GENTLE_MOTION } from './motion';
+import { gsap, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
 import type { Chapter as ChapterData } from './content';
 import { useLang } from './i18n';
 
@@ -32,7 +31,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
   const root = useRef<HTMLDivElement>(null);
   const [start, end] = SHAPE_CLIP[chapter.shape];
 
-  useGSAP(
+  useIdleGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
@@ -80,7 +79,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         gsap.to(card, { opacity: 0, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: '+=85%', scrub: true } });
       });
     },
-    { scope: root },
+    root,
   );
 
   const shape = { circle: 'shape-circle', tri: 'shape-tri', square: 'shape-square' }[chapter.shape];

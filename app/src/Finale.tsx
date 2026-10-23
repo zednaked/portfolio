@@ -1,6 +1,5 @@
 import { useRef } from 'react';
-import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION, GENTLE_MOTION } from './motion';
+import { gsap, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
 import { finaleUi, ui } from './content';
 import { useLang } from './i18n';
 
@@ -13,7 +12,7 @@ export function Finale() {
   const { t } = useLang();
   const root = useRef<HTMLElement>(null);
 
-  useGSAP(
+  useIdleGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
@@ -35,7 +34,7 @@ export function Finale() {
           .from('.f-circle, .f-square, .f-tri, .f-text', { opacity: 0, stagger: 0.05, duration: 0.25 }, 0.4);
       });
     },
-    { scope: root },
+    root,
   );
 
   const word = (w: string) => [...w].map((c, i) => <i className="lt" key={i}>{c}</i>);

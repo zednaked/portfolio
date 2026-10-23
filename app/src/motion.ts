@@ -1,3 +1,4 @@
+import { useEffect, useRef, type RefObject } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Flip } from 'gsap/Flip';
@@ -40,6 +41,39 @@ export function setMotion(pref: MotionPref) {
     // Storage blocked: the switch still applies for this visit.
   }
   location.reload();
+}
+
+// Below-the-fold motion is built when the main thread is free, not in the
+// first render: two dozen ScrollTriggers measured at once were a 1 s task on a
+// phone. Each component gets its own idle slot, so no single task is long, and
+// one refresh at the end puts the triggers back in page order (the gallery's
+// pin moves everything after it).
+let refreshTimer = 0;
+function refreshSoon() {
+  clearTimeout(refreshTimer);
+  refreshTimer = window.setTimeout(() => {
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+  }, 120);
+}
+
+export function useIdleGSAP(setup: () => void, scope?: RefObject<Element | null>) {
+  // setup runs once, like useGSAP without dependencies.
+  const first = useRef(setup);
+  useEffect(() => {
+    let ctx: gsap.Context | null = null;
+    const run = () => {
+      ctx = gsap.context(first.current, scope?.current ?? undefined);
+      refreshSoon();
+    };
+    const idle = 'requestIdleCallback' in window;
+    const id = idle ? window.requestIdleCallback(run, { timeout: 1000 }) : window.setTimeout(run, 100);
+    return () => {
+      if (idle) window.cancelIdleCallback(id);
+      else clearTimeout(id);
+      ctx?.revert();
+    };
+  }, [scope]);
 }
 
 export { gsap, ScrollTrigger, Flip };

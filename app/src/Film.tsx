@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useGSAP } from '@gsap/react';
-import { gsap, ScrollTrigger, FULL_MOTION, FULL, setMotion } from './motion';
+import { gsap, ScrollTrigger, FULL_MOTION, FULL, setMotion, useIdleGSAP } from './motion';
 
 /**
  * Page-wide film layer, the reel's finishing pass on the web:
@@ -43,7 +42,7 @@ export function Film() {
     return () => { clearTimeout(timer); ro.disconnect(); window.removeEventListener('load', refresh); };
   }, []);
 
-  useGSAP(() => {
+  useIdleGSAP(() => {
     const mm = gsap.matchMedia();
     mm.add(FULL_MOTION, () => {
       // Velocity: drag or flick the page and the media leans with it.
@@ -100,7 +99,7 @@ export function Film() {
 /** A band of words that runs with the scroll and leans with its speed. */
 export function Marquee({ words }: { words: string[] }) {
   const root = useRef<HTMLDivElement>(null);
-  useGSAP(
+  useIdleGSAP(
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
@@ -111,7 +110,7 @@ export function Marquee({ words }: { words: string[] }) {
         });
       });
     },
-    { scope: root },
+    root,
   );
   const line = Array.from({ length: 6 }, () => words).flat();
   return (
