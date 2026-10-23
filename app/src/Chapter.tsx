@@ -51,8 +51,10 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
           { clipPath: start },
           {
             clipPath: end,
-            ease: 'power2.in',
-            scrollTrigger: { trigger: root.current, start: 'top top', end: '+=85%', scrub: 0.6 },
+            // Fast at first, so the card is a small shape by the time the
+            // act's first lines rise into the reading area below it.
+            ease: 'power2.out',
+            scrollTrigger: { trigger: root.current, start: 'top top', end: '+=50%', scrub: 0.6 },
           },
         );
         // While it holds, the shape keeps turning and the word drifts, so a held
@@ -76,7 +78,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
           scrollTrigger: { trigger: root.current, start: 'top 75%', once: true },
         });
         // No travel: the card dissolves into the act underneath.
-        gsap.to(card, { opacity: 0, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: '+=85%', scrub: true } });
+        gsap.to(card, { opacity: 0, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: '+=50%', scrub: true } });
       });
     },
     root,

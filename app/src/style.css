@@ -404,7 +404,9 @@ figcaption span { color: var(--muted); }
 .act { position: relative; }
 .ch-hold { position: relative; height: 185vh; margin-bottom: -185vh; z-index: 20; pointer-events: none; }
 .ch-card { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.act-body { position: relative; z-index: 1; padding-top: 12vh; }
+/* The act starts a screen down: its first lines arrive as the card above
+   collapses, never underneath it while it still covers the page. */
+.act-body { position: relative; z-index: 1; padding-top: 100vh; padding-top: 100svh; }
 .ch-shape { position: absolute; left: 73%; top: 50%; width: min(42vw, 62vh); aspect-ratio: 1; translate: -50% -50%; }
 .shape-circle { border-radius: 50%; }
 .shape-tri { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
