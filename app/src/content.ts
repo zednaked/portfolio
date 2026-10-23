@@ -202,6 +202,9 @@ export const webUi = {
   role: { en: 'My role', pt: 'Meu papel' },
   live: { en: 'Open it live', pt: 'Abrir no ar' },
   code: { en: 'Code', pt: 'Código' },
+  tech: { en: 'Technologies', pt: 'Tecnologias' },
+  pauseClip: { en: 'Pause clip', pt: 'Pausar vídeo' },
+  playClip: { en: 'Play clip', pt: 'Tocar vídeo' },
   pageLabel: { en: 'This page', pt: 'Esta página' },
   page: {
     en: 'React, TypeScript and GSAP (ScrollTrigger, Flip): chapter cards that collapse into their shape as you scroll, a strip that runs sideways, media that lean with your scroll speed. Median of five loads in headless Chromium, from a local server, so network time is not in it:',

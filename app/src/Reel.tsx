@@ -5,6 +5,8 @@ import { reelUi } from './content';
 import { useLang } from './i18n';
 
 const base = import.meta.env.BASE_URL;
+// Same breakpoint as the preload in index.html, so the poster comes from cache.
+const SMALL = typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches;
 
 // The reel sits right under the name. Nothing downloads until play is pressed.
 export function Reel() {
@@ -33,9 +35,14 @@ export function Reel() {
     { scope: root },
   );
 
+  // The play button unmounts once the reel starts, so the focus moves to the
+  // video (now with controls) instead of falling back to <body>.
   const play = () => {
     setPlaying(true);
-    requestAnimationFrame(() => void video.current?.play());
+    requestAnimationFrame(() => {
+      void video.current?.play();
+      video.current?.focus();
+    });
   };
 
   return (
@@ -44,7 +51,7 @@ export function Reel() {
         <video
           ref={video}
           src={`${base}video/reel.mp4`}
-          poster={`${base}img/reel-poster.webp`}
+          poster={`${base}img/${SMALL ? 'reel-poster-640' : 'reel-poster'}.webp`}
           width={1280}
           height={720}
           preload="none"

@@ -1,4 +1,4 @@
-import { useRef, type ReactNode } from 'react';
+import { useRef, type CSSProperties, type ReactNode } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap, FULL_MOTION, GENTLE_MOTION } from './motion';
 import type { Chapter as ChapterData } from './content';
@@ -10,6 +10,16 @@ const SHAPE_CLIP: Record<ChapterData['shape'], [string, string]> = {
   square: ['inset(0% 0% 0% 0%)', 'inset(50% 27% 50% 73%)'],
   tri: ['polygon(73% -200%, 280% 300%, -140% 300%)', 'polygon(73% 50%, 73% 50%, 73% 50%)'],
 };
+
+// The act's colour drives its accents. Yellow can't carry text on white
+// (1.8:1), so it gets a dark ochre for text and black type on its buttons.
+const READABLE: Record<string, { text: string; on: string }> = {
+  '#f2b705': { text: '#6e5200', on: '#0b0b0b' },
+};
+function actColors(color: string): CSSProperties {
+  const r = READABLE[color.toLowerCase()];
+  return { '--accent': color, '--accent-text': r?.text ?? color, '--accent-on': r?.on ?? '#fff' } as CSSProperties;
+}
 
 /**
  * An act of the story: a full-screen chapter card stays on screen while the
@@ -75,7 +85,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
 
   const shape = { circle: 'shape-circle', tri: 'shape-tri', square: 'shape-square' }[chapter.shape];
   return (
-    <div className="act" id={chapter.id} ref={root} style={{ ['--accent' as string]: chapter.color }}>
+    <div className="act" id={chapter.id} ref={root} style={actColors(chapter.color)}>
       <div className="ch-hold">
       <div className="ch-card" aria-hidden="true" style={{ background: chapter.bg, color: chapter.ink }}>
         <div className="tex-paper" />

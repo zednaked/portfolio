@@ -32,6 +32,19 @@ export function Gallery() {
             invalidateOnRefresh: true,
           },
         });
+        // The strip moves by transform, so the browser can't scroll a focused
+        // painting into view by itself: Tab onto one and the page scrolls to
+        // the point where the strip shows it.
+        const st = run.scrollTrigger;
+        const onFocus = (e: FocusEvent) => {
+          const piece = e.target instanceof Element ? e.target.closest<HTMLElement>('.piece') : null;
+          const d = dist();
+          if (!piece || !st || !d) return;
+          const p = gsap.utils.clamp(0, 1, (piece.offsetLeft - 48) / d);
+          window.scrollTo(0, st.start + p * (st.end - st.start));
+        };
+        track.addEventListener('focusin', onFocus);
+
         gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
           gsap.fromTo(
             piece.querySelector('.reveal'),
@@ -50,6 +63,7 @@ export function Gallery() {
             { xPercent: 6, scale: 1.14, ease: 'none', scrollTrigger: { trigger: piece, containerAnimation: run, start: 'left right', end: 'right left', scrub: true } },
           );
         });
+        return () => track.removeEventListener('focusin', onFocus);
       });
       mm.add(GENTLE_MOTION, () => {
         gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {

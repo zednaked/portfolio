@@ -1,6 +1,6 @@
-import { useRef, type RefObject } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, ScrollTrigger, FULL_MOTION, GENTLE_MOTION } from './motion';
+import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION } from './motion';
 import { webUi, type Lang, type Stat, type WebPiece } from './content';
 import { useLang } from './i18n';
 
@@ -26,6 +26,46 @@ export function StatLine({ stat }: { stat: Stat }) {
   );
 }
 
+// A muted loop that plays while its card is on screen, with a button to stop
+// it for good (WCAG 2.2.2). Under reduced motion it starts held.
+function Clip({ piece }: { piece: WebPiece }) {
+  const { t } = useLang();
+  const video = useRef<HTMLVideoElement>(null);
+  const [held, setHeld] = useState(!FULL);
+  const toggle = () => {
+    const v = video.current;
+    if (!v) return;
+    v.dataset.held = held ? '0' : '1';
+    if (held) void v.play().catch(() => {});
+    else v.pause();
+    setHeld(!held);
+  };
+  return (
+    <>
+      <video
+        ref={video}
+        src={piece.video}
+        poster={piece.img}
+        width={piece.width}
+        height={piece.height}
+        muted
+        loop
+        playsInline
+        preload="none"
+        data-held={held ? '1' : '0'}
+        aria-label={t(piece.alt)}
+      />
+      <button type="button" className="clip-btn" aria-pressed={!held} onClick={toggle}>
+        <span aria-hidden="true">{held ? '▶' : '❚❚'}</span>
+        <span className="sr-only">{t(held ? webUi.playClip : webUi.pauseClip)}: {t(piece.title)}</span>
+      </button>
+    </>
+  );
+}
+
+// Plays a case clip unless the visitor stopped it.
+const playClip = (v: HTMLVideoElement) => { if (v.dataset.held !== '1') void v.play().catch(() => {}); };
+
 export function CaseCard({ piece }: { piece: WebPiece }) {
   const { t } = useLang();
   const classes = ['case', piece.phone && 'phone', piece.compact && 'compact'].filter(Boolean).join(' ');
@@ -37,17 +77,7 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
       <div className="shot" style={{ aspectRatio: `${piece.width} / ${piece.height}` }}>
         {piece.video ? (
           // Muted loop, fetched only when it plays; the poster is the still.
-          <video
-            src={piece.video}
-            poster={piece.img}
-            width={piece.width}
-            height={piece.height}
-            muted
-            loop
-            playsInline
-            preload="none"
-            aria-label={t(piece.alt)}
-          />
+          <Clip piece={piece} />
         ) : (
           <img src={piece.img} width={piece.width} height={piece.height} loading="lazy" decoding="async" alt={t(piece.alt)} />
         )}
@@ -58,7 +88,7 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
         <p className="case-role">
           <strong>{t(webUi.role)}:</strong> {t(piece.role)}
         </p>
-        <ul className="chips" aria-label="Technologies">
+        <ul className="chips" aria-label={t(webUi.tech)}>
           {piece.tech.map((tech) => (
             <li className="chip" key={tech}>
               {tech}
@@ -161,7 +191,7 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
           // A clip plays only while its card is on screen.
           const video = card.querySelector<HTMLVideoElement>('.shot video');
           if (video) {
-            const play = () => void video.play().catch(() => {});
+            const play = () => playClip(video);
             const pause = () => video.pause();
             ScrollTrigger.create({
               trigger: card,
@@ -200,11 +230,11 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
             const counter = { v: 0 };
             tl.to(counter, { v: end, duration: 1, ease: 'power2.out', onUpdate: () => { el.textContent = format(counter.v, decimals, langRef.current); } }, 0.3 + k * 0.1);
           });
-          // Videos still play while their card is on screen.
+          // Clips start held here; once the visitor plays one, it pauses off screen.
           const video = card.querySelector<HTMLVideoElement>('.shot video');
           if (video) {
             ScrollTrigger.create({ trigger: card, start: 'top 90%', end: 'bottom 10%',
-              onEnter: () => void video.play().catch(() => {}), onEnterBack: () => void video.play().catch(() => {}),
+              onEnter: () => playClip(video), onEnterBack: () => playClip(video),
               onLeave: () => video.pause(), onLeaveBack: () => video.pause() });
           }
         });
