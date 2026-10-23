@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, Flip, FULL_MOTION, prefersReducedMotion } from './motion';
+import { gsap, Flip, FULL_MOTION, GENTLE_MOTION, prefersReducedMotion } from './motion';
 import { artworks, ui, type Artwork } from './content';
 import { useLang } from './i18n';
 
@@ -49,6 +49,11 @@ export function Gallery() {
             { xPercent: -6, scale: 1.14 },
             { xPercent: 6, scale: 1.14, ease: 'none', scrollTrigger: { trigger: piece, containerAnimation: run, start: 'left right', end: 'right left', scrub: true } },
           );
+        });
+      });
+      mm.add(GENTLE_MOTION, () => {
+        gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
+          gsap.from(piece, { opacity: 0, duration: 0.7, scrollTrigger: { trigger: piece, start: 'top 88%', once: true } });
         });
       });
     },

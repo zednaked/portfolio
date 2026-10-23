@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION } from './motion';
+import { gsap, FULL_MOTION, GENTLE_MOTION } from './motion';
 import { ui } from './content';
 import { useLang } from './i18n';
 
@@ -32,6 +32,9 @@ export function Header() {
           ease: 'none',
           scrollTrigger: { trigger: document.body, start: 'top top', end: '+=900', scrub: true },
         });
+      });
+      mm.add(GENTLE_MOTION, () => {
+        gsap.from('.splash, .name, .role, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
       });
     },
     { scope: root },

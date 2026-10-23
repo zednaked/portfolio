@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION } from './motion';
+import { gsap, FULL_MOTION, GENTLE_MOTION } from './motion';
 import { finaleUi, ui } from './content';
 import { useLang } from './i18n';
 
@@ -27,6 +27,12 @@ export function Finale() {
           .from('.f-tri', { yPercent: 220, duration: 0.22, ease: 'power4.out' }, 0.56)
           .from('.f-name .lt', { yPercent: 105, stagger: 0.02, duration: 0.2, ease: 'power4.out' }, 0.5)
           .from('.f-role, .f-links', { opacity: 0, y: 20, stagger: 0.05, duration: 0.15 }, 0.7);
+      });
+      mm.add(GENTLE_MOTION, () => {
+        const tl = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom bottom', scrub: true } });
+        tl.fromTo('.b3', { opacity: 0 }, { opacity: 0.9, duration: 0.3 }, 0)
+          .to('.b3', { opacity: 0, duration: 0.3 }, 0.32)
+          .from('.f-circle, .f-square, .f-tri, .f-text', { opacity: 0, stagger: 0.05, duration: 0.25 }, 0.4);
       });
     },
     { scope: root },

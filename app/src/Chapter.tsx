@@ -1,6 +1,6 @@
 import { useRef, type ReactNode } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION } from './motion';
+import { gsap, FULL_MOTION, GENTLE_MOTION } from './motion';
 import type { Chapter as ChapterData } from './content';
 import { useLang } from './i18n';
 
@@ -59,6 +59,15 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top bottom', end: '+=180%', scrub: true },
         });
+      });
+      mm.add(GENTLE_MOTION, () => {
+        const card = root.current!.querySelector<HTMLElement>('.ch-card')!;
+        gsap.from(card.querySelectorAll('.ch-num, .ch-word, .ch-shape, .ch-frag, .ch-sub'), {
+          opacity: 0, duration: 0.8, stagger: 0.12,
+          scrollTrigger: { trigger: root.current, start: 'top 75%', once: true },
+        });
+        // No travel: the card dissolves into the act underneath.
+        gsap.to(card, { opacity: 0, ease: 'none', scrollTrigger: { trigger: root.current, start: 'top top', end: '+=85%', scrub: true } });
       });
     },
     { scope: root },

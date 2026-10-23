@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, ScrollTrigger, FULL_MOTION } from './motion';
+import { gsap, ScrollTrigger, FULL_MOTION, FULL, setMotion } from './motion';
 
 /**
  * Page-wide film layer, the reel's finishing pass on the web:
@@ -84,6 +84,15 @@ export function Film() {
       <div className="film-grain" aria-hidden="true" />
       <div className="film-riso" aria-hidden="true" />
       <p className="film-tc" aria-hidden="true">TG · PORTFOLIO · <span ref={tc}>00:00:00:00</span></p>
+      <button
+        type="button"
+        className="motion-btn"
+        aria-pressed={FULL}
+        onClick={() => setMotion(FULL ? 'reduced' : 'full')}
+        title={FULL ? 'Turn motion down' : 'Turn full motion on'}
+      >
+        <i aria-hidden="true" />MOTION {FULL ? 'ON' : 'OFF'}
+      </button>
     </>
   );
 }

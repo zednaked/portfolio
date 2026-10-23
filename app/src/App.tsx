@@ -80,7 +80,7 @@ export function App() {
         firstLang.current = false;
         return;
       }
-      if (!window.matchMedia(FULL_MOTION).matches) return;
+      if (FULL_MOTION !== 'all') return;
       gsap.fromTo(
         '.role, .box, figcaption, .label',
         { autoAlpha: 0.2 },

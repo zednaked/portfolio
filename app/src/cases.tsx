@@ -1,6 +1,6 @@
 import { useRef, type RefObject } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, ScrollTrigger, FULL_MOTION } from './motion';
+import { gsap, ScrollTrigger, FULL_MOTION, GENTLE_MOTION } from './motion';
 import { webUi, type Lang, type Stat, type WebPiece } from './content';
 import { useLang } from './i18n';
 
@@ -186,6 +186,26 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
                 scrollTrigger: { trigger: card, start: 'top bottom', end: 'bottom top', scrub: true },
               },
             );
+          }
+        });
+      });
+      mm.add(GENTLE_MOTION, () => {
+        gsap.utils.toArray<HTMLElement>('.case').forEach((card) => {
+          const tl = gsap.timeline({ scrollTrigger: { trigger: card, start: 'top 85%', once: true } });
+          tl.from(card, { opacity: 0, duration: 0.6 })
+            .from(card.querySelectorAll('.cn, .dot'), { opacity: 0, duration: 0.5, stagger: 0.06 }, 0.3);
+          card.querySelectorAll<HTMLElement>('.stat-num').forEach((el, k) => {
+            const end = Number(el.dataset.value);
+            const decimals = Number(el.dataset.decimals);
+            const counter = { v: 0 };
+            tl.to(counter, { v: end, duration: 1, ease: 'power2.out', onUpdate: () => { el.textContent = format(counter.v, decimals, langRef.current); } }, 0.3 + k * 0.1);
+          });
+          // Videos still play while their card is on screen.
+          const video = card.querySelector<HTMLVideoElement>('.shot video');
+          if (video) {
+            ScrollTrigger.create({ trigger: card, start: 'top 90%', end: 'bottom 10%',
+              onEnter: () => void video.play().catch(() => {}), onEnterBack: () => void video.play().catch(() => {}),
+              onLeave: () => video.pause(), onLeaveBack: () => video.pause() });
           }
         });
       });

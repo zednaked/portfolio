@@ -387,11 +387,9 @@ figcaption span { color: var(--muted); }
 .foot p { margin: 0 0 6px; }
 .colophon { font-size: 0.875rem; }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { transition: none !important; }
-  .reveal:hover img { scale: none; }
-  .lang button:hover, .btn:hover { translate: none; }
-}
+.motion-reduced *, .motion-reduced *::before, .motion-reduced *::after { transition-property: opacity, background-color, color !important; }
+.motion-reduced .reveal:hover img { scale: none; }
+.motion-reduced .lang button:hover, .motion-reduced .btn:hover { translate: none; }
 
 /* ===================== v3: the reel's language on the page ===================== */
 @font-face { font-family: "Anton"; src: url("/fonts/anton.woff2") format("woff2"); font-display: swap; }
@@ -430,14 +428,12 @@ figcaption span { color: var(--muted); }
 .mq1 { color: transparent; -webkit-text-stroke: 2px var(--b-cream); }
 
 /* PAINT runs sideways */
-@media (prefers-reduced-motion: no-preference) {
-  .paint-strip { max-width: none; padding-top: 10vh; min-height: 100vh; }
-  .paint-strip .gallery { display: flex; flex-wrap: nowrap; align-items: center; gap: 4vw; width: max-content; padding: 0 6vw; }
-  .paint-strip .gallery .piece { width: min(70vw, 460px); flex: none; }
-  .paint-strip .gallery .piece.wide { width: min(86vw, 820px); }
-  .paint-strip .reveal img { will-change: transform; }
-  .paint-strip #work-h { margin-left: 6vw; }
-}
+.motion-full .paint-strip { max-width: none; padding-top: 10vh; min-height: 100vh; }
+.motion-full .paint-strip .gallery { display: flex; flex-wrap: nowrap; align-items: center; gap: 4vw; width: max-content; padding: 0 6vw; }
+.motion-full .paint-strip .gallery .piece { width: min(70vw, 460px); flex: none; }
+.motion-full .paint-strip .gallery .piece.wide { width: min(86vw, 820px); }
+.motion-full .paint-strip .reveal img { will-change: transform; }
+.motion-full .paint-strip #work-h { margin-left: 6vw; }
 
 /* Reel */
 .reel { padding-bottom: clamp(48px, 7vw, 80px); perspective: 1200px; }
@@ -507,11 +503,13 @@ figcaption span { color: var(--muted); }
   .f-circle { left: 54%; top: 50vh; width: 38vw; } .f-square { left: 36%; top: 64vh; width: 26vw; } .f-tri { left: 70%; top: 66vh; width: 22vw; }
 }
 
-/* Reduced motion: everything still, nothing sticky, no grain */
-@media (prefers-reduced-motion: reduce) {
-  .ch-hold { height: auto; margin-bottom: 0; }
-  .ch-card { position: relative; height: 70vh; }
-  .act-body { padding-top: 6vh; }
-  .finale { height: auto; } .finale-card { position: relative; }
-  .film-grain { animation: none; }
-}
+/* Reduced motion keeps the structure (cards hold, then fade) and drops travel */
+.motion-reduced .film-grain { animation: none; }
+
+/* The Motion switch, beside the timecode */
+.motion-btn { position: fixed; right: 18px; bottom: 40px; z-index: 62; display: flex; align-items: center; gap: 8px;
+  min-height: 44px; padding: 4px 14px; border: 0; background: rgba(11,11,11,0.72); color: var(--b-cream);
+  font: 700 11px "Roboto"; letter-spacing: 0.16em; cursor: pointer; }
+.motion-btn i { width: 9px; height: 9px; border-radius: 50%; background: var(--b-yellow); }
+.motion-btn[aria-pressed="false"] i { background: transparent; box-shadow: inset 0 0 0 2px var(--b-cream); }
+.motion-btn:focus-visible { outline: 3px solid var(--b-yellow); }

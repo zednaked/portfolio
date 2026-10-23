@@ -54,8 +54,8 @@ export const ui = {
     pt: 'O trabalho de engenharia (Godot, C++, desenvolvimento de jogos e ferramentas de áudio) fica no GitHub, ao lado do código:',
   },
   colophon: {
-    en: 'This page and the reel share one language: Bauhaus shapes, paper, halftone, grain. React, TypeScript and GSAP; all motion off when your system asks for reduced motion.',
-    pt: 'Esta página e o reel falam a mesma língua: formas Bauhaus, papel, retícula, grão. React, TypeScript e GSAP; todo movimento desliga quando o sistema pede movimento reduzido.',
+    en: 'This page and the reel share one language: Bauhaus shapes, paper, halftone, grain. React, TypeScript and GSAP; gentler motion when your system asks for it, full motion one tap away.',
+    pt: 'Esta página e o reel falam a mesma língua: formas Bauhaus, papel, retícula, grão. React, TypeScript e GSAP; movimento mais suave quando o sistema pede, o completo a um toque.',
   },
 } satisfies Record<string, Text>;
 
@@ -208,8 +208,8 @@ export const webUi = {
     pt: 'React, TypeScript e GSAP (ScrollTrigger, Flip): cartelas que encolhem na própria forma conforme a rolagem, uma tira que corre de lado, imagens que inclinam com a velocidade. Mediana de cinco carregamentos no Chromium headless, com servidor local, então o tempo de rede não entra:',
   },
   pageA11y: {
-    en: 'Every animation is off when the system asks for reduced motion. The viewer opens from the painting, closes with Escape or a click outside, and puts the focus back where it was. Alt text in both languages.',
-    pt: 'Toda animação desliga quando o sistema pede movimento reduzido. O visualizador abre a partir da pintura, fecha com Esc ou com um clique fora e devolve o foco para onde estava. Texto alternativo nas duas línguas.',
+    en: 'When the system asks for reduced motion, which many phones do in battery saver, the page switches to fades with no travel; the Motion button in the corner turns the full version back on, and remembers. The viewer opens from the painting, closes with Escape or a click outside, and puts the focus back where it was. Alt text in both languages.',
+    pt: 'Quando o sistema pede movimento reduzido, como muitos celulares fazem na economia de bateria, a página passa a usar fades, sem deslocamento; o botão Motion no canto liga a versão completa de novo, e lembra. O visualizador abre a partir da pintura, fecha com Esc ou com um clique fora e devolve o foco para onde estava. Texto alternativo nas duas línguas.',
   },
   proofLabel: { en: 'Shipped and credited', pt: 'Entregue e creditado' },
 } satisfies Record<string, Text>;
