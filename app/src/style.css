@@ -487,20 +487,24 @@ figcaption span { color: var(--muted); }
 .f-circle { position: absolute; left: 66%; top: 12vh; width: min(30vw, 46vh); aspect-ratio: 1; border-radius: 50%; background: var(--b-red); }
 .f-square { position: absolute; left: 60%; top: 50vh; width: min(20vw, 30vh); aspect-ratio: 1; background: var(--b-blue); }
 .f-tri { position: absolute; left: 80%; top: 54vh; width: min(18vw, 28vh); aspect-ratio: 1; background: var(--b-yellow); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
-.f-name { position: absolute; left: 7vw; top: 18vh; margin: 0; font: 400 clamp(64px, 12vw, 190px)/0.95 "Anton"; }
+.f-text { position: absolute; left: 7vw; top: 9vh; max-width: 58vw; display: flex; flex-direction: column; gap: clamp(10px, 2.4vh, 28px); z-index: 2; }
+.f-name { margin: 0; font: 400 clamp(36px, min(12vw, 15vh), 190px)/0.95 "Anton"; }
 .f-name > span > span { display: block; overflow: hidden; }
 .f-name .lt { display: inline-block; font-style: normal; }
-.f-role { position: absolute; left: 7.3vw; top: calc(18vh + clamp(128px, 24vw, 380px)); margin: 0; font: 700 clamp(16px, 1.8vw, 28px)/1.4 "Roboto"; letter-spacing: 0.1em; }
+.f-role { margin: 0; font: 700 clamp(13px, min(1.8vw, 2.6vh), 28px)/1.4 "Roboto"; letter-spacing: 0.1em; }
 .f-role small { font-weight: 400; letter-spacing: 0.04em; font-size: 0.7em; color: var(--muted); }
-.f-links { position: absolute; left: 7.3vw; bottom: 12vh; margin: 0; display: flex; gap: 14px; flex-wrap: wrap; }
+.f-links { margin: 0; display: flex; gap: 14px; flex-wrap: wrap; }
+.f-foot { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 10px 7vw 12px; background: rgba(241,234,216,0.9); color: var(--muted); font-size: 0.8125rem; }
+.f-foot p { margin: 0; max-width: 110ch; }
 .btn-dark { background: var(--b-black); }
 .burn { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; filter: blur(6px); opacity: 0; }
 .b1 { background: radial-gradient(circle at 86% 82%, #fffdf2 0%, #ffe7a0 7%, #ff9a36 15%, rgba(214,52,18,0.85) 24%, rgba(120,10,6,0.35) 34%, transparent 46%); transform-origin: 86% 82%; }
 .b2 { background: radial-gradient(circle at 12% 15%, #fffdf2 0%, #ffe7a0 7%, #ff9a36 15%, rgba(214,52,18,0.85) 24%, rgba(120,10,6,0.35) 34%, transparent 46%); transform-origin: 12% 15%; }
 .b3 { background: radial-gradient(circle at 62% 30%, #fffdf2 0%, #ffe7a0 7%, #ff9a36 15%, rgba(214,52,18,0.85) 24%, rgba(120,10,6,0.35) 34%, transparent 46%); transform-origin: 62% 30%; }
 @media (max-width: 720px) {
-  .f-circle { left: 54%; top: 56vh; width: 40vw; } .f-square { left: 38%; top: 72vh; width: 28vw; } .f-tri { left: 72%; top: 74vh; width: 24vw; }
-  .f-links { bottom: 4vh; }
+  .f-text { max-width: 86vw; }
+  .f-name { font-size: clamp(36px, min(16vw, 13vh), 120px); }
+  .f-circle { left: 54%; top: 50vh; width: 38vw; } .f-square { left: 36%; top: 64vh; width: 26vw; } .f-tri { left: 70%; top: 66vh; width: 22vw; }
 }
 
 /* Reduced motion: everything still, nothing sticky, no grain */

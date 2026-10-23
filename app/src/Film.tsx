@@ -26,6 +26,23 @@ export function Film() {
     return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(raf); };
   }, []);
 
+  // Positions are measured once; web fonts arriving later change line breaks
+  // and push every section down. Re-measure when fonts are in and whenever
+  // the page's height changes, or the last acts never reach their end.
+  useEffect(() => {
+    let timer = 0;
+    const refresh = () => { clearTimeout(timer); timer = window.setTimeout(() => ScrollTrigger.refresh(), 150); };
+    document.fonts?.ready.then(refresh);
+    window.addEventListener('load', refresh);
+    let lastH = document.documentElement.scrollHeight;
+    const ro = new ResizeObserver(() => {
+      const h = document.documentElement.scrollHeight;
+      if (Math.abs(h - lastH) > 1) { lastH = h; refresh(); }
+    });
+    ro.observe(document.body);
+    return () => { clearTimeout(timer); ro.disconnect(); window.removeEventListener('load', refresh); };
+  }, []);
+
   useGSAP(() => {
     const mm = gsap.matchMedia();
     mm.add(FULL_MOTION, () => {

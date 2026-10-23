@@ -111,12 +111,6 @@ export function App() {
         <Finale />
       </main>
       <Film />
-      <footer className="wrap foot">
-        <p>
-          Thiago Gonçalves · <a href="https://github.com/zednaked">GitHub</a>
-        </p>
-        <p className="colophon">{t(ui.colophon)}</p>
-      </footer>
     </div>
   );
 }

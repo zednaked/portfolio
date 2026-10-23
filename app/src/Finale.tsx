@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap, FULL_MOTION } from './motion';
-import { finaleUi } from './content';
+import { finaleUi, ui } from './content';
 import { useLang } from './i18n';
 
 /**
@@ -41,15 +41,21 @@ export function Finale() {
         <div className="f-circle" aria-hidden="true" />
         <div className="f-square" aria-hidden="true" />
         <div className="f-tri" aria-hidden="true" />
-        <h2 className="f-name" id="finale-name">
-          <span className="sr-only">Thiago Gonçalves</span>
-          <span aria-hidden="true"><span>{word('THIAGO')}</span><span>{word('GONÇALVES')}</span></span>
-        </h2>
-        <p className="f-role">{t(finaleUi.role)}<br /><small>{t(finaleUi.remote)}</small></p>
-        <p className="f-links">
-          <a className="btn" href="https://github.com/zednaked">GitHub</a>
-          <a className="btn btn-dark" href="https://www.linkedin.com/in/thiago-g/">LinkedIn</a>
-        </p>
+        <div className="f-text">
+          <h2 className="f-name" id="finale-name">
+            <span className="sr-only">Thiago Gonçalves</span>
+            <span aria-hidden="true"><span>{word('THIAGO')}</span><span>{word('GONÇALVES')}</span></span>
+          </h2>
+          <p className="f-role">{t(finaleUi.role)}<br /><small>{t(finaleUi.remote)}</small></p>
+          <p className="f-links">
+            <a className="btn" href="https://github.com/zednaked">GitHub</a>
+            <a className="btn btn-dark" href="https://www.linkedin.com/in/thiago-g/">LinkedIn</a>
+          </p>
+        </div>
+        {/* The footer lives on the last card, so the card ends the page whole. */}
+        <footer className="f-foot">
+          <p>Thiago Gonçalves · <a href="https://github.com/zednaked">GitHub</a> · {t(ui.colophon)}</p>
+        </footer>
         <div className="burn b1" aria-hidden="true" />
         <div className="burn b2" aria-hidden="true" />
         <div className="burn b3" aria-hidden="true" />
