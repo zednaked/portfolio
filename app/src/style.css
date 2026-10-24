@@ -90,8 +90,8 @@ a:hover {
 }
 
 /* Header: the magenta splash of the first Figma layout, painted onto the
-   paper, with the reel's signature over it: the name in Anton and the three
-   primary shapes. White type holds on the paint. */
+   paper, and the name in Anton. White type holds on the paint; the Bauhaus
+   shapes wait for the chapters and the signature at the end. */
 .top {
   position: relative;
   padding: clamp(56px, 10vw, 140px) 0 clamp(48px, 7vw, 104px);
@@ -113,9 +113,6 @@ a:hover {
 .top :focus-visible {
   outline-color: #fff;
 }
-.hero-shapes {
-  z-index: 0;
-}
 .name,
 .tagline {
   text-shadow: 0 1px 14px rgba(60, 10, 40, 0.35);
@@ -127,45 +124,9 @@ a:hover {
   position: relative;
   z-index: 1;
 }
-.hero-shapes {
-  position: absolute;
-  top: 50%;
-  right: 5vw;
-  width: min(36vw, 480px);
-  aspect-ratio: 1;
-  translate: 0 -50%;
-  pointer-events: none;
-}
-.hero-shapes i {
-  position: absolute;
-  display: block;
-}
-.h-circle {
-  top: 0;
-  right: 4%;
-  width: 62%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--b-red);
-}
-.h-square {
-  bottom: 2%;
-  left: 0;
-  width: 44%;
-  aspect-ratio: 1;
-  background: var(--b-blue);
-}
-.h-tri {
-  right: 0;
-  bottom: 2%;
-  width: 44%;
-  aspect-ratio: 1;
-  background: var(--b-yellow);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-}
-
 .name {
-  max-width: 62%;
+  /* Two lines, so the white name stays on the paint and never runs onto paper. */
+  max-width: 5.2em;
   margin: 0;
   font:
     400 clamp(3.4rem, 1.4rem + 8.4vw, 9.5rem) / 0.9 'Anton',
@@ -225,19 +186,6 @@ a:hover {
 .lang button[aria-pressed='true'] {
   background: #fff;
   color: var(--ink);
-}
-
-@media (max-width: 760px) {
-  .hero-shapes {
-    top: 16px;
-    right: -6vw;
-    width: 50vw;
-    translate: none;
-  }
-  .name {
-    max-width: none;
-    padding-top: 42vw;
-  }
 }
 
 /* White boxes with a magenta label, as in the original layout */

@@ -14,9 +14,8 @@ export function Header() {
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
-        // The splash is painted in with a diagonal brush sweep, the name rises
-        // letter by letter out of its own line box, then the three shapes land
-        // the way they assemble on the reel's last card.
+        // The splash is painted in with a diagonal brush sweep, then the name
+        // rises letter by letter out of its own line box.
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
         tl.fromTo(
           '.splash',
@@ -25,9 +24,6 @@ export function Header() {
           0,
         )
           .from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.35)
-          .from('.h-circle', { scale: 0, duration: 0.6, ease: 'back.out(1.7)' }, 0.7)
-          .from('.h-square', { xPercent: -160, rotation: -45, autoAlpha: 0, duration: 0.7, ease: 'power4.out' }, 0.8)
-          .from('.h-tri', { yPercent: 160, autoAlpha: 0, duration: 0.7, ease: 'power4.out' }, 0.9)
           .from('.role, .tagline', { y: 16, autoAlpha: 0, duration: 0.6, stagger: 0.1 }, 0.8)
           .from(
             '.lang button, .motion-btn',
@@ -35,20 +31,15 @@ export function Header() {
             0.85,
           );
 
-        // While the page scrolls, the paint and the shapes drift slower than the type.
+        // While the page scrolls, the paint drifts slower than the type.
         gsap.to('.splash', {
           yPercent: 12,
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
         });
-        gsap.to('.hero-shapes', {
-          yPercent: 18,
-          ease: 'none',
-          scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
-        });
       });
       mm.add(GENTLE_MOTION, () => {
-        gsap.from('.splash, .name, .hero-shapes, .role, .tagline, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
+        gsap.from('.splash, .name, .role, .tagline, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
       });
     },
     { scope: root },
@@ -58,11 +49,6 @@ export function Header() {
     <header className="top" ref={root}>
       <div className="tex-paper" aria-hidden="true" />
       <div className="splash" aria-hidden="true" />
-      <div className="hero-shapes" aria-hidden="true">
-        <i className="h-circle" />
-        <i className="h-square" />
-        <i className="h-tri" />
-      </div>
       <div className="wrap hero-text">
         <h1 className="name">
           <span className="sr-only">{NAME}</span>
