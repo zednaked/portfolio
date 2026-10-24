@@ -100,6 +100,7 @@ export function App() {
       <main>
         <Reel />
         <About />
+        <Proofs />
         <Marquee words={['PAINT', 'PLAY', 'CODE']} />
         <Act chapter={chapters.paint}>
           <Gallery />
@@ -110,7 +111,6 @@ export function App() {
         <Act chapter={chapters.code}>
           <WebWork />
         </Act>
-        <Proofs />
         <Finale />
       </main>
       <Film />

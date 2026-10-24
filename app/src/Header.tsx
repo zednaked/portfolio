@@ -1,10 +1,12 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion } from './motion';
-import { ui } from './content';
+import { proofs, ui } from './content';
 import { useLang } from './i18n';
 
 const NAME = 'THIAGO GONÇALVES';
+// Credits from other people's projects; the first proof is his own write-up.
+const credited = proofs.filter((p) => !p.link.includes('github.com/zednaked/')).length;
 
 export function Header() {
   const { lang, setLang, t } = useLang();
@@ -24,7 +26,7 @@ export function Header() {
           0,
         )
           .from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.35)
-          .from('.role, .tagline', { y: 16, autoAlpha: 0, duration: 0.6, stagger: 0.1 }, 0.8)
+          .from('.role, .tagline, .jump', { y: 16, autoAlpha: 0, duration: 0.6, stagger: 0.1 }, 0.8)
           .from(
             '.lang button, .motion-btn',
             { scale: 0.6, autoAlpha: 0, duration: 0.4, stagger: 0.08, ease: 'back.out(2)' },
@@ -39,7 +41,7 @@ export function Header() {
         });
       });
       mm.add(GENTLE_MOTION, () => {
-        gsap.from('.splash, .name, .role, .tagline, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
+        gsap.from('.splash, .name, .role, .tagline, .jump, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
       });
     },
     { scope: root },
@@ -68,6 +70,15 @@ export function Header() {
         </h1>
         <p className="role">{t(ui.role)}</p>
         <p className="tagline">{t(ui.tagline)}</p>
+        {/* Straight to a chapter: the acts take several screens to scroll through. */}
+        <nav className="jump" aria-label={t(ui.jump)}>
+          <a href="#paint">{t(ui.jumpPaint)}</a>
+          <a href="#play">{t(ui.jumpPlay)}</a>
+          <a href="#code">{t(ui.jumpCode)}</a>
+          <a href="#credits">
+            {t(ui.jumpCredits)} <span className="jump-n">{credited}</span>
+          </a>
+        </nav>
         <div className="lang" role="group" aria-label="Language / Idioma">
           {(['en', 'pt'] as const).map((code) => (
             <button key={code} type="button" aria-pressed={lang === code} onClick={() => setLang(code)}>

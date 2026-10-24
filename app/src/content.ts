@@ -30,6 +30,11 @@ export const ui = {
     en: 'I build interactive things for the browser, and I measure them.',
     pt: 'Construo coisas interativas para o navegador, e meço cada uma.',
   },
+  jump: { en: 'Jump to', pt: 'Ir para' },
+  jumpPaint: { en: 'Painting', pt: 'Pintura' },
+  jumpPlay: { en: 'Games', pt: 'Jogos' },
+  jumpCode: { en: 'Code', pt: 'Código' },
+  jumpCredits: { en: 'Credited by other projects', pt: 'Creditado por outros projetos' },
   aboutLabel: { en: 'About me', pt: 'Sobre mim' },
   about: {
     en: 'I learned oil painting through the classical method, and the first portraits below are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art that follow were made. I am also a gardener and a beekeeper.',
