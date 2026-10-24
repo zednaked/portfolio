@@ -1397,10 +1397,12 @@ figcaption span {
   }
 }
 
-/* Grain and halftone sit under the content: on the paper, not on the
-   paintings, screenshots and white cards. */
+/* Grain, halftone and the timecode sit under the content: on the paper, not
+   on the paintings, screenshots and white cards (the timecode over a card hid
+   the words under it). */
 .film-grain,
-.film-riso {
+.film-riso,
+.film-tc {
   z-index: 0;
 }
 .top,
