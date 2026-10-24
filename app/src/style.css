@@ -233,25 +233,26 @@ a:hover {
   color: var(--ink);
 }
 
-/* White boxes with a magenta label, as in the original layout */
+/* Section labels and lead text are set on the paper, like the cases: the
+   label in Anton over a rule in the act's colour. */
 .label {
   display: inline-block;
-  margin: 0 0 16px;
-  padding: 6px 14px;
-  background: #fff;
+  margin: 0 0 18px;
+  padding: 0 0 8px;
+  border-bottom: 4px solid var(--accent);
   color: var(--accent-text, var(--accent));
-  font-size: clamp(1.4rem, 1.1rem + 1vw, 2rem);
-  font-weight: 700;
-  line-height: 1.2;
+  font:
+    400 clamp(1.6rem, 1.2rem + 1.4vw, 2.6rem) / 1.05 'Anton',
+    sans-serif;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
 }
 
 .box {
   margin: 0;
-  padding: 20px;
-  background: #fff;
-  font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.375rem);
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
   line-height: 1.5;
-  max-width: 60ch;
+  max-width: 52ch;
 }
 
 main > section.wrap {
@@ -328,11 +329,9 @@ main > section.wrap {
 
 /* Interactive web: case cards, same white-box language as the rest */
 .web .intro {
-  margin: 0 0 24px;
-  padding: 12px 20px;
-  max-width: 60ch;
-  background: #fff;
-  font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.25rem);
+  margin: 0 0 clamp(32px, 4vw, 48px);
+  max-width: 52ch;
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.4rem);
 }
 .cases {
   display: grid;
@@ -804,8 +803,9 @@ figcaption span {
 .finale-card .tex-xerox {
   mask-image: linear-gradient(to bottom, transparent, #000 30vh);
 }
-.ch-hold.under {
-  z-index: 0;
+/* Whatever has focus in an act is visible, whatever the card's collapse. */
+.act-body:focus-within {
+  opacity: 1 !important;
 }
 .ch-shape {
   position: absolute;
@@ -1537,7 +1537,7 @@ main {
 }
 .book-row {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 320px));
   gap: 10px;
   align-items: end;
 }
@@ -1727,6 +1727,9 @@ main {
 .budget .chart .after {
   fill: var(--accent);
 }
+.budget .chart .after.faint {
+  fill-opacity: 0.25;
+}
 .budget figcaption {
   margin-top: 10px;
   color: var(--muted);
@@ -1789,4 +1792,22 @@ main {
 .exhibits li {
   background: none;
   padding: 10px 0 10px 16px;
+}
+
+/* The chart is drawn on the paper itself and doesn't react to the pointer. */
+.budget .chart,
+.budget .chart:hover {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+.budget figcaption .keys {
+  display: block;
+  margin-top: 4px;
+}
+/* A spread with its media on the right runs it off the right edge too. */
+@media (min-width: 900px) {
+  .cases > .case.spread:nth-child(even) > .shot {
+    width: calc(100% + max(0px, (100vw - 1088px) / 2));
+  }
 }

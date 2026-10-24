@@ -25,8 +25,14 @@
     <meta name="theme-color" content="#0b0b0b" />
     <!-- The reel poster is the largest paint above the fold: fetch it before the
      JS that renders it, at the size the screen needs. -->
-    <link rel="preload" as="image" href="/img/reel-poster-640.webp" fetchpriority="high" media="(max-width: 760px)" />
-    <link rel="preload" as="image" href="/img/reel-poster.webp" fetchpriority="high" media="(min-width: 761px)" />
+    <link
+      rel="preload"
+      as="image"
+      href="/img/reel-poster.webp"
+      imagesrcset="/img/reel-poster-640.webp 640w, /img/reel-poster.webp 1280w"
+      imagesizes="(max-width: 760px) 100vw, 1088px"
+      fetchpriority="high"
+    />
     <!-- The paper is the first large paint now that the header is prerendered;
      the splash is thrown in after it, so it can come second. -->
     <link rel="preload" as="image" href="/img/paper.webp" fetchpriority="high" />

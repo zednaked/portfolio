@@ -389,14 +389,29 @@ export function BudgetCase() {
                     />
                   </>
                 )}
-                <rect x={L} y={y + 17} width={x(r.after[1]) - L} height={14} className="after" />
+                {r.after[0] === r.after[1] ? (
+                  <rect x={L} y={y + 17} width={x(r.after[1]) - L} height={14} className="after" />
+                ) : (
+                  <>
+                    <rect x={L} y={y + 17} width={x(r.after[0]) - L} height={14} className="after faint" />
+                    <rect
+                      x={x(r.after[0])}
+                      y={y + 17}
+                      width={x(r.after[1]) - x(r.after[0])}
+                      height={14}
+                      className="after"
+                    />
+                  </>
+                )}
               </g>
             );
           })}
         </svg>
         <figcaption>
-          {t(budget.chart)} · <span className="key-before">{t(budget.before)}</span>{' '}
-          <span className="key-after">{t(budget.after)}</span>
+          {t(budget.chart)}
+          <span className="keys">
+            <span className="key-before">{t(budget.before)}</span> <span className="key-after">{t(budget.after)}</span>
+          </span>
         </figcaption>
         <table className="sr-only">
           <caption>{t(budget.chart)}</caption>

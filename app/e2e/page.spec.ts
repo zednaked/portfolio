@@ -196,3 +196,23 @@ test('reload and Back return to where the reader was, even with a #link', async 
   await page.goBack();
   await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 6000 }).toBeGreaterThan(here - 150);
 });
+
+test('the reel still is fetched once, at one size', async ({ page }) => {
+  const posters: string[] = [];
+  page.on('request', (r) => {
+    if (/reel-poster/.test(r.url())) posters.push(r.url());
+  });
+  await page.goto('./');
+  await page.waitForTimeout(2500);
+  expect(posters).toHaveLength(1);
+});
+
+test('on a slow CPU a #link still lands on its section and stays there', async ({ page, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CPU throttling is a Chromium DevTools feature');
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+  await page.goto('./#credits');
+  await page.waitForTimeout(9000);
+  const top = await page.locator('#credits').evaluate((e) => e.getBoundingClientRect().top);
+  expect(Math.abs(top)).toBeLessThan(200);
+});

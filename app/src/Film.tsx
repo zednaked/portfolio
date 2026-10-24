@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger, FULL_MOTION, useIdleGSAP } from './motion';
+import { gsap, ScrollTrigger, FULL_MOTION, refreshSoon, useIdleGSAP } from './motion';
 
 /**
  * Page-wide film layer, the reel's finishing pass on the web:
@@ -38,7 +38,7 @@ export function Film() {
     let timer = 0;
     const refresh = () => {
       clearTimeout(timer);
-      timer = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+      timer = window.setTimeout(refreshSoon, 150);
     };
     void document.fonts.ready.then(refresh);
     window.addEventListener('load', refresh);

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { FULL, ScrollTrigger } from './motion';
+import { FULL, ScrollTrigger, refreshSoon } from './motion';
 import { floodUi } from './content';
 import { useLang } from './i18n';
 import type { FloodScene } from './flood-scene';
@@ -43,6 +43,16 @@ export function Flood() {
     };
   }, []);
   const [ready, setReady] = useState(false);
+  // The still is much shorter than the live stage: re-measure through the one
+  // refresh, so the reader's place (or a #link's) holds.
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    refreshSoon();
+  }, [live]);
 
   useEffect(() => {
     const el = root.current;
@@ -111,19 +121,19 @@ export function Flood() {
         ) : (
           <img
             className="flood-still"
-            src={`${base}img/web-cheia.webp`}
-            width={800}
-            height={500}
+            src={`${base}img/terrain-still.webp`}
+            width={1280}
+            height={800}
             loading="lazy"
             decoding="async"
-            alt={t(floodUi.alt)}
+            alt={t(floodUi.stillAlt)}
           />
         )}
         <div className="flood-text">
           <h3 id="flood-h" className="flood-h">
             {t(floodUi.kind)}
           </h3>
-          <p>{t(floodUi.caption)}</p>
+          <p>{t(live ? floodUi.caption : floodUi.still)}</p>
           {live && (
             <p className="flood-readout" aria-hidden="true">
               <span>

@@ -223,6 +223,14 @@ export const floodUi = {
     en: 'The relief of the city and its metro area, from the data of Cheia, the flood simulator below (SRTM, about 34 m a cell). Scroll and the water line rises: the lowest ground goes under first. An illustration on the same terrain; the simulator runs the physics.',
     pt: 'O relevo da cidade e da região metropolitana, com os dados do Cheia, o simulador de enchentes logo abaixo (SRTM, cerca de 34 m por célula). Role e a linha d’água sobe: o terreno mais baixo afunda primeiro. Uma ilustração sobre o mesmo terreno; a física roda no simulador.',
   },
+  still: {
+    en: 'The relief of the city and its metro area, from the data of Cheia, the flood simulator below (SRTM, about 34 m a cell), with the water line at about 890 m: the lowest ground under first. On a screen with a GPU, the scroll raises it.',
+    pt: 'O relevo da cidade e da região metropolitana, com os dados do Cheia, o simulador de enchentes logo abaixo (SRTM, cerca de 34 m por célula), com a linha d’água em cerca de 890 m: o terreno mais baixo afunda primeiro. Numa tela com GPU, a rolagem faz a água subir.',
+  },
+  stillAlt: {
+    en: 'The terrain of Curitiba and its metro area drawn as a print, cream paper and ink contour lines, with blue water filling the valleys.',
+    pt: 'O terreno de Curitiba e da região desenhado como gravura, papel creme e curvas de nível a tinta, com água azul enchendo os vales.',
+  },
   level: { en: 'water line', pt: 'linha d’água' },
   under: { en: 'of the map below it', pt: 'do mapa abaixo dela' },
   alt: {
@@ -243,8 +251,8 @@ export const budget = {
   },
   role: { en: 'Measurement, the fix, the write-up.', pt: 'Medição, correção e o texto do método.' },
   chart: {
-    en: 'Download size of the pack (brotli), before and after, in MB',
-    pt: 'Tamanho do pacote baixado (brotli), antes e depois, em MB',
+    en: 'What the player downloads (the pack, brotli), in MB, by build. Builds 1 and 2 were measured another way (imported files, the raw pack) and are left out.',
+    pt: 'O que o jogador baixa (o pacote, brotli), em MB, por build. Os builds 1 e 2 foram medidos de outro jeito (arquivos importados, o pacote cru) e ficam de fora.',
   },
   before: { en: 'before', pt: 'antes' },
   after: { en: 'after', pt: 'depois' },
@@ -260,7 +268,10 @@ export const budget = {
     {
       value: 3,
       unit: '%',
-      label: { en: 'left to take on the first, a month later', pt: 'restando no primeiro, um mês depois' },
+      label: {
+        en: 'left to cut when the first build was measured again, a month later',
+        pt: 'restando para cortar quando o primeiro build foi medido de novo, um mês depois',
+      },
     },
   ] as Stat[],
   link: 'https://github.com/zednaked/godot-web-build-budget',
@@ -346,15 +357,6 @@ export const bookImages = [
     alt: {
       en: 'Cover of the book Artists Across Continents 2015, Artcom Expo.',
       pt: 'Capa do livro Artists Across Continents 2015, Artcom Expo.',
-    },
-  },
-  {
-    src: `${base}img/book-page.webp`,
-    width: 640,
-    height: 616,
-    alt: {
-      en: 'Page 166 of the book: a photo of Thiago holding brushes, titled "Artist: Thiago Gonçalves, Brazil".',
-      pt: 'Página 166 do livro: foto de Thiago segurando pincéis, com o título "Artist: Thiago Gonçalves, Brazil".',
     },
   },
   {

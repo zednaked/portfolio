@@ -5,8 +5,6 @@ import { reelUi } from './content';
 import { useLang } from './i18n';
 
 const base = import.meta.env.BASE_URL;
-// Same breakpoint as the preload in index.html, so the poster comes from cache.
-const SMALL = typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches;
 
 // The reel sits right under the name. Nothing downloads until play is pressed.
 export function Reel() {
@@ -58,9 +56,23 @@ export function Reel() {
   return (
     <section className="wrap reel" aria-label={t(reelUi.label)} ref={root}>
       <div className="reel-frame">
+        {/* The still is an <img> with srcset (preloaded the same way in
+            index.html and identical in the prerendered shell), so the browser
+            fetches one size of it, once. It leaves when the reel plays. */}
+        {!playing && (
+          <img
+            className="reel-shell-poster"
+            src={`${base}img/reel-poster.webp`}
+            srcSet={`${base}img/reel-poster-640.webp 640w, ${base}img/reel-poster.webp 1280w`}
+            sizes="(max-width: 760px) 100vw, 1088px"
+            width={1280}
+            height={720}
+            alt=""
+            fetchPriority="high"
+          />
+        )}
         <video
           ref={video}
-          poster={`${base}img/${SMALL ? 'reel-poster-640' : 'reel-poster'}.webp`}
           width={1280}
           height={720}
           preload="none"

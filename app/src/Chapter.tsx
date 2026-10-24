@@ -53,10 +53,12 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         .from(card.querySelector('.ch-sub'), { y: 20, opacity: 0, duration: 0.6 }, 0.4);
 
       // The exit, scrubbed by the scroll: collapse into the shape.
-      // A steady collapse. A fifth of the way in the card sinks under the act,
-      // so what is left of the shape passes behind the text, never over it,
-      // however fast the page is flung.
-      const hold = card.parentElement;
+      // A steady collapse, the card always on top. The act's content, rising
+      // underneath, stays invisible until the card is down to its last fifth
+      // and then fades in: text set on the paper has no card of its own to
+      // stand on, so it never shows through the black.
+      const body = root.current?.querySelector<HTMLElement>('.act-body');
+      const reveal = body ? gsap.quickSetter(body, 'opacity') : null;
       let collapse: gsap.core.Tween | null = null;
       collapse = gsap.fromTo(
         card,
@@ -66,10 +68,13 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top top', end: '+=35%', scrub: 0.6 },
           onUpdate: () => {
-            hold?.classList.toggle('under', (collapse?.progress() ?? 0) > 0.2);
+            reveal?.(gsap.utils.clamp(0, 1, ((collapse?.progress() ?? 0) - 0.8) / 0.2));
           },
         },
       );
+      // Hidden from the start; a refresh past the act (a link, a reload) runs
+      // the update above and shows it.
+      reveal?.(0);
       // While it holds, the shape keeps turning and the word drifts, so a held
       // finger still sees life.
       gsap.to(card.querySelector('.ch-shape'), {
@@ -83,6 +88,9 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         ease: 'none',
         scrollTrigger: { trigger: root.current, start: 'top bottom', end: '+=180%', scrub: true },
       });
+      return () => {
+        if (body) body.style.opacity = '';
+      };
     });
     mm.add(GENTLE_MOTION, () => {
       const card = root.current?.querySelector<HTMLElement>('.ch-card');
