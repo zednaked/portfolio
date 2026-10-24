@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from 'react';
+import { useRef, useState, type RefObject } from 'react';
 import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
 import { webUi, type Lang, type Stat, type Story, type WebPiece } from './content';
 import { useLang } from './i18n';
@@ -93,6 +93,23 @@ export function StoryList({ story }: { story: Story }) {
   );
 }
 
+// "Cheia, a flood simulator for Curitiba": the name set large, what it is
+// under it. A title without a comma is all name.
+function CaseTitle({ id, title }: { id: string; title: string }) {
+  const [name, ...rest] = title.split(', ');
+  return (
+    <h3 id={id} className="case-title">
+      <span className="case-name">{name}</span>
+      {rest.length > 0 && (
+        <>
+          <span className="sr-only">, </span>
+          <span className="case-kind">{rest.join(', ')}</span>
+        </>
+      )}
+    </h3>
+  );
+}
+
 export function CaseCard({ piece }: { piece: WebPiece }) {
   const { t } = useLang();
   const classes = ['case', piece.phone && 'phone', piece.compact && 'compact'].filter(Boolean).join(' ');
@@ -102,9 +119,6 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
       <i className="cn cn1" aria-hidden="true" />
       <i className="cn cn2" aria-hidden="true" />
       <i className="cn cn3" aria-hidden="true" />
-      <b className="dot dot-c" aria-hidden="true" />
-      <b className="dot dot-s" aria-hidden="true" />
-      <b className="dot dot-t" aria-hidden="true" />
       <div className="shot" style={{ aspectRatio: `${piece.width} / ${piece.height}` }}>
         {piece.video ? (
           // Muted loop, fetched only when it plays; the poster is the still.
@@ -121,7 +135,7 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
         )}
       </div>
       <div className="case-body">
-        <h3 id={`case-${piece.id}`}>{t(piece.title)}</h3>
+        <CaseTitle id={`case-${piece.id}`} title={t(piece.title)} />
         <p className="what">{t(piece.what)}</p>
         <p className="case-role">
           <strong>{t(webUi.role)}:</strong> {t(piece.role)}
@@ -159,16 +173,9 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
   );
 }
 
-// Entrance, count-up and scroll drift for every .case and section label
+// Entrance and scroll drift for every .case and section label
 // inside `root`. Shared by the web and the games sections.
 export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: string) {
-  const { lang } = useLang();
-  // Read by the counters, so a language switch doesn't replay the entrances.
-  const langRef = useRef(lang);
-  useEffect(() => {
-    langRef.current = lang;
-  }, [lang]);
-
   useIdleGSAP(() => {
     const mm = gsap.matchMedia();
     mm.add(FULL_MOTION, () => {
@@ -182,19 +189,19 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
 
       gsap.utils.toArray<HTMLElement>('.case').forEach((card) => {
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: card, start: 'top 82%', once: true },
+          scrollTrigger: { trigger: card, start: 'top 92%', once: true },
           defaults: { ease: 'power3.out' },
         });
         // opacity, never autoAlpha: visibility:hidden takes the card's links
         // out of the Tab order until the scroll reaches them.
-        tl.from(card, { y: 70, opacity: 0, duration: 0.7 });
+        tl.from(card, { y: 40, opacity: 0, duration: 0.5 });
         const shot = card.querySelector('.shot');
         if (shot) {
           tl.fromTo(
             shot,
             { clipPath: 'inset(0% 100% 0% 0%)' },
-            { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.9, ease: 'power2.inOut' },
-            0.15,
+            { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.55, ease: 'power2.inOut' },
+            0.05,
           );
         }
         tl.from(card.querySelectorAll('.chip'), { y: 10, opacity: 0, stagger: 0.05, duration: 0.35 }, 0.5);
@@ -211,9 +218,7 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
           card.querySelectorAll('.cn'),
           { scale: 1.8, opacity: 0, duration: 0.45, stagger: 0.08, ease: 'power3.out' },
           0.15,
-        )
-          .from(card.querySelectorAll('.dot'), { scale: 0, duration: 0.45, stagger: 0.12, ease: 'back.out(3)' }, 0.45)
-          .from(card.querySelectorAll('.stat-num'), { '--ghost': 0, duration: 0.01 }, 0);
+        ).from(card.querySelectorAll('.stat-num'), { '--ghost': 0, duration: 0.01 }, 0);
         // Ghosts off register, jumping a few frames after each number lands;
         // half the travel on a phone, where the digits are small.
         const g = window.innerWidth < 560 ? 0.5 : 1;
@@ -230,26 +235,14 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
           tl.set(el, { '--gx': `${2 * g}px`, '--gy': `${g}px` }, 1.5 + i * 0.12);
         });
 
-        // Numbers count up from zero to the value already in the text.
-        card.querySelectorAll<HTMLElement>('.stat-num').forEach((el, i) => {
-          const end = Number(el.dataset.value);
-          const decimals = Number(el.dataset.decimals);
-          const counter = { v: 0 };
-          tl.to(
-            counter,
-            {
-              v: end,
-              duration: 1.1,
-              ease: 'power2.out',
-              onUpdate: () => {
-                // The off-register ghosts read data-txt: keep them on the counting
-                // number, or they show the final value beside it.
-                el.textContent = el.dataset.txt = format(counter.v, decimals, langRef.current);
-              },
-            },
-            0.55 + i * 0.12,
-          );
-        });
+        // Each number rises into place already at its value: a count-up caught
+        // mid-scroll would show a figure that isn't true.
+        tl.fromTo(
+          card.querySelectorAll('.stat-num, .stat-unit'),
+          { clipPath: 'inset(100% 0% 0% 0%)', yPercent: 40 },
+          { clipPath: 'inset(0% 0% 0% 0%)', yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out' },
+          0.35,
+        );
 
         // A clip plays only while its card is on screen.
         const video = card.querySelector<HTMLVideoElement>('.shot video');
@@ -286,29 +279,10 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
       gsap.utils.toArray<HTMLElement>('.case').forEach((card) => {
         const tl = gsap.timeline({ scrollTrigger: { trigger: card, start: 'top 85%', once: true } });
         tl.from(card, { opacity: 0, duration: 0.6 }).from(
-          card.querySelectorAll('.cn, .dot'),
+          card.querySelectorAll('.cn'),
           { opacity: 0, duration: 0.5, stagger: 0.06 },
           0.3,
         );
-        card.querySelectorAll<HTMLElement>('.stat-num').forEach((el, k) => {
-          const end = Number(el.dataset.value);
-          const decimals = Number(el.dataset.decimals);
-          const counter = { v: 0 };
-          tl.to(
-            counter,
-            {
-              v: end,
-              duration: 1,
-              ease: 'power2.out',
-              onUpdate: () => {
-                // The off-register ghosts read data-txt: keep them on the counting
-                // number, or they show the final value beside it.
-                el.textContent = el.dataset.txt = format(counter.v, decimals, langRef.current);
-              },
-            },
-            0.3 + k * 0.1,
-          );
-        });
         // Clips start held here; once the visitor plays one, it pauses off screen.
         const video = card.querySelector<HTMLVideoElement>('.shot video');
         if (video) {

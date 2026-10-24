@@ -4,9 +4,9 @@ import { finaleUi, ui } from './content';
 import { useLang } from './i18n';
 
 /**
- * The end of the roll: as you reach the bottom, a film burn opens from three
- * points, flashes, and leaves the signature card, assembled from a circle,
- * a square and a triangle. All of it scrubbed by the scroll.
+ * The end of the roll: as you reach the bottom, the signature card assembles
+ * from a circle, a square and a triangle, and the name rises. All of it
+ * scrubbed by the scroll.
  */
 export function Finale() {
   const { t } = useLang();
@@ -18,27 +18,18 @@ export function Finale() {
       const tl = gsap.timeline({
         scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom bottom', scrub: 0.5 },
       });
-      tl.fromTo(
-        '.burn',
-        { scale: 0.1, opacity: 0 },
-        { scale: 2.4, opacity: 1, stagger: 0.06, duration: 0.35, ease: 'power2.in' },
-        0,
-      )
-        // The burn is gone before the shapes arrive, so red is never seen through it.
-        .to('.burn', { scale: 4, opacity: 0, stagger: 0.02, duration: 0.1, ease: 'power2.out' }, 0.38)
-        .from('.f-circle', { scale: 0, duration: 0.2, ease: 'back.out(1.7)' }, 0.48)
-        .from('.f-square', { xPercent: -220, rotation: -45, duration: 0.22, ease: 'power4.out' }, 0.5)
-        .from('.f-tri', { yPercent: 220, duration: 0.22, ease: 'power4.out' }, 0.56)
-        .from('.f-name .lt', { yPercent: 105, stagger: 0.02, duration: 0.2, ease: 'power4.out' }, 0.5)
-        .from('.f-role, .f-mail, .f-links', { opacity: 0, y: 20, stagger: 0.05, duration: 0.15 }, 0.7);
+      // The shapes arrive as the card comes up, not after a screen of paper.
+      tl.from('.f-circle', { scale: 0, duration: 0.3, ease: 'back.out(1.7)' }, 0.05)
+        .from('.f-square', { xPercent: -220, rotation: -45, duration: 0.32, ease: 'power4.out' }, 0.12)
+        .from('.f-tri', { yPercent: 220, duration: 0.32, ease: 'power4.out' }, 0.2)
+        .from('.f-name .lt', { yPercent: 105, stagger: 0.02, duration: 0.3, ease: 'power4.out' }, 0.2)
+        .from('.f-role, .f-mail, .f-links', { opacity: 0, y: 20, stagger: 0.05, duration: 0.2 }, 0.45);
     });
     mm.add(GENTLE_MOTION, () => {
       const tl = gsap.timeline({
         scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom bottom', scrub: true },
       });
-      tl.fromTo('.b3', { opacity: 0 }, { opacity: 0.9, duration: 0.3 }, 0)
-        .to('.b3', { opacity: 0, duration: 0.3 }, 0.32)
-        .from('.f-circle, .f-square, .f-tri, .f-text', { opacity: 0, stagger: 0.05, duration: 0.25 }, 0.4);
+      tl.from('.f-circle, .f-square, .f-tri, .f-text', { opacity: 0, stagger: 0.05, duration: 0.25 }, 0.1);
     });
   }, root);
 
@@ -91,9 +82,6 @@ export function Finale() {
             Thiago Gonçalves · <a href="https://github.com/zednaked">GitHub</a> · {t(ui.colophon)}
           </p>
         </footer>
-        <div className="burn b1" aria-hidden="true" />
-        <div className="burn b2" aria-hidden="true" />
-        <div className="burn b3" aria-hidden="true" />
       </div>
     </section>
   );

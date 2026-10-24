@@ -14,6 +14,8 @@ export interface Artwork {
   alt: Text;
   pixel?: boolean;
   wide?: boolean;
+  /** Average colour, shown in the frame until the painting arrives. */
+  tone: string;
 }
 
 export const ui = {
@@ -66,6 +68,7 @@ export const artworks: Artwork[] = [
   {
     id: 'pirate',
     src: `${base}img/oil-pirate-medal.webp`,
+    tone: '#76614a',
     width: 900,
     height: 1011,
     title: { en: 'Portrait of a pirate, gold medal', pt: 'Retrato de um pirata, medalha de ouro' },
@@ -81,6 +84,7 @@ export const artworks: Artwork[] = [
   {
     id: 'elder',
     src: `${base}img/oil-elder.webp`,
+    tone: '#83654a',
     width: 760,
     height: 1081,
     title: { en: 'Old man in a turban', pt: 'Ancião de turbante' },
@@ -93,6 +97,7 @@ export const artworks: Artwork[] = [
   {
     id: 'headscarf',
     src: `${base}img/oil-headscarf.webp`,
+    tone: '#a28e7d',
     width: 760,
     height: 1135,
     title: { en: 'Man in a white headscarf', pt: 'Homem de lenço branco' },
@@ -105,6 +110,7 @@ export const artworks: Artwork[] = [
   {
     id: 'rose',
     src: `${base}img/name-of-the-rose.webp`,
+    tone: '#4a4135',
     width: 514,
     height: 723,
     title: { en: 'The Name of the Rose, movie poster', pt: 'Pôster de O Nome da Rosa' },
@@ -120,6 +126,7 @@ export const artworks: Artwork[] = [
   {
     id: 'dishonored',
     src: `${base}img/dishonored-study.webp`,
+    tone: '#584f38',
     width: 505,
     height: 710,
     title: { en: 'Dishonored character study', pt: 'Estudo de personagem, Dishonored' },
@@ -135,6 +142,7 @@ export const artworks: Artwork[] = [
   {
     id: 'hectares',
     src: `${base}img/hectares-title.webp`,
+    tone: '#988c63',
     width: 422,
     height: 720,
     pixel: true,
@@ -151,6 +159,7 @@ export const artworks: Artwork[] = [
   {
     id: 'cards',
     src: `${base}img/card-game-ui.webp`,
+    tone: '#a57954',
     width: 987,
     height: 636,
     wide: true,

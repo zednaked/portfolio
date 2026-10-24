@@ -51,7 +51,7 @@ void main() {
   // first seconds, thinning as it runs.
   float cols = uAspect * 260.0;
   float cx = floor(uv.x * cols);
-  float run = step(0.9, hash(vec2(cx, 3.1))) * (0.012 + 0.045 * hash(vec2(cx, 8.7))) * smoothstep(1.2, 14.0, uTime);
+  float run = step(0.9, hash(vec2(cx, 3.1))) * (0.012 + 0.045 * hash(vec2(cx, 8.7))) * smoothstep(1.2, 7.0, uTime);
   if (run > 0.0) {
     float w = 1.0 - smoothstep(0.12, 0.38, abs(fract(uv.x * cols) - 0.5));
     for (int k = 1; k <= 4; k++) {
@@ -74,9 +74,10 @@ void main() {
   // caught by a small light that follows the pointer.
   vec2 dir = normalize(vec2(1.0, 0.6));
   vec2 q = vec2(dot(uv * vec2(uAspect, 1.0), dir), dot(uv * vec2(uAspect, 1.0), vec2(-dir.y, dir.x))) * vec2(5.0, 140.0);
-  float h = noise(q) + 0.5 * noise(q * 2.1 + 5.0);
+  float n0 = noise(q);
+  float h = n0 + 0.5 * noise(q * 2.1 + 5.0);
   float e = 0.08;
-  vec2 g = vec2(noise(q + vec2(e, 0.0)) - noise(q), noise(q + vec2(0.0, e)) - noise(q)) / e;
+  vec2 g = vec2(noise(q + vec2(e, 0.0)) - n0, noise(q + vec2(0.0, e)) - n0) / e;
   vec3 n = normalize(vec3(-g * 0.035, 1.0));
   vec2 lp = (uLight - uv) * vec2(uAspect, 1.0);
   vec3 l = normalize(vec3(lp, 0.25));
@@ -87,6 +88,8 @@ void main() {
   float a = c.a * m;
   gl_FragColor = vec4(c.rgb * a, a);
 }`;
+
+const TEX_WIDTH = 1200;
 
 export interface SplashGL {
   /** 0 → nothing painted, 1 → the whole splash. */
@@ -120,17 +123,25 @@ export function createSplashGL(
     failIfMajorPerformanceCaveat: true,
   });
   if (!gl) return null;
+  // Every way out gives the context back, so a refused GPU isn't held.
+  const release = () => {
+    gl.getExtension('WEBGL_lose_context')?.loseContext();
+    return null;
+  };
   const info = gl.getExtension('WEBGL_debug_renderer_info');
   const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
-  if (/swiftshader|llvmpipe|software/i.test(renderer)) return null;
+  if (/swiftshader|llvmpipe|software/i.test(renderer)) return release();
   const vs = compile(gl, gl.VERTEX_SHADER, VERT);
   const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) return release();
   const prog = gl.createProgram();
-  if (!vs || !fs) return null;
   gl.attachShader(prog, vs);
   gl.attachShader(prog, fs);
   gl.linkProgram(prog);
-  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return null;
+  // The program keeps what it needs; the shader objects can go.
+  gl.deleteShader(vs);
+  gl.deleteShader(fs);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return release();
   gl.useProgram(prog);
 
   const buf = gl.createBuffer();
@@ -178,19 +189,20 @@ export function createSplashGL(
   img.onerror = onFail;
   img.src = src;
 
-  // Drawn at CSS pixels at most (the paint is soft; a 2× buffer of a canvas
-  // taller than the screen would cost far more than it shows).
+  // Never more pixels than the image has: the splash is 1200 px wide, so a
+  // wider canvas would shade pixels that hold no new detail (on a 2560 px
+  // screen that is four times the work for nothing). Phones draw at 3/4.
   const resize = () => {
     const r = host.getBoundingClientRect();
-    const scale = Math.min(1, window.devicePixelRatio || 1) * (matchMedia('(pointer: coarse)').matches ? 0.75 : 1);
+    const scale = Math.min(1, TEX_WIDTH / Math.max(1, r.width)) * (matchMedia('(pointer: coarse)').matches ? 0.75 : 1);
     canvas.width = Math.max(1, Math.round(r.width * scale));
     canvas.height = Math.max(1, Math.round(r.height * scale));
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.uniform1f(uAspect, r.width / Math.max(1, r.height));
+    // Resizing clears the buffer: draw again, even if everything was still.
+    loop();
   };
   const ro = new ResizeObserver(resize);
-  ro.observe(host);
-  resize();
 
   const onMove = (e: PointerEvent) => {
     const r = host.getBoundingClientRect();
@@ -219,8 +231,8 @@ export function createSplashGL(
   };
   document.addEventListener('visibilitychange', onVis);
 
-  const onLost = (e: Event) => {
-    e.preventDefault();
+  // No restore: if the GPU drops the context, the CSS splash takes over.
+  const onLost = () => {
     cancelAnimationFrame(raf);
     canvas.remove();
     onFail();
@@ -249,15 +261,19 @@ export function createSplashGL(
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     // Draw while something moves: the throw, the drips (first seconds), or
     // the pointer just now. Then the canvas holds its last frame for free.
-    if (reveal.value < 1 || t < 15 || now - lastMove < 1500) loop();
+    if (reveal.value < 1 || t < 8 || now - lastMove < 1500) loop();
   };
   const loop = () => {
     if (!raf) raf = requestAnimationFrame(frame);
   };
+  ro.observe(host);
+  resize();
 
   return {
     reveal,
     destroy: () => {
+      img.onload = null;
+      img.onerror = null;
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
@@ -265,7 +281,10 @@ export function createSplashGL(
       document.removeEventListener('visibilitychange', onVis);
       canvas.removeEventListener('webglcontextlost', onLost);
       canvas.remove();
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      gl.deleteTexture(tex);
+      gl.deleteBuffer(buf);
+      gl.deleteProgram(prog);
+      release();
     },
   };
 }

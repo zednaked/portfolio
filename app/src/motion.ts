@@ -80,6 +80,8 @@ function restore(a: ReturnType<typeof anchor>) {
 function switchTo(pref: MotionPref) {
   if (pref === motionPref) return;
   const a = anchor();
+  // The remount replaces the button too: keep keyboard users on it.
+  const refocus = document.activeElement?.classList.contains('motion-btn') ?? false;
   apply(pref);
   switched = true;
   version++;
@@ -87,16 +89,27 @@ function switchTo(pref: MotionPref) {
     fn();
   });
   // Once after the new page paints, and again after the deferred sections
-  // have built their triggers (pins add height).
+  // have built their triggers (pins add height), unless the reader has
+  // scrolled on their own by then.
+  let moved = false;
+  const stop = () => (moved = true);
+  const inputs = ['wheel', 'touchstart', 'keydown'] as const;
+  inputs.forEach((type) => {
+    window.addEventListener(type, stop, { once: true, passive: true });
+  });
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       ScrollTrigger.refresh();
       restore(a);
+      if (refocus) document.querySelector<HTMLElement>('.motion-btn')?.focus({ preventScroll: true });
     });
   });
   window.setTimeout(() => {
+    inputs.forEach((type) => {
+      window.removeEventListener(type, stop);
+    });
     ScrollTrigger.refresh();
-    restore(a);
+    if (!moved) restore(a);
   }, 1300);
 }
 

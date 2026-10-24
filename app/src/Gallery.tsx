@@ -17,7 +17,8 @@ export function Gallery() {
 
   // Native lazy loading looks at vertical distance only, and the strip sits
   // pinned: every painting "to the side" was fetched on the first load. Each
-  // one is fetched when it comes within a screen of view, in either axis.
+  // one is fetched when it comes within two screens of view, in either axis;
+  // until it lands, its frame holds the painting's average colour.
   useEffect(() => {
     const imgs = root.current?.querySelectorAll<HTMLImageElement>('.gallery img[data-src]');
     if (!imgs) return;
@@ -29,7 +30,7 @@ export function Gallery() {
           io.unobserve(e.target);
         }
       },
-      { rootMargin: '600px 100%' },
+      { rootMargin: '1200px 200%' },
     );
     imgs.forEach((img) => io.observe(img));
     return () => io.disconnect();
@@ -192,7 +193,7 @@ export function Gallery() {
                 data-src={art.src}
                 width={art.width}
                 height={art.height}
-                style={{ '--r': art.height / art.width } as CSSProperties}
+                style={{ '--r': art.height / art.width, backgroundColor: art.tone } as CSSProperties}
                 decoding="async"
                 alt={t(art.alt)}
                 className={art.pixel ? 'pixel' : undefined}

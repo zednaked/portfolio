@@ -51,15 +51,21 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         .from(card.querySelector('.ch-sub'), { y: 20, opacity: 0, duration: 0.6 }, 0.4);
 
       // The exit, scrubbed by the scroll: collapse into the shape.
-      // A steady collapse; the act's content starts low enough that the
-      // case text only arrives once the shape has shrunk to its point.
-      gsap.fromTo(
+      // A steady collapse. Past a third of it the card sinks under the act,
+      // so what is left of the shape passes behind the text, never over it,
+      // however fast the page is flung.
+      const hold = card.parentElement;
+      let collapse: gsap.core.Tween | null = null;
+      collapse = gsap.fromTo(
         card,
         { clipPath: start },
         {
           clipPath: end,
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top top', end: '+=35%', scrub: 0.6 },
+          onUpdate: () => {
+            hold?.classList.toggle('under', (collapse?.progress() ?? 0) > 0.33);
+          },
         },
       );
       // While it holds, the shape keeps turning and the word drifts, so a held

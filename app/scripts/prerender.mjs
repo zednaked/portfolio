@@ -6,7 +6,7 @@
 // copied out as plain markup. The type and the paint in the header stay hidden
 // in this shell: the opening still plays them in when the app mounts and
 // replaces the shell, so nothing is shown and then taken away.
-/* global document */
+/* global document, getComputedStyle */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { preview } from 'vite';
 import { chromium } from '@playwright/test';
@@ -19,7 +19,9 @@ try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
   await page.goto(`http://127.0.0.1:${PORT}/portfolio/?lang=en`);
   await page.waitForSelector('main .reel');
-  await page.waitForTimeout(1500);
+  // Fonts in and the gentle fades finished, so the copy is the settled page.
+  await page.evaluate(() => document.fonts.ready);
+  await page.waitForFunction(() => getComputedStyle(document.querySelector('.reel')).opacity === '1');
   const shell = await page.evaluate(() => {
     const strip = (el) => {
       const copy = el.cloneNode(true);

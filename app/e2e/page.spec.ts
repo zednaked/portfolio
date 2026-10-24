@@ -128,3 +128,12 @@ test('the motion switch applies at once, keeping the language and the place', as
   const after = await card.evaluate((e) => e.getBoundingClientRect().top);
   expect(Math.abs(after - before)).toBeLessThan(120);
 });
+
+test('the motion switch keeps keyboard focus on itself', async ({ page }) => {
+  await page.goto('./');
+  const motion = page.locator('.motion-btn');
+  await motion.focus();
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(300);
+  await expect(page.locator('.motion-btn')).toBeFocused();
+});
