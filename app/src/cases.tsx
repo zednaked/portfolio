@@ -134,7 +134,11 @@ function CaseTitle({ id, title }: { id: string; title: string }) {
 
 export function CaseCard({ piece }: { piece: WebPiece }) {
   const { t } = useLang();
-  const classes = ['case', piece.phone && 'phone', piece.compact && 'compact'].filter(Boolean).join(' ');
+  // The big cases are laid out as spreads on the paper; the small ones are cards.
+  const spread = !piece.compact && !piece.phone;
+  const classes = ['case', piece.phone && 'phone', piece.compact && 'compact', spread && 'spread']
+    .filter(Boolean)
+    .join(' ');
   return (
     <article className={classes} aria-labelledby={`case-${piece.id}`}>
       <i className="cn cn0" aria-hidden="true" />
