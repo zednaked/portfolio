@@ -88,8 +88,12 @@ paintings off screen are fetched only when they come near.
 ## Tests
 
 - **Unit** (`src/test`, Vitest + Testing Library + jsdom): language selection
-  and persistence, number formatting per locale, the gallery viewer (opens,
+  and persistence, deferred ScrollTriggers removed on unmount, number formatting per locale, the gallery viewer (opens,
   focuses Close, closes on Esc, returns focus), the clip pause control.
+- **GPU** (`e2e/gpu.spec.ts`, opt-in with `GPU=1`): CI runners have no GPU and
+  the splash refuses software GL, so the WebGL path is tested on a machine
+  with one: paint coverage measured on a real screenshot, before and after a
+  resize once the canvas has gone idle.
 - **End to end** (`e2e`, Playwright + axe): no console errors, no WCAG
   violations in either language, language switch, every strip painting on
   screen when focused, finale links visible on focus, reel play moves focus to

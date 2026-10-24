@@ -16,8 +16,26 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
   },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },
-    { name: 'phone', use: { ...devices['Pixel 7'] } },
-    { name: 'reduced', use: { ...devices['Desktop Chrome'], reducedMotion: 'reduce' } },
+    {
+      name: 'desktop',
+      testIgnore: 'gpu.spec.ts',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
+    },
+    { name: 'phone', testIgnore: 'gpu.spec.ts', use: { ...devices['Pixel 7'] } },
+    { name: 'reduced', testIgnore: 'gpu.spec.ts', use: { ...devices['Desktop Chrome'], reducedMotion: 'reduce' } },
+    // The WebGL path needs a real GPU, which CI runners don't have: GPU=1 opts in.
+    ...(process.env.GPU
+      ? [
+          {
+            name: 'gpu',
+            testMatch: 'gpu.spec.ts',
+            use: {
+              ...devices['Desktop Chrome'],
+              viewport: { width: 1280, height: 800 },
+              launchOptions: { executablePath, args: ['--use-angle=gl', '--enable-gpu', '--ignore-gpu-blocklist'] },
+            },
+          },
+        ]
+      : []),
   ],
 });
