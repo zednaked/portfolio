@@ -90,8 +90,19 @@ export function Header() {
         };
       });
       mm.add(GENTLE_MOTION, () => {
-        if (!switched)
-          gsap.from('.splash, .name, .role, .tagline, .jump, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
+        if (switched) return;
+        // White type needs the paint under it: hold the fade until the splash
+        // image is in (3 s at most), or slow connections get white on paper.
+        const tl = gsap.timeline({ paused: true });
+        // Controls (shortcuts, language) are there at once; only the paint and
+        // the words fade, so nothing a reader can press is ever half-visible.
+        tl.from('.splash, .name, .role, .tagline', { opacity: 0, duration: 0.8, stagger: 0.12 });
+        const img = new Image();
+        img.src = `${import.meta.env.BASE_URL}img/splash.webp`;
+        const go = () => tl.play();
+        void img.decode().then(go, go);
+        const late = window.setTimeout(go, 3000);
+        return () => window.clearTimeout(late);
       });
     },
     { scope: root },
