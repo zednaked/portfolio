@@ -165,7 +165,7 @@ export function Marquee({ words }: { words: string[] }) {
         {line.map((w, i) => (
           <span key={i} className={`mq mq${i % 3}`}>
             {w}
-            <b>{['●', '■', '▲'][i % 3]}</b>
+            <b>{['●', '▲', '■'][i % 3]}</b>
           </span>
         ))}
       </div>

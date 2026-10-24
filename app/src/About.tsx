@@ -34,30 +34,34 @@ export function About() {
 
   return (
     <section className="wrap about" aria-labelledby="about-h" ref={root}>
-      <img
-        className="portrait"
-        src={`${import.meta.env.BASE_URL}img/portrait.webp`}
-        width={400}
-        height={399}
-        alt={t(ui.portraitAlt)}
-        fetchPriority="high"
-      />
-      <div>
-        <h2 className="label" id="about-h">
-          {t(ui.aboutLabel)}
-        </h2>
-        <p className="box">{t(ui.about)}</p>
-        <h3 className="exhibits-h">{t(ui.exhibitsLabel)}</h3>
-        <ul className="exhibits">
-          {exhibits.map((ex) => (
-            <li key={ex.when.en}>
-              <strong>{t(ex.when)}</strong>
-              <span>{t(ex.what)}</span>
-            </li>
-          ))}
-        </ul>
+      {/* Portrait and record in their own grid: the sticky portrait stops
+          at the end of the record instead of riding over the book. */}
+      <div className="about-main">
+        <img
+          className="portrait"
+          src={`${import.meta.env.BASE_URL}img/portrait.webp`}
+          width={400}
+          height={399}
+          alt={t(ui.portraitAlt)}
+          fetchPriority="high"
+        />
+        <div>
+          <h2 className="label" id="about-h">
+            {t(ui.aboutLabel)}
+          </h2>
+          <p className="box">{t(ui.about)}</p>
+          <h3 className="exhibits-h">{t(ui.exhibitsLabel)}</h3>
+          <ul className="exhibits">
+            {exhibits.map((ex) => (
+              <li key={ex.when.en}>
+                <strong>{t(ex.when)}</strong>
+                <span>{t(ex.what)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-      {/* The book runs the full width, under the portrait and the record. */}
+      {/* The book, under the portrait and the record. */}
       <figure className="book">
         <div className="book-row">
           {bookImages.map((img) => (

@@ -306,9 +306,11 @@ main > section.wrap {
 }
 
 @media (min-width: 720px) {
-  .about {
+  .about-main {
+    display: grid;
     grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
     gap: 32px 56px;
+    align-items: start;
   }
   /* The portrait stays beside the record as it scrolls; the book spans both. */
   .about .portrait {
@@ -316,7 +318,6 @@ main > section.wrap {
     top: 12vh;
   }
   .about .book {
-    grid-column: 1 / -1;
     margin: 0;
   }
 }
@@ -900,10 +901,10 @@ figcaption span {
   color: var(--b-red);
 }
 .mq1 b {
-  color: var(--b-blue);
+  color: var(--b-yellow);
 }
 .mq2 b {
-  color: var(--b-yellow);
+  color: var(--b-blue);
 }
 .mq1 {
   color: transparent;
@@ -1810,4 +1811,10 @@ main {
   .cases > .case.spread:nth-child(even) > .shot {
     width: calc(100% + max(0px, (100vw - 1088px) / 2));
   }
+}
+
+/* The book plate is as wide as the book, not the column. */
+.about .book {
+  width: fit-content;
+  max-width: 100%;
 }

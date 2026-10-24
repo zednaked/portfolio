@@ -59,8 +59,8 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
       // stand on, so it never shows through the black.
       const body = root.current?.querySelector<HTMLElement>('.act-body');
       const reveal = body ? gsap.quickSetter(body, 'opacity') : null;
-      // The card's words leave in the first third of the collapse, so the
-      // clip never slices them into fragments; the shape collapses alone.
+      // The card's words leave before the clip slices them into fragments;
+      // the shape finishes the collapse alone.
       const words = card.querySelectorAll('.ch-num, .ch-word, .ch-frag, .ch-sub');
       const fadeWords = gsap.quickSetter(words, 'opacity') as (value: number) => void;
       let collapse: gsap.core.Tween | null = null;
@@ -73,8 +73,10 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
           scrollTrigger: { trigger: root.current, start: 'top top', end: '+=35%', scrub: 0.6 },
           onUpdate: () => {
             const p = collapse?.progress() ?? 0;
-            reveal?.(gsap.utils.clamp(0, 1, (p - 0.8) / 0.2));
-            fadeWords(gsap.utils.clamp(0, 1, 1 - p / 0.3));
+            // The words hold until the clip reaches them; the act comes up as
+            // they go, so there is never a screen of bare paper and a shape.
+            fadeWords(gsap.utils.clamp(0, 1, 1 - (p - 0.35) / 0.35));
+            reveal?.(gsap.utils.clamp(0, 1, (p - 0.62) / 0.25));
           },
         },
       );

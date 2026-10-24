@@ -236,8 +236,8 @@ export const budget = {
 export const webUi = {
   label: { en: 'Built, then measured', pt: 'Construído, depois medido' },
   intro: {
-    en: 'For the browser and the desktop, each with the number I measured.',
-    pt: 'Para o navegador e para a área de trabalho, cada um com o número que medi.',
+    en: 'A flood simulator, a synth, two desktop plugins, a playable ad, and the builds of twenty-odd shipped games.',
+    pt: 'Um simulador de enchentes, um sintetizador, dois plugins de área de trabalho, um anúncio jogável e os builds de mais de vinte jogos publicados.',
   },
   role: { en: 'My role', pt: 'Meu papel' },
   live: { en: 'Open it live', pt: 'Abrir no ar' },
@@ -607,9 +607,31 @@ export const gamesUi = {
 
 export const games: WebPiece[] = [
   {
+    id: 'rinha',
+    img: `${base}img/game-rinha.webp`,
+    video: `${base}video/game-rinha.mp4`,
+    width: 800,
+    height: 450,
+    liveLabel: play,
+    title: { en: 'Rinha, a tactical RTS', pt: 'Rinha, um RTS tático' },
+    what: {
+      en: 'Real-time strategy in the browser. Here, four AI players on Hard, watched in spectator mode.',
+      pt: 'Estratégia em tempo real no navegador. Aqui, quatro IAs no modo difícil, vistas no modo espectador.',
+    },
+    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
+    tech: ['Godot 4', 'HTML5'],
+    stats: [],
+    alt: {
+      en: 'Rinha in spectator mode: a top-down map with a base, units in blue, a minimap in the corner and a score panel for four AI players.',
+      pt: 'Rinha no modo espectador: um mapa visto de cima com uma base, unidades em azul, um minimapa no canto e o placar de quatro IAs.',
+    },
+    live: 'https://zedcave.itch.io/rinha',
+  },
+  {
     id: 'ciberteia',
     img: `${base}img/game-ciberteia.webp`,
     width: 800,
+    compact: true,
     height: 450,
     liveLabel: play,
     title: {
@@ -692,28 +714,6 @@ export const games: WebPiece[] = [
       pt: 'O Rei da Boca em primeira pessoa: uma mão segurando uma pistola num pátio ensolarado, com o menu da base aberto sobre uma bancada.',
     },
     live: 'https://zedcave.itch.io/o-rei-da-boca',
-  },
-  {
-    id: 'rinha',
-    img: `${base}img/game-rinha.webp`,
-    video: `${base}video/game-rinha.mp4`,
-    width: 800,
-    height: 450,
-    compact: true,
-    liveLabel: play,
-    title: { en: 'Rinha, a tactical RTS', pt: 'Rinha, um RTS tático' },
-    what: {
-      en: 'Real-time strategy in the browser. Here, four AI players on Hard, watched in spectator mode.',
-      pt: 'Estratégia em tempo real no navegador. Aqui, quatro IAs no modo difícil, vistas no modo espectador.',
-    },
-    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
-    tech: ['Godot 4', 'HTML5'],
-    stats: [],
-    alt: {
-      en: 'Rinha in spectator mode: a top-down map with a base, units in blue, a minimap in the corner and a score panel for four AI players.',
-      pt: 'Rinha no modo espectador: um mapa visto de cima com uma base, unidades em azul, um minimapa no canto e o placar de quatro IAs.',
-    },
-    live: 'https://zedcave.itch.io/rinha',
   },
 ];
 
