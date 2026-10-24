@@ -1294,6 +1294,10 @@ figcaption span {
 /* Whatever has focus in the finale is visible, whatever the scroll has played. */
 .f-text:focus-within,
 .reel-play:focus-visible,
+.case:focus-within,
+.piece:focus-within,
+.jump:focus-within,
+.lang:focus-within button,
 .f-text:focus-within .f-role,
 .f-text:focus-within .f-mail,
 .f-text:focus-within .f-links,
@@ -1367,4 +1371,17 @@ figcaption span {
   .story div {
     grid-template-columns: 1fr;
   }
+}
+
+/* Reduced motion: the chapter card is a screen of its own, followed by the
+   act, never laid over it, so nothing fades with text showing through. */
+.motion-reduced .ch-hold {
+  height: auto;
+  margin-bottom: 0;
+}
+.motion-reduced .ch-card {
+  position: relative;
+}
+.motion-reduced .act-body {
+  padding-top: 12vh;
 }

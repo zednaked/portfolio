@@ -60,7 +60,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
           // shape uncovers the first lines as they come up and is gone
           // before they reach the top of the screen.
           ease: 'none',
-          scrollTrigger: { trigger: root.current, start: 'top top', end: '+=55%', scrub: 0.6 },
+          scrollTrigger: { trigger: root.current, start: 'top top', end: '+=35%', scrub: 0.6 },
         },
       );
       // While it holds, the shape keeps turning and the word drifts, so a held
@@ -85,12 +85,6 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         duration: 0.8,
         stagger: 0.12,
         scrollTrigger: { trigger: root.current, start: 'top 75%', once: true },
-      });
-      // No travel: the card dissolves into the act underneath.
-      gsap.to(card, {
-        opacity: 0,
-        ease: 'none',
-        scrollTrigger: { trigger: root.current, start: 'top top', end: '+=55%', scrub: true },
       });
     });
   }, root);

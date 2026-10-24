@@ -34,8 +34,8 @@ function About() {
           .from('.box', { y: 24, duration: 0.6 }, 0.4)
           // The award pops in like a stamp. It grows from smaller than its
           // final size, so its first paint never outranks the text box as LCP.
-          .from('.award', { scale: 0.7, rotation: -8, autoAlpha: 0, duration: 0.5, ease: 'back.out(2.2)' }, 0.85)
-          .from('.show', { x: -20, autoAlpha: 0, duration: 0.45 }, 1.1);
+          .from('.award', { scale: 0.7, rotation: -8, opacity: 0, duration: 0.5, ease: 'back.out(2.2)' }, 0.85)
+          .from('.show', { x: -20, opacity: 0, duration: 0.45 }, 1.1);
       });
     },
     { scope: root },

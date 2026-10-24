@@ -24,10 +24,10 @@ export function Header() {
           0,
         )
           .from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.35)
-          .from('.role, .tagline, .jump', { y: 16, autoAlpha: 0, duration: 0.6, stagger: 0.1 }, 0.8)
+          .from('.role, .tagline, .jump', { y: 16, opacity: 0, duration: 0.6, stagger: 0.1 }, 0.8)
           .from(
             '.lang button, .motion-btn',
-            { scale: 0.6, autoAlpha: 0, duration: 0.4, stagger: 0.08, ease: 'back.out(2)' },
+            { scale: 0.6, opacity: 0, duration: 0.4, stagger: 0.08, ease: 'back.out(2)' },
             0.85,
           );
 

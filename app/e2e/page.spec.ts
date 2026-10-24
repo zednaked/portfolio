@@ -68,3 +68,40 @@ test('starting the reel moves focus to the video', async ({ page }) => {
   await page.locator('.reel-play').click();
   await expect(page.locator('.reel video')).toBeFocused();
 });
+
+// The way a keyboard user meets the page: from the top, no scrolling first.
+// Every stop must be on screen and actually visible, and the cases must be
+// reachable (an autoAlpha entrance once hid them from Tab until scrolled to).
+test('a keyboard walk from the top reaches every section, all of it visible', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'keyboard walk is a desktop concern');
+  await page.goto('./');
+  await page.waitForTimeout(1500);
+  const stops: string[] = [];
+  for (let i = 0; i < 80; i++) {
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(450);
+    const stop = await page.evaluate(() => {
+      const el = document.activeElement as HTMLElement | null;
+      if (!el || el === document.body) return null;
+      const r = el.getBoundingClientRect();
+      let opacity = 1;
+      for (let n: HTMLElement | null = el; n; n = n.parentElement) opacity *= Number(getComputedStyle(n).opacity);
+      return {
+        label: (el.getAttribute('aria-label') || el.textContent || el.tagName).trim().slice(0, 40),
+        inView: r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth,
+        visible: getComputedStyle(el).visibility !== 'hidden' && opacity > 0.9,
+      };
+    });
+    if (!stop) continue;
+    if (stops.length && stop.label === stops[0]) break; // wrapped around
+    stops.push(stop.label);
+    expect(stop.inView, `"${stop.label}" is off screen`).toBe(true);
+    expect(stop.visible, `"${stop.label}" is invisible`).toBe(true);
+  }
+  for (const reachable of ['Play it', 'Open it live', 'zednaked@gmail.com']) {
+    expect(
+      stops.some((s) => s.includes(reachable)),
+      `${reachable} never takes focus`,
+    ).toBe(true);
+  }
+});

@@ -182,7 +182,9 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
           scrollTrigger: { trigger: card, start: 'top 82%', once: true },
           defaults: { ease: 'power3.out' },
         });
-        tl.from(card, { y: 70, autoAlpha: 0, duration: 0.7 });
+        // opacity, never autoAlpha: visibility:hidden takes the card's links
+        // out of the Tab order until the scroll reaches them.
+        tl.from(card, { y: 70, opacity: 0, duration: 0.7 });
         const shot = card.querySelector('.shot');
         if (shot) {
           tl.fromTo(
@@ -192,7 +194,7 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
             0.15,
           );
         }
-        tl.from(card.querySelectorAll('.chip'), { y: 10, autoAlpha: 0, stagger: 0.05, duration: 0.35 }, 0.5);
+        tl.from(card.querySelectorAll('.chip'), { y: 10, opacity: 0, stagger: 0.05, duration: 0.35 }, 0.5);
         // The reel's micro chain: exposure kiss, viewfinder corners, three small shapes.
         const media = card.querySelector('.shot img, .shot video');
         if (media)
