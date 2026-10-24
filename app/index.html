@@ -33,10 +33,9 @@
       imagesizes="(max-width: 760px) 100vw, 1088px"
       fetchpriority="high"
     />
-    <!-- The paper is the first large paint now that the header is prerendered;
-     the splash is thrown in after it, so it can come second. -->
+    <!-- The paper is the first large paint now that the header is prerendered.
+     The splash is not preloaded: it is thrown in after the app has run. -->
     <link rel="preload" as="image" href="/img/paper.webp" fetchpriority="high" />
-    <link rel="preload" as="image" href="/img/splash.webp" fetchpriority="low" />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/anton.woff2" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -49,9 +48,11 @@
     />
     <noscript
       ><style>
-        .shell .hero-text,
-        .shell .splash {
+        .shell .hero-text {
           visibility: visible;
+        }
+        .shell .splash {
+          display: block;
         }
       </style></noscript
     >

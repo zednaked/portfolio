@@ -112,9 +112,14 @@ a:hover {
 }
 /* The prerendered first screen (scripts/prerender.mjs): the header's type and
    paint wait for the opening; the reel poster paints at once. */
-.shell .hero-text,
-.shell .splash {
+.shell .hero-text {
   visibility: hidden;
+}
+/* Not just hidden: a hidden element's background image is still fetched, and
+   the 143 KB splash would compete with the paper and the poster for the
+   first screen's bandwidth. It arrives with the app instead. */
+.shell .splash {
+  display: none;
 }
 
 .reel-shell-poster {
