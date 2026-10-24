@@ -2,7 +2,8 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion, switched } from './motion';
 import { ui } from './content';
-import { createSplashGL } from './splash-gl';
+import type { SplashGL } from './splash-gl';
+import { hasGPU } from './gpu';
 import { useLang } from './i18n';
 
 const NAME = 'THIAGO GONÇALVES';
@@ -29,35 +30,44 @@ export function Header() {
         // The image stays hidden until the shader can draw it (or fails and
         // the sweep paints it instead).
         gsap.set('.splash', { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' });
-        const paint = splash
-          ? createSplashGL(
-              splash,
-              `${import.meta.env.BASE_URL}img/splash.webp`,
-              () => {
-                splash.classList.add('gl-on');
-                gsap.set(splash, { clipPath: 'none' });
-                // After a motion switch the opening has been seen: no replay.
-                if (switched) {
-                  if (paint) paint.reveal.value = 1;
-                  return;
-                }
-                // Thrown fast and settling slow, from the moment the image is in
-                // (started earlier, a slow connection would miss the throw).
-                gsap.to(paint?.reveal ?? {}, { value: 1, duration: 1.9, ease: 'power2.out' });
-                // White type needs paint under it: the name waits for the throw.
-                gsap.delayedCall(0.55, () => tl.play());
-              },
-              () => {
-                splash.classList.remove('gl-on');
-                sweep();
-                tl.play();
-              },
-            )
-          : null;
-        if (paint) {
+        // The shader is its own small chunk, fetched at once: it waits for the
+        // image anyway, and the entry chunk stays lean.
+        let paint: SplashGL | null = null;
+        let gone = false;
+        const fail = () => {
+          splash?.classList.remove('gl-on');
+          sweep();
+          tl.play();
+        };
+        if (splash && hasGPU()) {
           tl.pause();
           // If the image is slow, the name doesn't wait forever.
           gsap.delayedCall(2.5, () => tl.play());
+          import('./splash-gl')
+            .then(({ createSplashGL }) => {
+              if (gone) return;
+              paint = createSplashGL(
+                splash,
+                `${import.meta.env.BASE_URL}img/splash.webp`,
+                () => {
+                  splash.classList.add('gl-on');
+                  gsap.set(splash, { clipPath: 'none' });
+                  // After a motion switch the opening has been seen: no replay.
+                  if (switched) {
+                    if (paint) paint.reveal.value = 1;
+                    return;
+                  }
+                  // Thrown fast and settling slow, from the moment the image is
+                  // in (started earlier, a slow connection would miss the throw).
+                  gsap.to(paint?.reveal ?? {}, { value: 1, duration: 1.9, ease: 'power2.out' });
+                  // White type needs paint under it: the name waits for the throw.
+                  gsap.delayedCall(0.55, () => tl.play());
+                },
+                fail,
+              );
+              if (!paint) fail();
+            })
+            .catch(fail);
         } else tl.add(sweep(), 0);
         tl.from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.35)
           .from('.role, .tagline, .jump', { y: 16, opacity: 0, duration: 0.6, stagger: 0.1 }, 0.8)
@@ -74,7 +84,10 @@ export function Header() {
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
         });
-        return () => paint?.destroy();
+        return () => {
+          gone = true;
+          paint?.destroy();
+        };
       });
       mm.add(GENTLE_MOTION, () => {
         if (!switched)

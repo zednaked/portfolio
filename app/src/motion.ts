@@ -107,25 +107,32 @@ function restore(a: ReturnType<typeof anchor>) {
 // reload left off) before the lazy sections and their pins exist, and lands
 // short. The page does it itself once the sections are built, unless the
 // reader has started scrolling by then.
-let arrival: (() => void) | null = null;
+// One place the page owes the reader, kept until the deferred sections have
+// built (each refresh puts it back) or until the reader scrolls on their own.
+let owed: (() => void) | null = null;
+let owedTimer = 0;
+function owe(place: () => void, ms: number) {
+  owed = place;
+  clearTimeout(owedTimer);
+  owedTimer = window.setTimeout(() => (owed = null), ms);
+}
+(['wheel', 'touchstart', 'keydown'] as const).forEach((type) => {
+  window.addEventListener(type, () => (owed = null), { passive: true });
+});
+
 try {
   history.scrollRestoration = 'manual';
+  const key = `scrollY:${location.pathname}${location.search}`;
   const target = decodeURIComponent(location.hash.slice(1));
   const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
-  const left = nav?.type === 'reload' ? Number(sessionStorage.getItem('scrollY')) : 0;
-  if (target || left)
-    arrival = () => {
-      const el = target ? document.getElementById(target) : null;
-      if (el) el.scrollIntoView();
-      else if (left) window.scrollTo(0, left);
-    };
-  const settle = () => (arrival = null);
-  (['wheel', 'touchstart', 'keydown'] as const).forEach((type) => {
-    window.addEventListener(type, settle, { once: true, passive: true });
-  });
-  window.setTimeout(settle, 4000);
+  // Reload and Back return to where the reader was, before any #link: the
+  // place they left is the one they meant.
+  const back = nav?.type === 'reload' || nav?.type === 'back_forward';
+  const left = back ? Number(sessionStorage.getItem(key)) : 0;
+  if (left) owe(() => window.scrollTo(0, left), 4000);
+  else if (target) owe(() => document.getElementById(target)?.scrollIntoView(), 4000);
   window.addEventListener('pagehide', () => {
-    sessionStorage.setItem('scrollY', String(Math.round(window.scrollY)));
+    sessionStorage.setItem(key, String(Math.round(window.scrollY)));
   });
 } catch {
   // Storage or history blocked: the browser's own behaviour stands.
@@ -142,32 +149,12 @@ function switchTo(pref: MotionPref) {
   listeners.forEach((fn) => {
     fn();
   });
-  // Once after the new page paints, and again after the deferred sections
-  // have built their triggers (pins add height), unless the reader has
-  // scrolled on their own by then.
-  let moved = false;
-  const stop = () => (moved = true);
-  const inputs = ['wheel', 'touchstart', 'keydown'] as const;
-  inputs.forEach((type) => {
-    window.addEventListener(type, stop, { once: true, passive: true });
-  });
+  // The place is put back each time the remounted sections finish building
+  // their triggers (pins add height), not on a guess of how long that takes.
+  owe(() => restore(a), 3000);
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      try {
-        ScrollTrigger.refresh();
-      } finally {
-        restore(a);
-        if (refocus) document.querySelector<HTMLElement>('.motion-btn')?.focus({ preventScroll: true });
-      }
-    });
+    if (refocus) document.querySelector<HTMLElement>('.motion-btn')?.focus({ preventScroll: true });
   });
-  window.setTimeout(() => {
-    inputs.forEach((type) => {
-      window.removeEventListener(type, stop);
-    });
-    ScrollTrigger.refresh();
-    if (!moved) restore(a);
-  }, 1300);
 }
 
 /** The Motion button: applies at once, and the choice is kept. */
@@ -196,7 +183,7 @@ function refreshSoon() {
   refreshTimer = window.setTimeout(() => {
     ScrollTrigger.sort();
     ScrollTrigger.refresh();
-    arrival?.();
+    owed?.();
   }, 120);
 }
 

@@ -60,7 +60,6 @@ export function Reel() {
       <div className="reel-frame">
         <video
           ref={video}
-          src={`${base}video/reel.mp4`}
           poster={`${base}img/${SMALL ? 'reel-poster-640' : 'reel-poster'}.webp`}
           width={1280}
           height={720}
@@ -69,6 +68,9 @@ export function Reel() {
           controls={playing}
           aria-label={t(reelUi.label)}
         >
+          {/* H.264 first; VP9 for browsers built without it. */}
+          <source src={`${base}video/reel.mp4`} type='video/mp4; codecs="avc1.64001F, mp4a.40.2"' />
+          <source src={`${base}video/reel.webm`} type='video/webm; codecs="vp9, opus"' />
           {/* No speech: the tracks give the music and the words on screen, off
               until the viewer turns them on, so the edit plays as cut. */}
           <track kind="captions" src={`${base}video/reel.en.vtt`} srcLang="en" label="English" />

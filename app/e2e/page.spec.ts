@@ -180,3 +180,18 @@ test('a motion round trip in the painting strip keeps the painting in view', asy
   const vh = page.viewportSize()?.height ?? 0;
   expect(box && box.x + box.width > 0 && box.x < vw && box.y + box.height > 0 && box.y < vh).toBe(true);
 });
+
+test('reload and Back return to where the reader was, even with a #link', async ({ page }) => {
+  await page.goto('./#credits');
+  await page.waitForTimeout(2500);
+  await page.mouse.wheel(0, -3000);
+  await page.waitForTimeout(800);
+  const here = await page.evaluate(() => window.scrollY);
+  await page.reload();
+  await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 6000 }).toBeGreaterThan(here - 150);
+  expect(await page.evaluate(() => window.scrollY)).toBeLessThan(here + 150);
+
+  await page.goto('about:blank');
+  await page.goBack();
+  await expect.poll(() => page.evaluate(() => window.scrollY), { timeout: 6000 }).toBeGreaterThan(here - 150);
+});

@@ -193,8 +193,12 @@ export function Gallery() {
             >
               <img
                 data-src={art.src}
-                data-srcset={art.small ? `${art.small} 480w, ${art.src} ${art.width}w` : undefined}
-                sizes="(max-width: 760px) 80vw, 40vw"
+                data-srcset={
+                  art.small
+                    ? `${art.small} 480w, ${art.small.replace('-480', '-640')} 640w, ${art.src} ${art.width}w`
+                    : undefined
+                }
+                sizes="(max-width: 760px) 62vw, 600px"
                 width={art.width}
                 height={art.height}
                 style={{ '--r': art.height / art.width, backgroundColor: art.tone } as CSSProperties}

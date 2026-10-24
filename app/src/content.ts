@@ -14,7 +14,7 @@ export interface Artwork {
   alt: Text;
   pixel?: boolean;
   wide?: boolean;
-  /** A 480 px copy for phones, where the frame is about that wide. */
+  /** 480 px copy (with a 640 beside it) for phones, where the frame is ~62vw. */
   small?: string;
   /** Average colour, shown in the frame until the painting arrives. */
   tone: string;
@@ -218,14 +218,13 @@ export interface Story {
 
 // The CODE act's opening: Cheia's terrain with a water line raised by the scroll.
 export const floodUi = {
-  kind: { en: 'live, on the real terrain', pt: 'ao vivo, no terreno real' },
+  kind: { en: 'Curitiba, the real terrain', pt: 'Curitiba, o terreno real' },
   caption: {
-    en: "The relief of Curitiba and its metro area, from the simulator's own data (SRTM, about 34 m a cell). Scroll and the water line rises: the lowest ground goes under first. An illustration on the same terrain; the simulator itself runs the physics.",
-    pt: 'O relevo de Curitiba e da região metropolitana, com os dados do próprio simulador (SRTM, cerca de 34 m por célula). Role e a linha d’água sobe: o terreno mais baixo afunda primeiro. Uma ilustração sobre o mesmo terreno; a física roda no simulador.',
+    en: 'The relief of the city and its metro area, from the data of Cheia, the flood simulator below (SRTM, about 34 m a cell). Scroll and the water line rises: the lowest ground goes under first. An illustration on the same terrain; the simulator runs the physics.',
+    pt: 'O relevo da cidade e da região metropolitana, com os dados do Cheia, o simulador de enchentes logo abaixo (SRTM, cerca de 34 m por célula). Role e a linha d’água sobe: o terreno mais baixo afunda primeiro. Uma ilustração sobre o mesmo terreno; a física roda no simulador.',
   },
   level: { en: 'water line', pt: 'linha d’água' },
   under: { en: 'of the map below it', pt: 'do mapa abaixo dela' },
-  open: { en: 'Open the simulator', pt: 'Abrir o simulador' },
   alt: {
     en: 'Cheia in the browser: a 3D satellite map of Curitiba with the rivers in blue and the rain controls on the left.',
     pt: 'O Cheia no navegador: um mapa 3D de satélite de Curitiba com os rios em azul e os controles de chuva à esquerda.',
@@ -371,9 +370,10 @@ export const pageStats: Stat[] = [
 export const webWork: WebPiece[] = [
   {
     id: 'cheia',
-    img: `${base}img/web-cheia.webp`,
-    width: 800,
-    height: 500,
+    img: `${base}img/web-cheia-loop.webp`,
+    video: `${base}video/web-cheia.mp4`,
+    width: 720,
+    height: 480,
     title: { en: 'Cheia, a flood simulator for Curitiba', pt: 'Cheia, simulador de enchentes de Curitiba' },
     what: {
       en: 'Rain falls on the real terrain of a metropolitan region and the water runs downhill in a browser tab. Search a street and it tells you at what time the water passes 30 cm there.',
@@ -393,8 +393,8 @@ export const webWork: WebPiece[] = [
     ],
     note: { en: 'The interface is in Portuguese.', pt: 'A interface é em português.' },
     alt: {
-      en: 'Cheia in the browser: a 3D satellite map of Curitiba with rivers in blue, a control panel for rain intensity and duration on the left, and a water depth legend.',
-      pt: 'O Cheia no navegador: um mapa 3D de satélite de Curitiba com os rios em azul, um painel de controle de intensidade e duração da chuva à esquerda e a legenda de profundidade da água.',
+      en: 'Cheia running a 100-year, one-hour storm over Curitiba, at double speed: on the 3D satellite map the water spreads from the rivers into the low ground.',
+      pt: 'O Cheia rodando uma chuva de 100 anos em uma hora sobre Curitiba, em velocidade dobrada: no mapa 3D de satélite a água se espalha dos rios para as áreas baixas.',
     },
     live: 'https://zednaked.github.io/cheia/',
     code: 'https://github.com/zednaked/cheia',

@@ -520,6 +520,19 @@ main > section.wrap {
 .compact.phone .shot {
   max-width: 200px;
 }
+/* An odd one out at the end of a pair takes the whole row, laid out like a
+   wide case, instead of leaving half the row empty. */
+@media (min-width: 900px) {
+  .cases-pair > .case:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    gap: 32px;
+    padding: 12px 28px 12px 12px;
+  }
+  .cases-pair > .case:last-child:nth-child(odd) .shot {
+    max-width: 300px;
+  }
+}
 .proofs {
   display: grid;
   gap: 10px;
@@ -1465,6 +1478,17 @@ main {
   }
   .motion-full .paint-strip .gallery .piece {
     scroll-snap-align: start;
+    /* The next painting shows at the edge: there is more to swipe to. */
+    --cap: 62vw;
+  }
+  .motion-full .paint-strip .gallery .piece.wide {
+    --cap: 80vw;
+  }
+  /* On a phone the caption has the width: no need to cut it short. */
+  .motion-full .paint-strip figcaption strong,
+  .motion-full .paint-strip figcaption span {
+    display: block;
+    -webkit-line-clamp: none;
   }
 }
 
@@ -1534,7 +1558,6 @@ main {
   height: 100vh;
   height: 100svh;
   overflow: hidden;
-  background: #f1ead8;
 }
 .flood-canvas {
   position: absolute;
@@ -1569,6 +1592,16 @@ main {
 }
 .flood-text p {
   margin: 0 0 12px;
+}
+.flood-h {
+  margin: 0 0 8px;
+  font:
+    400 clamp(1.5rem, 1.1rem + 1.4vw, 2.2rem) / 1 'Anton',
+    sans-serif;
+  text-transform: uppercase;
+}
+.flood-readout {
+  margin-bottom: 0 !important;
 }
 .flood-readout {
   display: flex;

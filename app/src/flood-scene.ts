@@ -65,7 +65,10 @@ void main() {
     col = mix(col, water, 0.9);
     col = mix(col, vec3(0.96, 0.97, 1.0), (1.0 - smoothstep(0.0, 2.5, depth)) * 0.7);
   }
-  gl_FragColor = vec4(col, 1.0);
+  // The map's edges dissolve into the paper instead of ending in a cut.
+  vec2 e = min(vUv, 1.0 - vUv);
+  float edge = smoothstep(0.0, 0.12, min(e.x, e.y));
+  gl_FragColor = vec4(col * edge, edge);
 }`;
 
 export interface FloodScene {
@@ -103,13 +106,19 @@ export async function createFloodScene(
   onReadout: (r: FloodReadout) => void,
 ): Promise<FloodScene> {
   const { img, unit } = await loadTerrain(src);
-  const metres = Float32Array.from(unit, (u) => range.lo + u * (range.hi - range.lo));
-  // Sorted once, so the share under any water line is a binary search.
-  const sorted = Float32Array.from(metres).sort();
+  // A histogram in 1 m steps, summed once: the share under any water line is
+  // a lookup (a sort of 65k heights was a long task on load).
+  const span = Math.ceil(range.hi - range.lo) + 1;
+  const below = new Float32Array(span + 1);
+  for (const u of unit) below[Math.floor(u * (range.hi - range.lo)) + 1] += 1;
+  for (let m = 1; m <= span; m++) below[m] += below[m - 1];
+  const total = unit.length;
 
-  const renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+  // Transparent around the map: the page's own paper and grain show through,
+  // so the act's card hands over to the terrain with no seam.
+  const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-  renderer.setClearColor(0xf1ead8, 1);
+  renderer.setClearColor(0x000000, 0);
 
   const geo = new PlaneGeometry(10, 10, SIZE - 1, SIZE - 1);
   geo.rotateX(-Math.PI / 2);
@@ -124,6 +133,7 @@ export async function createFloodScene(
   const mat = new ShaderMaterial({
     vertexShader: VERT,
     fragmentShader: FRAG,
+    transparent: true,
     uniforms: {
       uLevel: { value: range.from },
       uRiver: { value: river },
@@ -145,25 +155,20 @@ export async function createFloodScene(
     const level = range.from + (range.to - range.from) * ease;
     mat.uniforms.uLevel.value = level;
     // The camera turns a little and comes down over the city as the water rises.
-    group.rotation.y = -0.35 + ease * 0.55;
+    group.rotation.y = -0.6 + ease * 1.1;
     // On a tall screen the text sits low, so the map is seen from higher up
     // and fills the top of the screen.
     if (portrait) {
       camera.position.set(0, 12.5 - ease * 2, 4.5 - ease * 1.2);
       camera.lookAt(0, 0, 2.6);
     } else {
-      camera.position.set(0, 7.2 - ease * 1.6, 9.5 - ease * 2.2);
-      camera.lookAt(0, 0.2, 0);
+      // From the whole region down toward the valley floors as they fill.
+      camera.position.set(0, 7.4 - ease * 3.6, 9.6 - ease * 4.2);
+      camera.lookAt(0, 0.2 - ease * 0.3, 0.6 * ease);
     }
     renderer.render(scene, camera);
-    let lo = 0;
-    let hi = sorted.length;
-    while (lo < hi) {
-      const mid = (lo + hi) >> 1;
-      if (sorted[mid] < level) lo = mid + 1;
-      else hi = mid;
-    }
-    onReadout({ level, under: lo / sorted.length });
+    const m = Math.max(0, Math.min(span, Math.floor(level - range.lo)));
+    onReadout({ level, under: below[m] / total });
   };
 
   const resize = () => {
@@ -177,6 +182,8 @@ export async function createFloodScene(
     camera.updateProjectionMatrix();
     render();
   };
+  // Shaders compile off the first frame where the driver allows it.
+  await renderer.compileAsync(scene, camera);
   const ro = new ResizeObserver(resize);
   ro.observe(canvas);
   resize();

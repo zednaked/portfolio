@@ -12,6 +12,8 @@
 //
 // Returns null when WebGL isn't there; the CSS splash stays in that case.
 
+import { isSoftware } from './gpu';
+
 const VERT = `
 attribute vec2 aPos;
 varying vec2 vUv;
@@ -141,9 +143,7 @@ export function createSplashGL(
     gl.getExtension('WEBGL_lose_context')?.loseContext();
     return null;
   };
-  const info = gl.getExtension('WEBGL_debug_renderer_info');
-  const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
-  if (/swiftshader|llvmpipe|software/i.test(renderer)) return release();
+  if (isSoftware(gl)) return release();
   const vs = compile(gl, gl.VERTEX_SHADER, VERT);
   const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
   if (!vs || !fs) return release();

@@ -3,22 +3,12 @@ import { FULL, ScrollTrigger } from './motion';
 import { floodUi } from './content';
 import { useLang } from './i18n';
 import type { FloodScene } from './flood-scene';
+import { hasGPU } from './gpu';
 
 const base = import.meta.env.BASE_URL;
 // Heights of the baked terrain (scripts/bake-cheia.mjs), and the water line's
 // travel: from the valley floors to about a third of the map under.
 const TERRAIN = { lo: 666, hi: 1292, from: 860, to: 905 };
-
-// A real GPU only, as for the splash: software GL would render on the CPU.
-function gpu() {
-  const c = document.createElement('canvas');
-  const gl = c.getContext('webgl2', { failIfMajorPerformanceCaveat: true });
-  if (!gl) return false;
-  const info = gl.getExtension('WEBGL_debug_renderer_info');
-  const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
-  gl.getExtension('WEBGL_lose_context')?.loseContext();
-  return !/swiftshader|llvmpipe|software/i.test(renderer);
-}
 
 /**
  * Cheia, live: the terrain as a print with a water line the scroll raises.
@@ -36,7 +26,7 @@ export function Flood() {
   useEffect(() => {
     langRef.current = lang;
   }, [lang]);
-  const [live, setLive] = useState(() => FULL && gpu());
+  const [live, setLive] = useState(() => FULL && hasGPU());
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -115,10 +105,8 @@ export function Flood() {
           />
         )}
         <div className="flood-text">
-          <h3 id="flood-h" className="case-title">
-            <span className="case-name">Cheia</span>
-            <span className="sr-only">, </span>
-            <span className="case-kind">{t(floodUi.kind)}</span>
+          <h3 id="flood-h" className="flood-h">
+            {t(floodUi.kind)}
           </h3>
           <p>{t(floodUi.caption)}</p>
           {live && (
@@ -133,11 +121,6 @@ export function Flood() {
               </span>
             </p>
           )}
-          <p className="links">
-            <a className="btn" href="https://zednaked.github.io/cheia/">
-              {t(floodUi.open)}
-            </a>
-          </p>
         </div>
       </div>
     </section>
