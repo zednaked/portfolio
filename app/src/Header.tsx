@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion } from './motion';
 import { ui } from './content';
+import { createSplashGL } from './splash-gl';
 import { useLang } from './i18n';
 
 const NAME = 'THIAGO GONÇALVES';
@@ -14,16 +15,44 @@ export function Header() {
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
-        // The splash is painted in with a diagonal brush sweep, then the name
-        // rises letter by letter out of its own line box.
+        // The splash is thrown onto the paper as wet paint (WebGL), then the
+        // name rises letter by letter out of its own line box. Without WebGL,
+        // the same image is painted in with a diagonal sweep.
+        const splash = root.current?.querySelector<HTMLElement>('.splash');
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        tl.fromTo(
-          '.splash',
-          { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' },
-          { clipPath: 'polygon(0% 0%, 130% 0%, 100% 100%, 0% 100%)', duration: 1.1, ease: 'power2.inOut' },
-          0,
-        )
-          .from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.35)
+        const sweep = () =>
+          gsap.fromTo(
+            '.splash',
+            { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' },
+            { clipPath: 'polygon(0% 0%, 130% 0%, 100% 100%, 0% 100%)', duration: 1.1, ease: 'power2.inOut' },
+          );
+        // The image stays hidden until the shader can draw it (or fails and
+        // the sweep paints it instead).
+        gsap.set('.splash', { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' });
+        const paint = splash
+          ? createSplashGL(
+              splash,
+              `${import.meta.env.BASE_URL}img/splash.webp`,
+              () => {
+                splash.classList.add('gl-on');
+                gsap.set(splash, { clipPath: 'none' });
+                gsap.to(paint?.reveal ?? {}, { value: 1, duration: 2.2, ease: 'power1.inOut' });
+                // White type needs paint under it: the name waits for the throw.
+                gsap.delayedCall(0.9, () => tl.play());
+              },
+              () => {
+                splash.classList.remove('gl-on');
+                sweep();
+                tl.play();
+              },
+            )
+          : null;
+        if (paint) {
+          tl.pause();
+          // If the image is slow, the name doesn't wait forever.
+          gsap.delayedCall(2.5, () => tl.play());
+        } else tl.add(sweep(), 0);
+        tl.from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.35)
           .from('.role, .tagline, .jump', { y: 16, opacity: 0, duration: 0.6, stagger: 0.1 }, 0.8)
           .from(
             '.lang button, .motion-btn',
@@ -37,6 +66,7 @@ export function Header() {
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
         });
+        return () => paint?.destroy();
       });
       mm.add(GENTLE_MOTION, () => {
         gsap.from('.splash, .name, .role, .tagline, .jump, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });

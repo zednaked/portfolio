@@ -110,6 +110,15 @@ a:hover {
   pointer-events: none;
   will-change: transform, clip-path;
 }
+/* Once the WebGL paint is up, the image is drawn by the shader instead. */
+.splash.gl-on {
+  background: none;
+}
+.splash-gl {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .top :focus-visible {
   outline-color: #fff;
 }
@@ -283,7 +292,16 @@ main > section.wrap {
 @media (min-width: 720px) {
   .about {
     grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
-    gap: 56px;
+    gap: 32px 56px;
+  }
+  /* The portrait stays beside the record as it scrolls; the book spans both. */
+  .about .portrait {
+    position: sticky;
+    top: 12vh;
+  }
+  .about .book {
+    grid-column: 1 / -1;
+    margin: 0;
   }
 }
 .portrait {
@@ -481,7 +499,12 @@ main > section.wrap {
   margin: 0;
   padding: 0;
   list-style: none;
-  max-width: 75ch;
+}
+@media (min-width: 900px) {
+  .proofs {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
 }
 .proofs li {
   padding: 14px 20px;
@@ -1480,6 +1503,7 @@ main {
 }
 .exhibits {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
   gap: 8px;
   margin: 0;
   padding: 0;

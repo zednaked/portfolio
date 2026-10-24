@@ -32,6 +32,15 @@ instead of Playwright's download.
 
 ### Motion decisions worth knowing
 
+- **The opening splash is wet paint in plain WebGL** (`src/splash-gl.ts`, ~3 KB):
+  one quad, one texture, one fragment shader. The paint is thrown from the
+  corner with a noisy front and a wet rim, thin drips creep down its edges, a
+  faint glint follows the pointer and the pointer drags the paint. three.js
+  would be ~120 KB gzip for one quad; it stays where the scene graph earns it
+  (the flood simulator). The white name waits for the paint under it; the
+  canvas draws only while the header is on screen; without WebGL, or under
+  reduced motion, the same image is painted in by CSS.
+
 - **Below-the-fold motion is built at idle time** (`useIdleGSAP`). On a phone the
   first render plus two dozen ScrollTriggers was a single 1.1 s task; each
   section now sets up in its own idle slot, and one `ScrollTrigger.sort()` +

@@ -68,23 +68,24 @@ function About() {
             </li>
           ))}
         </ul>
-        <figure className="book">
-          <div className="book-row">
-            {bookImages.map((img) => (
-              <img
-                key={img.src}
-                src={img.src}
-                width={img.width}
-                height={img.height}
-                alt={t(img.alt)}
-                loading="lazy"
-                decoding="async"
-              />
-            ))}
-          </div>
-          <figcaption>{t(ui.bookLabel)}</figcaption>
-        </figure>
       </div>
+      {/* The book runs the full width, under the portrait and the record. */}
+      <figure className="book">
+        <div className="book-row">
+          {bookImages.map((img) => (
+            <img
+              key={img.src}
+              src={img.src}
+              width={img.width}
+              height={img.height}
+              alt={t(img.alt)}
+              loading="lazy"
+              decoding="async"
+            />
+          ))}
+        </div>
+        <figcaption>{t(ui.bookLabel)}</figcaption>
+      </figure>
     </section>
   );
 }

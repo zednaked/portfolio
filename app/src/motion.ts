@@ -3,6 +3,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+// One entrance recipe serves every card, and not every card has stats or
+// chips: an empty selection is expected, not a mistake worth a console line.
+gsap.config({ nullTargetWarn: false });
 
 // One decision for the whole page. The system's reduced-motion setting is the
 // default; the Motion button overrides it and the choice is kept. Many phones
