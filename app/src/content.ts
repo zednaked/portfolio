@@ -214,6 +214,7 @@ export const webUi = {
   tech: { en: 'Technologies', pt: 'Tecnologias' },
   pauseClip: { en: 'Pause clip', pt: 'Pausar vídeo' },
   playClip: { en: 'Play clip', pt: 'Tocar vídeo' },
+  readDecision: { en: 'Read the decision', pt: 'Ler a decisão' },
   why: { en: 'Why', pt: 'Por quê' },
   decision: { en: 'The call', pt: 'A decisão' },
   tradeoff: { en: 'What it cost', pt: 'O custo' },

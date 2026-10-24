@@ -51,14 +51,13 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         .from(card.querySelector('.ch-sub'), { y: 20, opacity: 0, duration: 0.6 }, 0.4);
 
       // The exit, scrubbed by the scroll: collapse into the shape.
+      // A steady collapse; the act's content starts low enough that the
+      // case text only arrives once the shape has shrunk to its point.
       gsap.fromTo(
         card,
         { clipPath: start },
         {
           clipPath: end,
-          // A steady collapse paced with the content rising under it: the
-          // shape uncovers the first lines as they come up and is gone
-          // before they reach the top of the screen.
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top top', end: '+=35%', scrub: 0.6 },
         },

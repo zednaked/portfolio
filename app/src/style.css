@@ -332,6 +332,9 @@ main > section.wrap {
   overflow: hidden;
   background: #111;
   aspect-ratio: 8 / 5;
+  /* A grid item with an aspect ratio sizes to its image unless told to fill. */
+  justify-self: stretch;
+  width: 100%;
 }
 .phone .shot {
   aspect-ratio: 3 / 4;
@@ -708,13 +711,14 @@ figcaption span {
   height: 100vh;
   overflow: hidden;
 }
-/* The act starts in the lower part of the screen, under the card: the card's
-   collapse uncovers it as it rises, and is gone before it reaches the top. */
+/* The act starts below the card: by the time the card has collapsed into its
+   shape, only the section's heading has come up, so the shape never sits on
+   the case text. */
 .act-body {
   position: relative;
   z-index: 1;
-  padding-top: 60vh;
-  padding-top: 60svh;
+  padding-top: 85vh;
+  padding-top: 85svh;
 }
 .ch-shape {
   position: absolute;
@@ -1072,7 +1076,7 @@ figcaption span {
 /* Finale: burn, then the signature */
 .finale {
   position: relative;
-  height: 200vh;
+  height: 160vh;
 }
 .finale-card {
   position: sticky;
@@ -1154,7 +1158,7 @@ figcaption span {
   bottom: 0;
   z-index: 2;
   padding: 10px 7vw 12px;
-  background: rgba(241, 234, 216, 0.9);
+  background: var(--b-cream);
   color: var(--muted);
   font-size: 0.8125rem;
 }
@@ -1344,6 +1348,45 @@ figcaption span {
 }
 
 /* A case told as a decision: why, the call, what it cost. */
+.decision {
+  margin: 0 0 16px;
+  border-top: 2px solid #eee;
+}
+.decision summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font:
+    400 1rem/1.2 'Anton',
+    sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-text, var(--accent));
+  cursor: pointer;
+  list-style: none;
+}
+.decision summary::-webkit-details-marker {
+  display: none;
+}
+.decision summary::before {
+  content: '+';
+  display: grid;
+  place-items: center;
+  width: 1.4em;
+  height: 1.4em;
+  border: 2px solid currentColor;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  transition: rotate 0.25s;
+}
+.decision[open] summary::before {
+  rotate: 45deg;
+}
+.decision summary:focus-visible {
+  outline: 3px solid var(--accent-text, var(--accent));
+  outline-offset: 2px;
+}
 .story {
   margin: 4px 0 18px;
   display: grid;

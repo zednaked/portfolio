@@ -24,8 +24,9 @@ export function Finale() {
         { scale: 2.4, opacity: 1, stagger: 0.06, duration: 0.35, ease: 'power2.in' },
         0,
       )
-        .to('.burn', { scale: 4, opacity: 0, stagger: 0.05, duration: 0.3, ease: 'power2.out' }, 0.38)
-        .from('.f-circle', { scale: 0, duration: 0.2, ease: 'back.out(1.7)' }, 0.42)
+        // The burn is gone before the shapes arrive, so red is never seen through it.
+        .to('.burn', { scale: 4, opacity: 0, stagger: 0.02, duration: 0.1, ease: 'power2.out' }, 0.38)
+        .from('.f-circle', { scale: 0, duration: 0.2, ease: 'back.out(1.7)' }, 0.48)
         .from('.f-square', { xPercent: -220, rotation: -45, duration: 0.22, ease: 'power4.out' }, 0.5)
         .from('.f-tri', { yPercent: 220, duration: 0.22, ease: 'power4.out' }, 0.56)
         .from('.f-name .lt', { yPercent: 105, stagger: 0.02, duration: 0.2, ease: 'power4.out' }, 0.5)

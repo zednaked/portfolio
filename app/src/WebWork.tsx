@@ -30,13 +30,13 @@ export function WebWork() {
         <article className="case self" aria-labelledby="case-self">
           <div className="case-body">
             <h3 id="case-self">{t(webUi.pageLabel)}</h3>
-            <StoryList story={pageStory} />
             <p className="what">{t(webUi.page)}</p>
             <ul className="stats">
               {pageStats.map((stat, i) => (
                 <StatLine stat={stat} key={i} />
               ))}
             </ul>
+            <StoryList story={pageStory} />
             <p className="what">{t(webUi.pageA11y)}</p>
             <p className="links">
               <a href="https://github.com/zednaked/portfolio">{t(webUi.code)}</a>

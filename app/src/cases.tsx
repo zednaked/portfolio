@@ -74,19 +74,22 @@ const playClip = (v: HTMLVideoElement) => {
   if (v.dataset.held !== '1') void v.play().catch(() => {});
 };
 
-// The case as a decision: why it exists, the call, what it cost. The numbers
-// that follow are the result.
+// The case as a decision: why it exists, the call, what it cost. The card
+// leads with the picture and the numbers; the reasoning opens on request.
 export function StoryList({ story }: { story: Story }) {
   const { t } = useLang();
   return (
-    <dl className="story">
-      {(['why', 'decision', 'tradeoff'] as const).map((key) => (
-        <div key={key}>
-          <dt>{t(webUi[key])}</dt>
-          <dd>{t(story[key])}</dd>
-        </div>
-      ))}
-    </dl>
+    <details className="decision">
+      <summary>{t(webUi.readDecision)}</summary>
+      <dl className="story">
+        {(['why', 'decision', 'tradeoff'] as const).map((key) => (
+          <div key={key}>
+            <dt>{t(webUi[key])}</dt>
+            <dd>{t(story[key])}</dd>
+          </div>
+        ))}
+      </dl>
+    </details>
   );
 }
 
@@ -123,7 +126,6 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
         <p className="case-role">
           <strong>{t(webUi.role)}:</strong> {t(piece.role)}
         </p>
-        {piece.story && <StoryList story={piece.story} />}
         <ul className="chips" aria-label={t(webUi.tech)}>
           {piece.tech.map((tech) => (
             <li className="chip" key={tech}>
@@ -138,6 +140,7 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
             ))}
           </ul>
         )}
+        {piece.story && <StoryList story={piece.story} />}
         {piece.note && <p className="note">{t(piece.note)}</p>}
         <p className="links">
           <a className="btn" href={piece.live}>
