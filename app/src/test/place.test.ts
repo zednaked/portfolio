@@ -73,8 +73,11 @@ describe('the owed place', () => {
     // A lazy section mounts and builds late (a slow phone: its idle slot comes
     // 3 s later, after any settle clock would have run out): the debt is still
     // there when it does, and lands again on the refresh that follows.
-    const idle = window.requestIdleCallback.bind(window);
-    const cancel = window.cancelIdleCallback.bind(window);
+    // jsdom has none; saved as values (possibly undefined) and put back after.
+    const saved: { idle: unknown; cancel: unknown } = {
+      idle: Reflect.get(window, 'requestIdleCallback'),
+      cancel: Reflect.get(window, 'cancelIdleCallback'),
+    };
     window.requestIdleCallback = (cb) => window.setTimeout(() => cb({} as IdleDeadline), 3000);
     window.cancelIdleCallback = (id) => window.clearTimeout(id);
     const { unmount } = render(createElement(Building));
@@ -83,7 +86,12 @@ describe('the owed place', () => {
     vi.advanceTimersByTime(4000);
     expect(scrolled).toHaveBeenCalledTimes(2);
     unmount();
-    window.requestIdleCallback = idle;
-    window.cancelIdleCallback = cancel;
+    for (const [key, value] of [
+      ['requestIdleCallback', saved.idle],
+      ['cancelIdleCallback', saved.cancel],
+    ] as const) {
+      if (value === undefined) Reflect.deleteProperty(window, key);
+      else Reflect.set(window, key, value);
+    }
   });
 });
