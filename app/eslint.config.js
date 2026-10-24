@@ -13,6 +13,22 @@ export default tseslint.config(
   },
   js.configs.recommended,
   ...tseslint.configs.strict,
+  // The site itself is linted with the types: floating promises, impossible
+  // conditions and unsafe casts are errors, not style.
+  ...tseslint.configs.strictTypeChecked.map((c) => ({ ...c, files: ['src/**/*.{ts,tsx}'] })),
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    languageOptions: {
+      parserOptions: { projectService: true, tsconfigRootDir: import.meta.dirname },
+    },
+    rules: {
+      // Numbers in template strings and `() => setX(v)` are the idiom here.
+      '@typescript-eslint/restrict-template-expressions': ['error', { allowNumber: true }],
+      '@typescript-eslint/no-confusing-void-expression': ['error', { ignoreArrowShorthand: true }],
+      // Words are split into letters for animation; they are ASCII display caps.
+      '@typescript-eslint/no-misused-spread': 'off',
+    },
+  },
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: { globals: globals.browser },

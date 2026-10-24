@@ -25,7 +25,7 @@ class MemoryStorage implements Storage {
     this.data.delete(key);
   }
   setItem(key: string, value: string) {
-    this.data.set(key, String(value));
+    this.data.set(key, value);
   }
 }
 Object.defineProperty(globalThis, 'localStorage', { value: new MemoryStorage(), configurable: true });
@@ -52,7 +52,7 @@ class NoopObserver {
   }
 }
 globalThis.IntersectionObserver = NoopObserver as unknown as typeof IntersectionObserver;
-globalThis.ResizeObserver = NoopObserver as unknown as typeof ResizeObserver;
+globalThis.ResizeObserver = NoopObserver;
 
 // <dialog> in jsdom has no modal behaviour.
 HTMLDialogElement.prototype.showModal = function (this: HTMLDialogElement) {

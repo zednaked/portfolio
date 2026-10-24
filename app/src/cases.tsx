@@ -219,7 +219,9 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
             [-3, -3],
             [2, 1],
           ];
-          jumps.forEach(([x, y], k) => tl.set(el, { '--gx': `${x}px`, '--gy': `${y}px` }, 1.2 + i * 0.12 + k * 0.07));
+          jumps.forEach(([x, y], k) => {
+            tl.set(el, { '--gx': `${x}px`, '--gy': `${y}px` }, 1.2 + i * 0.12 + k * 0.07);
+          });
           tl.set(el, { '--gx': '2px', '--gy': '1px' }, 1.5 + i * 0.12);
         });
 

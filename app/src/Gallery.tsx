@@ -157,7 +157,10 @@ export function Gallery() {
       setOpen(null);
       back?.focus();
     };
-    if (!FULL) return finish();
+    if (!FULL) {
+      finish();
+      return;
+    }
     gsap.to(d, {
       autoAlpha: 0,
       duration: 0.25,

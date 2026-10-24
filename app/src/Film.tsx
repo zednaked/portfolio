@@ -40,7 +40,7 @@ export function Film() {
       clearTimeout(timer);
       timer = window.setTimeout(() => ScrollTrigger.refresh(), 150);
     };
-    document.fonts?.ready.then(refresh);
+    void document.fonts.ready.then(refresh);
     window.addEventListener('load', refresh);
     let lastH = document.documentElement.scrollHeight;
     const ro = new ResizeObserver(() => {
@@ -58,12 +58,22 @@ export function Film() {
     };
   }, []);
 
+  // The sections are lazy chunks that mount after this runs, so nothing here
+  // holds a list of elements taken at setup: the skew targets are re-read on
+  // every refresh, and the tilt finds its card from the pointer event.
   useIdleGSAP(() => {
     const mm = gsap.matchMedia();
     mm.add(FULL_MOTION, () => {
       // Velocity: drag or flick the page and the media leans with it.
-      const skewTargets = gsap.utils.toArray<HTMLElement>('.shot, .reveal, .marquee-track');
-      const setters = skewTargets.map((el) => gsap.quickTo(el, 'skewY', { duration: 0.5, ease: 'power3' }));
+      type Setter = (v: number) => void;
+      let setters: Setter[] = [];
+      const collect = () => {
+        setters = gsap.utils
+          .toArray<HTMLElement>('.shot, .reveal, .marquee-track')
+          .map((el) => gsap.quickTo(el, 'skewY', { duration: 0.5, ease: 'power3' }));
+      };
+      collect();
+      ScrollTrigger.addEventListener('refresh', collect);
       const st = ScrollTrigger.create({
         onUpdate: (self) => {
           const v = gsap.utils.clamp(-5, 5, self.getVelocity() / -400);
@@ -78,30 +88,44 @@ export function Film() {
       // Tilt toward the pointer (mouse, pen, or a finger dragging a card).
       // Not the reel frame: its scroll tilt owns rotationX, and two tweens on
       // one property fight every frame.
-      const cards = gsap.utils.toArray<HTMLElement>('.case, .piece');
-      const cleanups = cards.map((card) => {
-        const rx = gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power3' });
-        const ry = gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power3' });
-        const move = (e: PointerEvent) => {
-          const r = card.getBoundingClientRect();
-          ry(((e.clientX - r.left) / r.width - 0.5) * 6);
-          rx(-((e.clientY - r.top) / r.height - 0.5) * 6);
-        };
-        const leave = () => {
-          rx(0);
-          ry(0);
-        };
-        card.addEventListener('pointermove', move);
-        card.addEventListener('pointerleave', leave);
-        return () => {
-          card.removeEventListener('pointermove', move);
-          card.removeEventListener('pointerleave', leave);
-        };
-      });
+      const tilts = new WeakMap<Element, [Setter, Setter]>();
+      const tiltOf = (card: Element) => {
+        let t = tilts.get(card);
+        if (!t) {
+          t = [
+            gsap.quickTo(card, 'rotationX', { duration: 0.6, ease: 'power3' }),
+            gsap.quickTo(card, 'rotationY', { duration: 0.6, ease: 'power3' }),
+          ];
+          tilts.set(card, t);
+        }
+        return t;
+      };
+      let current: Element | null = null;
+      const release = () => {
+        if (!current) return;
+        const [rx, ry] = tiltOf(current);
+        rx(0);
+        ry(0);
+        current = null;
+      };
+      const move = (e: PointerEvent) => {
+        const card = e.target instanceof Element ? e.target.closest('.case, .piece') : null;
+        if (card !== current) release();
+        if (!card) return;
+        current = card;
+        const [rx, ry] = tiltOf(card);
+        const r = card.getBoundingClientRect();
+        ry(((e.clientX - r.left) / r.width - 0.5) * 6);
+        rx(-((e.clientY - r.top) / r.height - 0.5) * 6);
+      };
+      document.addEventListener('pointermove', move, { passive: true });
+      document.documentElement.addEventListener('pointerleave', release);
       return () => {
         st.kill();
+        ScrollTrigger.removeEventListener('refresh', collect);
         ScrollTrigger.removeEventListener('scrollEnd', settle);
-        cleanups.forEach((c) => c());
+        document.removeEventListener('pointermove', move);
+        document.documentElement.removeEventListener('pointerleave', release);
       };
     });
   });

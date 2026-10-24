@@ -29,6 +29,13 @@ export function LangProvider({ children }: { children: ReactNode }) {
 
   const setLang = (next: Lang) => {
     setLangState(next);
+    // A ?lang= in the address beats the saved choice, so it has to follow the
+    // switch, or a reload (the motion toggle) brings the old language back.
+    const url = new URL(location.href);
+    if (url.searchParams.has('lang')) {
+      url.searchParams.set('lang', next);
+      history.replaceState(history.state, '', url);
+    }
     try {
       localStorage.setItem('lang', next);
     } catch {

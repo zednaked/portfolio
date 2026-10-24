@@ -12,7 +12,7 @@ const SHAPE_CLIP: Record<ChapterData['shape'], [string, string]> = {
 
 // The act's colour drives its accents. Yellow can't carry text on white
 // (1.8:1), so it gets a dark ochre for text and black type on its buttons.
-const READABLE: Record<string, { text: string; on: string }> = {
+const READABLE: Partial<Record<string, { text: string; on: string }>> = {
   '#f2b705': { text: '#6e5200', on: '#0b0b0b' },
 };
 function actColors(color: string): CSSProperties {
