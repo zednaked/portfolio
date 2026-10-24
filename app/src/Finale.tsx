@@ -29,7 +29,7 @@ export function Finale() {
         .from('.f-square', { xPercent: -220, rotation: -45, duration: 0.22, ease: 'power4.out' }, 0.5)
         .from('.f-tri', { yPercent: 220, duration: 0.22, ease: 'power4.out' }, 0.56)
         .from('.f-name .lt', { yPercent: 105, stagger: 0.02, duration: 0.2, ease: 'power4.out' }, 0.5)
-        .from('.f-role, .f-links', { opacity: 0, y: 20, stagger: 0.05, duration: 0.15 }, 0.7);
+        .from('.f-role, .f-mail, .f-links', { opacity: 0, y: 20, stagger: 0.05, duration: 0.15 }, 0.7);
     });
     mm.add(GENTLE_MOTION, () => {
       const tl = gsap.timeline({
@@ -68,8 +68,15 @@ export function Finale() {
             <br />
             <small>{t(finaleUi.remote)}</small>
           </p>
+          <p className="f-mail">
+            <small>{t(finaleUi.available)}</small>
+            <a href="mailto:zednaked@gmail.com">zednaked@gmail.com</a>
+          </p>
           <p className="f-links">
-            <a className="btn" href="https://github.com/zednaked">
+            <a className="btn" href={`${import.meta.env.BASE_URL}cv-thiago-goncalves.pdf`}>
+              {t(finaleUi.cv)}
+            </a>
+            <a className="btn btn-dark" href="https://github.com/zednaked">
               GitHub
             </a>
             <a className="btn btn-dark" href="https://www.linkedin.com/in/thiago-g/">

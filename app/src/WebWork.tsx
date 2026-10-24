@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import { deskWork, pageStats, webUi, webWork } from './content';
+import { deskWork, figmaUrl, pageStats, pageStory, webUi, webWork } from './content';
 import { useLang } from './i18n';
-import { CaseCard, StatLine, useCaseMotion } from './cases';
+import { CaseCard, StatLine, StoryList, useCaseMotion } from './cases';
 
 export function WebWork() {
   const { t } = useLang();
@@ -30,6 +30,7 @@ export function WebWork() {
         <article className="case self" aria-labelledby="case-self">
           <div className="case-body">
             <h3 id="case-self">{t(webUi.pageLabel)}</h3>
+            <StoryList story={pageStory} />
             <p className="what">{t(webUi.page)}</p>
             <ul className="stats">
               {pageStats.map((stat, i) => (
@@ -39,6 +40,7 @@ export function WebWork() {
             <p className="what">{t(webUi.pageA11y)}</p>
             <p className="links">
               <a href="https://github.com/zednaked/portfolio">{t(webUi.code)}</a>
+              <a href={figmaUrl}>{t(webUi.figma)}</a>
             </p>
           </div>
         </article>

@@ -1,5 +1,5 @@
 :root {
-  --paper: #f0faf9;
+  --paper: #f1ead8;
   --ink: #111;
   --muted: #3d4a4f;
   --accent: #a92756;
@@ -29,7 +29,7 @@ body {
   overflow-wrap: break-word;
 }
 
-/* The splash is wider than a phone; clip it here instead of letting it widen the page. */
+/* Wide decorative layers never widen the page on a phone. */
 .page {
   position: relative;
   overflow-x: clip;
@@ -89,42 +89,71 @@ a:hover {
   top: 16px;
 }
 
-/* Header, white type over the paint splash */
+/* Header: the reel's last card as the first screen. Name in Anton, the three
+   shapes (the circle in the magenta of the first Figma layout), on paper. */
 .top {
   position: relative;
-  padding: clamp(48px, 9vw, 120px) 0 clamp(40px, 6vw, 72px);
-  color: #fff;
+  overflow: hidden;
+  padding: clamp(56px, 10vw, 140px) 0 clamp(48px, 7vw, 104px);
+  background: var(--b-cream);
+  color: var(--ink);
 }
-.top :focus-visible {
-  outline-color: #fff;
+.top .tex-paper {
+  z-index: 0;
 }
-
-/* The splash used to be the body background; as its own layer it can be
-   painted in and drift on scroll without repainting the page. */
-.splash {
+.hero-text {
+  position: relative;
+  z-index: 1;
+}
+.hero-shapes {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  width: max(100vw, 900px);
-  aspect-ratio: 1200 / 1417;
-  background: url('/img/splash.webp') no-repeat left top / 100% auto;
+  top: 50%;
+  right: 5vw;
+  width: min(36vw, 480px);
+  aspect-ratio: 1;
+  translate: 0 -50%;
   pointer-events: none;
-  will-change: transform, clip-path;
+}
+.hero-shapes i {
+  position: absolute;
+  display: block;
+}
+.h-circle {
+  top: 0;
+  right: 4%;
+  width: 62%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--b-red);
+}
+.h-square {
+  bottom: 2%;
+  left: 0;
+  width: 44%;
+  aspect-ratio: 1;
+  background: var(--b-blue);
+}
+.h-tri {
+  right: 0;
+  bottom: 2%;
+  width: 44%;
+  aspect-ratio: 1;
+  background: var(--b-yellow);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
 .name {
+  max-width: 62%;
   margin: 0;
-  font-size: clamp(2rem, 1.2rem + 3.6vw, 3.375rem);
-  font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: 0.1em;
-  text-shadow: 0 1px 12px rgba(60, 10, 40, 0.35);
+  font:
+    400 clamp(3.4rem, 1.4rem + 8.4vw, 9.5rem) / 0.9 'Anton',
+    sans-serif;
+  letter-spacing: 0.01em;
 }
 .name .line {
   display: inline-block;
   overflow: hidden;
-  padding-bottom: 0.08em;
+  padding-bottom: 0.04em;
   vertical-align: top;
 }
 .name .char {
@@ -132,26 +161,32 @@ a:hover {
 }
 
 .role {
-  margin: 0.4em 0 0;
-  font-size: clamp(1rem, 0.8rem + 1.1vw, 1.5625rem);
+  margin: 0.9em 0 0;
+  color: var(--accent);
+  font-size: clamp(0.9rem, 0.8rem + 0.4vw, 1.1rem);
   font-weight: 700;
-  line-height: 1.25;
-  text-shadow: 0 1px 8px rgba(60, 10, 40, 0.35);
+  letter-spacing: 0.14em;
+}
+.tagline {
+  max-width: 30ch;
+  margin: 0.5em 0 0;
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.75rem);
+  line-height: 1.3;
 }
 
 .lang {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 28px;
 }
 .lang button {
   min-width: 48px;
   min-height: 44px;
   padding: 0 12px;
-  border: 2px solid #fff;
+  border: 2px solid var(--ink);
   border-radius: 4px;
-  background: rgba(40, 10, 30, 0.55);
-  color: #fff;
+  background: transparent;
+  color: var(--ink);
   font-family: inherit;
   font-size: 1rem;
   font-weight: 700;
@@ -166,8 +201,21 @@ a:hover {
   translate: 0 -2px;
 }
 .lang button[aria-pressed='true'] {
-  background: #fff;
-  color: var(--ink);
+  background: var(--ink);
+  color: var(--b-cream);
+}
+
+@media (max-width: 760px) {
+  .hero-shapes {
+    top: 16px;
+    right: -6vw;
+    width: 50vw;
+    translate: none;
+  }
+  .name {
+    max-width: none;
+    padding-top: 42vw;
+  }
 }
 
 /* White boxes with a magenta label, as in the original layout */
@@ -628,7 +676,8 @@ figcaption span {
   font-display: swap;
 }
 :root {
-  --b-red: #d7261e;
+  /* The red of the reel's primaries, swapped for the first layout's magenta. */
+  --b-red: #a92756;
   --b-yellow: #f2b705;
   --b-blue: #1d3f9e;
   --b-black: #0b0b0b;
@@ -1196,21 +1245,19 @@ figcaption span {
 
 /* Reduced motion keeps the structure (cards hold, then fade) and drops travel */
 
-/* The Motion switch, beside the timecode */
+/* The Motion switch, in the header with the language buttons */
 .motion-btn {
-  position: fixed;
-  right: 18px;
-  bottom: 40px;
-  z-index: 62;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   min-height: 44px;
-  padding: 4px 14px;
-  border: 0;
-  background: rgba(11, 11, 11, 0.72);
-  color: var(--b-cream);
-  font: 700 11px 'Roboto';
+  margin-top: 10px;
+  padding: 0 14px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink);
+  font: 700 12px 'Roboto';
   letter-spacing: 0.16em;
   cursor: pointer;
 }
@@ -1218,19 +1265,47 @@ figcaption span {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--b-yellow);
+  background: var(--b-red);
 }
 .motion-btn[aria-pressed='false'] i {
   background: transparent;
-  box-shadow: inset 0 0 0 2px var(--b-cream);
+  box-shadow: inset 0 0 0 2px var(--ink);
 }
-.motion-btn:focus-visible {
-  outline: 3px solid var(--b-yellow);
+
+/* The timecode is film dressing: on a phone it would sit on the text. */
+@media (max-width: 760px) {
+  .film-tc {
+    display: none;
+  }
+}
+
+/* The way to reach me, as large as the name above it allows. */
+.f-mail {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+.f-mail small {
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+.f-mail a {
+  color: var(--ink);
+  font:
+    400 clamp(1.6rem, 1rem + 2.6vw, 3.2rem) / 1.05 'Anton',
+    sans-serif;
+  letter-spacing: 0.01em;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.12em;
+  overflow-wrap: anywhere;
 }
 
 /* Whatever has focus in the finale is visible, whatever the scroll has played. */
 .f-text:focus-within,
+.reel-play:focus-visible,
 .f-text:focus-within .f-role,
+.f-text:focus-within .f-mail,
 .f-text:focus-within .f-links,
 .f-text:focus-within .lt {
   opacity: 1 !important;
@@ -1272,4 +1347,34 @@ figcaption span {
 .clip-btn:focus-visible {
   outline: 3px solid var(--b-yellow);
   outline-offset: 2px;
+}
+
+/* A case told as a decision: why, the call, what it cost. */
+.story {
+  margin: 4px 0 18px;
+  display: grid;
+  gap: 12px;
+}
+.story div {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 4px 16px;
+  align-items: baseline;
+}
+.story dt {
+  font:
+    400 0.95rem/1.2 'Anton',
+    sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-text, var(--accent));
+}
+.story dd {
+  margin: 0;
+  max-width: 62ch;
+}
+@media (max-width: 560px) {
+  .story div {
+    grid-template-columns: 1fr;
+  }
 }

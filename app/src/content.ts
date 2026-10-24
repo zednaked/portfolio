@@ -26,6 +26,10 @@ export const ui = {
     en: 'PAINTER + CREATIVE DEVELOPER',
     pt: 'PINTOR + DESENVOLVEDOR CRIATIVO',
   },
+  tagline: {
+    en: 'I build interactive things for the browser, and I measure them.',
+    pt: 'Construo coisas interativas para o navegador, e meço cada uma.',
+  },
   aboutLabel: { en: 'About me', pt: 'Sobre mim' },
   about: {
     en: 'I learned oil painting through the classical method, and the first portraits below are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art that follow were made. I am also a gardener and a beekeeper.',
@@ -188,6 +192,14 @@ export interface WebPiece {
   alt: Text;
   live: string;
   code?: string;
+  /** The case told as a decision: why it exists, the call made, what it cost. */
+  story?: Story;
+}
+
+export interface Story {
+  why: Text;
+  decision: Text;
+  tradeoff: Text;
 }
 
 export const webUi = {
@@ -202,22 +214,52 @@ export const webUi = {
   tech: { en: 'Technologies', pt: 'Tecnologias' },
   pauseClip: { en: 'Pause clip', pt: 'Pausar vídeo' },
   playClip: { en: 'Play clip', pt: 'Tocar vídeo' },
+  why: { en: 'Why', pt: 'Por quê' },
+  decision: { en: 'The call', pt: 'A decisão' },
+  tradeoff: { en: 'What it cost', pt: 'O custo' },
+  figma: { en: 'Layout in Figma', pt: 'Layout no Figma' },
   pageLabel: { en: 'This page', pt: 'Esta página' },
   page: {
-    en: 'React, TypeScript and GSAP (ScrollTrigger, Flip): chapter cards that collapse into their shape as you scroll, a strip that runs sideways, media that lean with your scroll speed. Median of five loads in headless Chromium, from a local server, so network time is not in it:',
-    pt: 'React, TypeScript e GSAP (ScrollTrigger, Flip): cartelas que encolhem na própria forma conforme a rolagem, uma tira que corre de lado, imagens que inclinam com a velocidade. Mediana de cinco carregamentos no Chromium headless, com servidor local, então o tempo de rede não entra:',
+    en: 'React, TypeScript and GSAP (ScrollTrigger, Flip): chapter cards that collapse into their shape as you scroll, a strip that runs sideways, media that lean with your scroll speed. Every push runs lint, types, unit tests and end-to-end tests with axe before it deploys. Lighthouse on the live site, median of three runs:',
+    pt: 'React, TypeScript e GSAP (ScrollTrigger, Flip): cartelas que encolhem na própria forma conforme a rolagem, uma tira que corre de lado, imagens que inclinam com a velocidade. Cada envio passa por lint, tipos, testes de unidade e de ponta a ponta com axe antes de publicar. Lighthouse no site no ar, mediana de três rodadas:',
   },
   pageA11y: {
-    en: 'When the system asks for reduced motion, which many phones do in battery saver, the page switches to fades with no travel; the Motion button in the corner turns the full version back on, and remembers. The viewer opens from the painting, closes with Escape or a click outside, and puts the focus back where it was. Alt text in both languages.',
-    pt: 'Quando o sistema pede movimento reduzido, como muitos celulares fazem na economia de bateria, a página passa a usar fades, sem deslocamento; o botão Motion no canto liga a versão completa de novo, e lembra. O visualizador abre a partir da pintura, fecha com Esc ou com um clique fora e devolve o foco para onde estava. Texto alternativo nas duas línguas.',
+    en: 'When the system asks for reduced motion, which many phones do in battery saver, the page switches to fades with no travel; the Motion button at the top, next to the language, turns the full version back on, and remembers. The viewer opens from the painting, closes with Escape or a click outside, and puts the focus back where it was. Alt text in both languages.',
+    pt: 'Quando o sistema pede movimento reduzido, como muitos celulares fazem na economia de bateria, a página passa a usar fades, sem deslocamento; o botão Motion no topo, ao lado do idioma, liga a versão completa de novo, e lembra. O visualizador abre a partir da pintura, fecha com Esc ou com um clique fora e devolve o foco para onde estava. Texto alternativo nas duas línguas.',
   },
   proofLabel: { en: 'Shipped and credited', pt: 'Entregue e creditado' },
 } satisfies Record<string, Text>;
 
+export const pageStory: Story = {
+  why: {
+    en: 'To show painting, games and code as one practice, not three CVs.',
+    pt: 'Mostrar pintura, jogos e código como uma prática só, não três currículos.',
+  },
+  decision: {
+    en: 'The layout and its system were designed in Figma; the motion language (Bauhaus shapes, grain, chapter cards) was designed in code for the reel, frame by frame, then brought here. The magenta of the first layout became the accent of the second.',
+    pt: 'O layout e o sistema foram desenhados no Figma; a linguagem de movimento (formas Bauhaus, grão, cartelas) nasceu em código para o reel, quadro a quadro, e depois veio para cá. O magenta do primeiro layout virou o acento do segundo.',
+  },
+  tradeoff: {
+    en: 'Motion against reading. The chapter card collapses while the act rises under it, paced so the shape uncovers the first lines and is gone before they reach the top; below the fold, motion is built when the main thread is free, so it never delays the first paint.',
+    pt: 'Movimento contra leitura. A cartela encolhe enquanto o ato sobe por baixo, no ritmo certo para a forma descobrir as primeiras linhas e sumir antes de elas chegarem ao topo; abaixo da dobra, o movimento é montado quando a thread principal está livre, então nunca atrasa a primeira pintura.',
+  },
+};
+
+export const figmaUrl = 'https://www.figma.com/design/cEitlqrX5FkFCsqS7GZ4G0/Portfolio';
+
 export const pageStats: Stat[] = [
-  { value: 0.38, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
-  { value: 0.35, decimals: 2, unit: ' s', label: { en: 'largest paint, phone', pt: 'maior pintura, celular' } },
-  { value: 0, unit: '', label: { en: 'layout shift', pt: 'deslocamento de layout' } },
+  { value: 100, unit: '', label: { en: 'Lighthouse performance, desktop', pt: 'Lighthouse performance, desktop' } },
+  { value: 0.67, decimals: 2, unit: ' s', label: { en: 'largest paint, desktop', pt: 'maior pintura, desktop' } },
+  {
+    value: 0,
+    unit: '',
+    label: { en: 'layout shift, desktop and phone', pt: 'deslocamento de layout, desktop e celular' },
+  },
+  {
+    value: 26,
+    unit: '',
+    label: { en: 'unit and end-to-end tests, axe included', pt: 'testes de unidade e de ponta a ponta, com axe' },
+  },
 ];
 
 export const webWork: WebPiece[] = [
@@ -250,6 +292,20 @@ export const webWork: WebPiece[] = [
     },
     live: 'https://zednaked.github.io/cheia/',
     code: 'https://github.com/zednaked/cheia',
+    story: {
+      why: {
+        en: 'To help people here: when heavy rain comes, see where the water goes and when it passes 30 cm on your street.',
+        pt: 'Ajudar quem mora aqui: quando vem chuva forte, ver para onde a água vai e quando passa de 30 cm na sua rua.',
+      },
+      decision: {
+        en: 'Open data and a research-grade model, all in the tab: SRTM terrain, OpenStreetMap rivers and streets, and the local inertial shallow-water scheme used in LISFLOOD-FP, one fragment shader per step. No server, no account.',
+        pt: 'Dados abertos e um modelo de pesquisa, tudo na aba: relevo SRTM, rios e ruas do OpenStreetMap e o esquema de água rasa inercial usado no LISFLOOD-FP, um fragment shader por passo. Sem servidor, sem conta.',
+      },
+      tradeoff: {
+        en: 'SRTM measures treetops and roofs, so the terrain was full of false dams. I burned the OpenStreetMap rivers into it, breached the false dams and filled the rest with priority-flood, so the water goes where water goes. 30 m terrain still can’t see a culvert, and the page says so.',
+        pt: 'O SRTM mede copa de árvore e telhado, então o relevo estava cheio de barragens falsas. Queimei os rios do OpenStreetMap nele, rompi as barragens falsas e preenchi o resto com priority-flood, para a água ir aonde a água vai. Um relevo de 30 m ainda não enxerga um bueiro, e a página diz isso.',
+      },
+    },
   },
   {
     id: 'jangada',
@@ -488,6 +544,17 @@ export const games: WebPiece[] = [
       pt: 'Ciberteia em jogo: uma interface de terminal verde sobre preto, com brilho de CRT e franjas de cor sobre uma grade neon, mostrando o distrito Arcologia Flutuante, seus locais e as barras de vida e experiência do jogador.',
     },
     live: 'https://ciberteia-api.zednaked.workers.dev/',
+    story: {
+      why: { en: 'A game I always wanted to make.', pt: 'Um jogo que eu sempre quis fazer.' },
+      decision: {
+        en: 'The roguelike tradition, worlds made of type: every visual is shaders and typography, no art files at all, and every rule runs on the server.',
+        pt: 'A tradição roguelike, mundos feitos de tipografia: todo o visual é shader e tipografia, nenhum arquivo de arte, e toda regra roda no servidor.',
+      },
+      tradeoff: {
+        en: 'With no images, every beat (danger, reward, a city changing) has to land through words, rhythm and effects alone, so the story is told several ways at once.',
+        pt: 'Sem imagens, cada momento (perigo, recompensa, uma cidade mudando) tem que acontecer só com palavras, ritmo e efeitos, então a história é contada de vários jeitos ao mesmo tempo.',
+      },
+    },
   },
   {
     id: 'reidaboca',
@@ -547,7 +614,8 @@ export interface Chapter {
   sub: Text;
 }
 
-export const BAUHAUS = { red: '#d7261e', yellow: '#f2b705', blue: '#1d3f9e', black: '#0b0b0b', cream: '#f1ead8' };
+// red: the first Figma layout's magenta stands in for the reel's primary red.
+export const BAUHAUS = { red: '#a92756', yellow: '#f2b705', blue: '#1d3f9e', black: '#0b0b0b', cream: '#f1ead8' };
 
 export const chapters: Record<'paint' | 'play' | 'code', Chapter> = {
   paint: {
@@ -594,4 +662,6 @@ export const reelUi = {
 export const finaleUi = {
   role: { en: 'PAINTER + CREATIVE DEVELOPER', pt: 'PINTOR + DESENVOLVEDOR CRIATIVO' },
   remote: { en: 'Curitiba, Brazil · remote, any time zone', pt: 'Curitiba, Brasil · remoto, qualquer fuso' },
+  available: { en: 'Open to remote work. Write to me:', pt: 'Disponível para trabalho remoto. Escreva:' },
+  cv: { en: 'CV (PDF)', pt: 'Currículo (PDF, em inglês)' },
 } satisfies Record<string, Text>;

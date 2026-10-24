@@ -23,7 +23,10 @@ export function Reel() {
         // only the play button and the tag arrive.
         gsap.from('.reel-tag', { clipPath: 'inset(0 100% 0 0)', duration: 0.6, delay: 0.3, ease: 'power3.out' });
         gsap.from('.reel-play', {
-          scale: 0,
+          // Never zero size: below the fold it can take keyboard focus before
+          // the scroll plays this, and a zero-size button is nowhere to be seen.
+          scale: 0.35,
+          opacity: 0,
           rotation: -90,
           duration: 0.8,
           delay: 0.5,

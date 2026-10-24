@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
-import { webUi, type Lang, type Stat, type WebPiece } from './content';
+import { webUi, type Lang, type Stat, type Story, type WebPiece } from './content';
 import { useLang } from './i18n';
 
 export function format(value: number, decimals: number, lang: Lang): string {
@@ -74,6 +74,22 @@ const playClip = (v: HTMLVideoElement) => {
   if (v.dataset.held !== '1') void v.play().catch(() => {});
 };
 
+// The case as a decision: why it exists, the call, what it cost. The numbers
+// that follow are the result.
+export function StoryList({ story }: { story: Story }) {
+  const { t } = useLang();
+  return (
+    <dl className="story">
+      {(['why', 'decision', 'tradeoff'] as const).map((key) => (
+        <div key={key}>
+          <dt>{t(webUi[key])}</dt>
+          <dd>{t(story[key])}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
 export function CaseCard({ piece }: { piece: WebPiece }) {
   const { t } = useLang();
   const classes = ['case', piece.phone && 'phone', piece.compact && 'compact'].filter(Boolean).join(' ');
@@ -107,6 +123,7 @@ export function CaseCard({ piece }: { piece: WebPiece }) {
         <p className="case-role">
           <strong>{t(webUi.role)}:</strong> {t(piece.role)}
         </p>
+        {piece.story && <StoryList story={piece.story} />}
         <ul className="chips" aria-label={t(webUi.tech)}>
           {piece.tech.map((tech) => (
             <li className="chip" key={tech}>

@@ -1,17 +1,14 @@
 import { useEffect, useRef } from 'react';
-import { gsap, ScrollTrigger, FULL_MOTION, FULL, setMotion, useIdleGSAP } from './motion';
-import { ui } from './content';
-import { useLang } from './i18n';
+import { gsap, ScrollTrigger, FULL_MOTION, useIdleGSAP } from './motion';
 
 /**
  * Page-wide film layer, the reel's finishing pass on the web:
- * - grain and a riso halftone, fixed over everything, never catching clicks
+ * - grain and a riso halftone applied to the page, never catching clicks
  * - a timecode that runs with the scroll, one frame per 4 px
  * - scroll velocity bends the media and speeds the marquee, then lets go
  * - cards lean toward the pointer
  */
 export function Film() {
-  const { t } = useLang();
   const tc = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -116,16 +113,6 @@ export function Film() {
       <p className="film-tc" aria-hidden="true">
         TG · PORTFOLIO · <span ref={tc}>00:00:00:00</span>
       </p>
-      <button
-        type="button"
-        className="motion-btn"
-        aria-pressed={FULL}
-        onClick={() => setMotion(FULL ? 'reduced' : 'full')}
-        title={t(FULL ? ui.motionDown : ui.motionUp)}
-      >
-        <i aria-hidden="true" />
-        MOTION {FULL ? 'ON' : 'OFF'}
-      </button>
     </>
   );
 }

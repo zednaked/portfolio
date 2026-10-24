@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION, GENTLE_MOTION } from './motion';
+import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion } from './motion';
 import { ui } from './content';
 import { useLang } from './i18n';
 
@@ -14,27 +14,29 @@ export function Header() {
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
-        // The splash is painted in with a diagonal brush sweep, then the name
-        // rises letter by letter out of its own line box.
+        // The name rises letter by letter out of its own line box, then the
+        // three shapes land the way they assemble on the reel's last card.
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-        tl.fromTo(
-          '.splash',
-          { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' },
-          { clipPath: 'polygon(0% 0%, 130% 0%, 100% 100%, 0% 100%)', duration: 1.1, ease: 'power2.inOut' },
-        )
-          .from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.35)
-          .from('.role', { y: 16, autoAlpha: 0, duration: 0.6 }, 0.75)
-          .from('.lang button', { scale: 0.6, autoAlpha: 0, duration: 0.4, stagger: 0.08, ease: 'back.out(2)' }, 0.95);
+        tl.from('.name .char', { yPercent: 110, duration: 0.7, stagger: 0.025 }, 0.1)
+          .from('.h-circle', { scale: 0, duration: 0.6, ease: 'back.out(1.7)' }, 0.35)
+          .from('.h-square', { xPercent: -160, rotation: -45, autoAlpha: 0, duration: 0.7, ease: 'power4.out' }, 0.45)
+          .from('.h-tri', { yPercent: 160, autoAlpha: 0, duration: 0.7, ease: 'power4.out' }, 0.55)
+          .from('.role, .tagline', { y: 16, autoAlpha: 0, duration: 0.6, stagger: 0.1 }, 0.6)
+          .from(
+            '.lang button, .motion-btn',
+            { scale: 0.6, autoAlpha: 0, duration: 0.4, stagger: 0.08, ease: 'back.out(2)' },
+            0.85,
+          );
 
-        // While the page scrolls, the splash drifts slower than the content.
-        gsap.to('.splash', {
-          yPercent: 12,
+        // While the page scrolls, the shapes drift slower than the type.
+        gsap.to('.hero-shapes', {
+          yPercent: 18,
           ease: 'none',
-          scrollTrigger: { trigger: document.body, start: 'top top', end: '+=900', scrub: true },
+          scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
         });
       });
       mm.add(GENTLE_MOTION, () => {
-        gsap.from('.splash, .name, .role, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
+        gsap.from('.name, .hero-shapes, .role, .tagline, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
       });
     },
     { scope: root },
@@ -42,8 +44,13 @@ export function Header() {
 
   return (
     <header className="top" ref={root}>
-      <div className="splash" aria-hidden="true" />
-      <div className="wrap">
+      <div className="tex-paper" aria-hidden="true" />
+      <div className="hero-shapes" aria-hidden="true">
+        <i className="h-circle" />
+        <i className="h-square" />
+        <i className="h-tri" />
+      </div>
+      <div className="wrap hero-text">
         <h1 className="name">
           <span className="sr-only">{NAME}</span>
           {/* One clipping box per word, so a narrow screen can still wrap. */}
@@ -61,6 +68,7 @@ export function Header() {
           ))}
         </h1>
         <p className="role">{t(ui.role)}</p>
+        <p className="tagline">{t(ui.tagline)}</p>
         <div className="lang" role="group" aria-label="Language / Idioma">
           {(['en', 'pt'] as const).map((code) => (
             <button key={code} type="button" aria-pressed={lang === code} onClick={() => setLang(code)}>
@@ -68,6 +76,17 @@ export function Header() {
             </button>
           ))}
         </div>
+        {/* The motion switch sits with the other reader settings, not over the text. */}
+        <button
+          type="button"
+          className="motion-btn"
+          aria-pressed={FULL}
+          onClick={() => setMotion(FULL ? 'reduced' : 'full')}
+          title={t(FULL ? ui.motionDown : ui.motionUp)}
+        >
+          <i aria-hidden="true" />
+          MOTION {FULL ? 'ON' : 'OFF'}
+        </button>
       </div>
     </header>
   );
