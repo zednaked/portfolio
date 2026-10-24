@@ -2014,3 +2014,17 @@ main {
   color: var(--muted);
   font-size: 0.875rem;
 }
+
+/* The glint over a painting under the mouse (paint-glint.ts). */
+.reveal {
+  position: relative;
+}
+.paint-glint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}

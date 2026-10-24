@@ -32,11 +32,16 @@ end-to-end tests use a system Chromium instead of Playwright's download.
 
 ### Motion decisions worth knowing
 
+- **The paint comes back on the paintings** (`src/paint-glint.ts`, 2 KB,
+  loaded on the first hover, desktop with full motion): under the mouse, light
+  catches the relief of the canvas, its height read from the painting's own
+  light and dark, screened over the image. One small canvas moves into the
+  painting under the pointer and leaves when it does.
 - **The CODE act opens on Cheia's terrain, in three.js** (`src/flood-scene.ts`,
   `src/Flood.tsx`): the real relief of Curitiba from the flood simulator's own
   data, baked to a 256 × 256 heightmap (`scripts/bake-cheia.mjs`), drawn as a
   print (paper, ink contours every 20 m and 100 m, rivers) while the scroll
-  raises a water line and turns the camera. The readout (height of the line,
+  raises a water line and turns the camera, and dragging the map sideways moves the water by hand. The readout (height of the line,
   share of the map below it) is a lookup in a height histogram built once. It is
   an illustration on the same terrain, and says so; the simulator runs the
   physics. three.js loads as its own chunk with its own budget, only when the

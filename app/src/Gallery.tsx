@@ -124,6 +124,28 @@ export function Gallery() {
 
   // The enlarged image takes over from the thumbnail: Flip measures the
   // thumbnail, the dialog renders, and the big image animates out of it.
+  // The opening's wet paint, back on the paintings: a glint that follows the
+  // mouse over the canvas's relief. Fetched on the first hover, desktop with
+  // full motion only.
+  useEffect(() => {
+    const el = root.current;
+    if (!el || !FULL || !window.matchMedia('(pointer: fine)').matches) return;
+    let glint: { destroy: () => void } | null = null;
+    let gone = false;
+    const start = () => {
+      el.removeEventListener('pointerover', start);
+      void import('./paint-glint').then(({ createGlint }) => {
+        if (!gone) glint = createGlint(el);
+      });
+    };
+    el.addEventListener('pointerover', start);
+    return () => {
+      gone = true;
+      el.removeEventListener('pointerover', start);
+      glint?.destroy();
+    };
+  }, []);
+
   // Which painting a phone's swipe row is on, for the counter under it.
   const [current, setCurrent] = useState(0);
   const onStripScroll = (e: UIEvent<HTMLDivElement>) => {
