@@ -17,8 +17,8 @@ npm run check        # eslint + prettier + tsc + vitest
 npm run build && npm run test:e2e   # Playwright against the production build
 ```
 
-`CHROMIUM_PATH=/usr/bin/chromium npm run test:e2e` uses a system Chromium
-instead of Playwright's download.
+`CHROMIUM_PATH=/usr/bin/chromium` makes the build's prerender step and the
+end-to-end tests use a system Chromium instead of Playwright's download.
 
 ## How it is put together
 
@@ -69,6 +69,12 @@ English and Portuguese caption tracks (music and on-screen text; there is no
 speech); the yellow accent never carries text on white.
 
 ### Performance
+
+The build prerenders the first screen (`scripts/prerender.mjs`): the production
+page is rendered in Chromium and the header and reel are written into
+`index.html`, so the paper and the reel poster paint before any JavaScript
+runs. The WebGL splash runs only on a real GPU (a software renderer would draw
+on the CPU and block the page) and stops drawing once nothing on it moves.
 
 Measured on the live site with Lighthouse 13.5 (median of three runs):
 desktop 100, LCP 0.67 s; phone (Moto G profile, slow 4G) 83, LCP 2.6 s;

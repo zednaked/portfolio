@@ -134,7 +134,9 @@ export function Gallery() {
     // put keyboard users on Close explicitly.
     d.querySelector<HTMLButtonElement>('.close')?.focus();
     const state = flipState.current;
-    if (state && FULL) {
+    if (!state || !FULL) return;
+    // In a context, so closing the viewer mid-flight reverts what it started.
+    const ctx = gsap.context(() => {
       Flip.from(state, {
         targets: d.querySelector('img'),
         duration: 0.6,
@@ -145,7 +147,8 @@ export function Gallery() {
       // opacity, not autoAlpha: visibility:hidden would drop the focus just
       // placed on Close.
       gsap.from(d.querySelectorAll('.dialog-text > *, .close'), { opacity: 0, y: 12, stagger: 0.06, delay: 0.35 });
-    }
+    }, d);
+    return () => ctx.revert();
   }, [open]);
 
   const hide = () => {

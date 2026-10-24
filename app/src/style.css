@@ -110,6 +110,13 @@ a:hover {
   pointer-events: none;
   will-change: transform, clip-path;
 }
+/* The prerendered first screen (scripts/prerender.mjs): the header's type and
+   paint wait for the opening; the reel poster paints at once. */
+.shell .hero-text,
+.shell .splash {
+  visibility: hidden;
+}
+
 /* Once the WebGL paint is up, the image is drawn by the shader instead. */
 .splash.gl-on {
   background: none;
@@ -1047,6 +1054,18 @@ figcaption span {
   color: var(--b-yellow);
   opacity: 0.45;
   transform: translate(calc(var(--gx) * -1), calc(var(--gy) * -1));
+}
+@media (max-width: 560px) {
+  .stat-num {
+    --gx: 1px;
+    --gy: 0.5px;
+  }
+  .stat-num::before {
+    opacity: 0.25;
+  }
+  .stat-num::after {
+    opacity: 0.3;
+  }
 }
 
 /* Film layer */

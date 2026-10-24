@@ -214,7 +214,9 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
         )
           .from(card.querySelectorAll('.dot'), { scale: 0, duration: 0.45, stagger: 0.12, ease: 'back.out(3)' }, 0.45)
           .from(card.querySelectorAll('.stat-num'), { '--ghost': 0, duration: 0.01 }, 0);
-        // Ghosts off register, jumping a few frames after each number lands.
+        // Ghosts off register, jumping a few frames after each number lands;
+        // half the travel on a phone, where the digits are small.
+        const g = window.innerWidth < 560 ? 0.5 : 1;
         card.querySelectorAll<HTMLElement>('.stat-num').forEach((el, i) => {
           const jumps = [
             [-6, 3],
@@ -223,9 +225,9 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
             [2, 1],
           ];
           jumps.forEach(([x, y], k) => {
-            tl.set(el, { '--gx': `${x}px`, '--gy': `${y}px` }, 1.2 + i * 0.12 + k * 0.07);
+            tl.set(el, { '--gx': `${x * g}px`, '--gy': `${y * g}px` }, 1.2 + i * 0.12 + k * 0.07);
           });
-          tl.set(el, { '--gx': '2px', '--gy': '1px' }, 1.5 + i * 0.12);
+          tl.set(el, { '--gx': `${2 * g}px`, '--gy': `${g}px` }, 1.5 + i * 0.12);
         });
 
         // Numbers count up from zero to the value already in the text.

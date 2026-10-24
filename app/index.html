@@ -27,7 +27,10 @@
      JS that renders it, at the size the screen needs. -->
     <link rel="preload" as="image" href="/img/reel-poster-640.webp" fetchpriority="high" media="(max-width: 760px)" />
     <link rel="preload" as="image" href="/img/reel-poster.webp" fetchpriority="high" media="(min-width: 761px)" />
-    <link rel="preload" as="image" href="/img/splash.webp" />
+    <!-- The paper is the first large paint now that the header is prerendered;
+     the splash is thrown in after it, so it can come second. -->
+    <link rel="preload" as="image" href="/img/paper.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href="/img/splash.webp" fetchpriority="low" />
     <link rel="preload" as="font" type="font/woff2" href="/fonts/anton.woff2" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,6 +41,14 @@
       media="print"
       onload="this.media = 'all'"
     />
+    <noscript
+      ><style>
+        .shell .hero-text,
+        .shell .splash {
+          visibility: visible;
+        }
+      </style></noscript
+    >
     <noscript
       ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap"
     /></noscript>

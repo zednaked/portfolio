@@ -37,8 +37,8 @@ function About() {
           .from('.label', { scaleX: 0, transformOrigin: 'left center', duration: 0.45 }, 0.25)
           .from('.box', { y: 24, duration: 0.6 }, 0.4)
           // The record of exhibitions, then the book laid down page by page.
-          .from('.exhibits li', { x: -20, opacity: 0, duration: 0.45, stagger: 0.08 }, 0.7)
-          .from('.book img', { y: 24, rotation: -3, opacity: 0, duration: 0.6, stagger: 0.1 }, 1.0);
+          .from('.exhibits li', { x: -20, opacity: 0, duration: 0.35, stagger: 0.05 }, 0.3)
+          .from('.book img', { y: 24, rotation: -3, opacity: 0, duration: 0.5, stagger: 0.08 }, 0.5);
       });
     },
     { scope: root },

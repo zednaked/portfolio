@@ -111,8 +111,18 @@ export function createSplashGL(
   const canvas = document.createElement('canvas');
   canvas.className = 'splash-gl';
   canvas.setAttribute('aria-hidden', 'true');
-  const gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true });
+  // No GPU, no shader: a software renderer would draw this on the CPU and
+  // block the page, so it keeps the CSS splash instead.
+  const gl = canvas.getContext('webgl', {
+    premultipliedAlpha: true,
+    antialias: false,
+    alpha: true,
+    failIfMajorPerformanceCaveat: true,
+  });
   if (!gl) return null;
+  const info = gl.getExtension('WEBGL_debug_renderer_info');
+  const renderer = info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : '';
+  if (/swiftshader|llvmpipe|software/i.test(renderer)) return null;
   const vs = compile(gl, gl.VERTEX_SHADER, VERT);
   const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
   const prog = gl.createProgram();
@@ -144,6 +154,7 @@ export function createSplashGL(
   const pointer = { x: 0.3, y: 0.3, vx: 0, vy: 0 };
   const light = { x: 0.3, y: 0.2 };
   let pointerSeen = false;
+  let lastMove = 0;
   let texReady = false;
   let visible = true;
   let raf = 0;
@@ -192,6 +203,8 @@ export function createSplashGL(
     pointer.x = x;
     pointer.y = y;
     pointerSeen = true;
+    lastMove = performance.now();
+    loop();
   };
   window.addEventListener('pointermove', onMove, { passive: true });
 
@@ -234,7 +247,9 @@ export function createSplashGL(
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    loop();
+    // Draw while something moves: the throw, the drips (first seconds), or
+    // the pointer just now. Then the canvas holds its last frame for free.
+    if (reveal.value < 1 || t < 15 || now - lastMove < 1500) loop();
   };
   const loop = () => {
     if (!raf) raf = requestAnimationFrame(frame);
