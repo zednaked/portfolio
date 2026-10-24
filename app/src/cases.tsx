@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from './motion';
-import { webUi, type Lang, type Stat, type Story, type WebPiece } from './content';
+import { budget, webUi, type Lang, type Stat, type Story, type WebPiece } from './content';
 import { useLang } from './i18n';
 
 export function format(value: number, decimals: number, lang: Lang): string {
@@ -341,4 +341,97 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
       });
     });
   }, root);
+}
+
+// The commercial work as a spread: no client, no screenshots, so the evidence
+// is the measurement itself, drawn on the paper. Bars: the pack each player
+// downloads, before (outline) and after (blue); the last row is a range.
+export function BudgetCase() {
+  const { t, lang } = useLang();
+  const max = 80;
+  const W = 520;
+  const L = 86;
+  const row = 46;
+  const x = (mb: number) => L + (mb / max) * (W - L - 12);
+  const mb = (v: number) => format(v, 1, lang);
+  const span = ([a, b]: number[]) => (a === b ? mb(a) : `${mb(a)}–${mb(b)}`);
+  return (
+    <article className="case spread budget" aria-labelledby="case-budget">
+      <figure className="chart">
+        <svg viewBox={`0 0 ${W} ${budget.rows.length * row + 34}`} aria-hidden="true">
+          {[0, 20, 40, 60, 80].map((v) => (
+            <g key={v}>
+              <line x1={x(v)} x2={x(v)} y1={4} y2={budget.rows.length * row + 6} className="grid" />
+              <text x={x(v)} y={budget.rows.length * row + 24} className="tick">
+                {v}
+              </text>
+            </g>
+          ))}
+          {budget.rows.map((r, i) => {
+            const y = i * row + 10;
+            return (
+              <g key={i}>
+                <text x={0} y={y + 22} className="lbl">
+                  {t(r.label)}
+                </text>
+                {/* A range is drawn from its low end, the stretch below it faint. */}
+                {r.before[0] === r.before[1] ? (
+                  <rect x={L} y={y} width={x(r.before[1]) - L} height={14} className="before" />
+                ) : (
+                  <>
+                    <rect x={L} y={y} width={x(r.before[0]) - L} height={14} className="before faint" />
+                    <rect
+                      x={x(r.before[0])}
+                      y={y}
+                      width={x(r.before[1]) - x(r.before[0])}
+                      height={14}
+                      className="before"
+                    />
+                  </>
+                )}
+                <rect x={L} y={y + 17} width={x(r.after[1]) - L} height={14} className="after" />
+              </g>
+            );
+          })}
+        </svg>
+        <figcaption>
+          {t(budget.chart)} · <span className="key-before">{t(budget.before)}</span>{' '}
+          <span className="key-after">{t(budget.after)}</span>
+        </figcaption>
+        <table className="sr-only">
+          <caption>{t(budget.chart)}</caption>
+          <tbody>
+            {budget.rows.map((r, i) => (
+              <tr key={i}>
+                <th scope="row">{t(r.label)}</th>
+                <td>
+                  {t(budget.before)} {span(r.before)}
+                </td>
+                <td>
+                  {t(budget.after)} {span(r.after)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </figure>
+      <div className="case-body">
+        <CaseTitle id="case-budget" title={t(budget.title)} />
+        <p className="what">{t(budget.what)}</p>
+        <p className="case-role">
+          <strong>{t(webUi.role)}:</strong> {t(budget.role)}
+        </p>
+        <ul className="stats">
+          {budget.stats.map((stat, i) => (
+            <StatLine stat={stat} key={i} />
+          ))}
+        </ul>
+        <p className="links">
+          <a className="btn" href={budget.link}>
+            {t(budget.linkText)}
+          </a>
+        </p>
+      </div>
+    </article>
+  );
 }

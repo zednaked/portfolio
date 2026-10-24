@@ -1690,3 +1690,63 @@ main {
     row-gap: clamp(64px, 9vw, 120px);
   }
 }
+
+/* The build budget's chart, drawn on the paper. */
+.budget .chart {
+  margin: 0;
+  align-self: center;
+}
+.budget .chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: Roboto, system-ui, sans-serif;
+}
+.budget .chart .grid {
+  stroke: rgba(11, 11, 11, 0.12);
+}
+.budget .chart .tick {
+  fill: var(--muted);
+  font-size: 12px;
+  text-anchor: middle;
+}
+.budget .chart .lbl {
+  fill: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+.budget .chart .before {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+}
+.budget .chart .before.faint {
+  stroke-dasharray: 3 3;
+  stroke-opacity: 0.35;
+}
+.budget .chart .after {
+  fill: var(--accent);
+}
+.budget figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.budget .key-before,
+.budget .key-after {
+  white-space: nowrap;
+}
+.budget .key-before::before,
+.budget .key-after::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  margin-right: 5px;
+  border: 1.5px solid var(--ink);
+  vertical-align: -1px;
+}
+.budget .key-after::before {
+  border: 0;
+  background: var(--accent);
+}

@@ -231,6 +231,42 @@ export const floodUi = {
   },
 };
 
+// The commercial work, told without the client: the build budget, measured.
+export const budget = {
+  title: {
+    en: 'Build budget, 20+ commercial titles in the browser',
+    pt: 'Orçamento de build, mais de 20 títulos comerciais no navegador',
+  },
+  what: {
+    en: 'Sole front-end engineer on a catalogue of 20+ commercial titles shipped to the browser, under NDA. A teammate’s phone stopped at 90% loading one of them. The pack was 91% textures, re-encoded larger than their source by a lossless import default. Sixteen production builds cut 23% to 76%, no assets deleted.',
+    pt: 'Único engenheiro de front-end num catálogo de mais de 20 títulos comerciais publicados no navegador, sob NDA. O celular de um colega parava em 90% ao carregar um deles. O pacote era 91% texturas, recodificadas maiores que a origem por um padrão de importação sem perdas. Dezesseis builds de produção cortados de 23% a 76%, sem apagar nenhum asset.',
+  },
+  role: { en: 'Measurement, the fix, the write-up.', pt: 'Medição, correção e o texto do método.' },
+  chart: {
+    en: 'Download size of the pack (brotli), before and after, in MB',
+    pt: 'Tamanho do pacote baixado (brotli), antes e depois, em MB',
+  },
+  before: { en: 'before', pt: 'antes' },
+  after: { en: 'after', pt: 'depois' },
+  rows: [
+    { label: { en: '3rd', pt: '3º' }, before: [18.9, 18.9], after: [9.9, 9.9] },
+    { label: { en: '4th', pt: '4º' }, before: [38.7, 38.7], after: [14.0, 14.0] },
+    { label: { en: '5th', pt: '5º' }, before: [42.4, 42.4], after: [10.3, 10.3] },
+    { label: { en: '6th–16th', pt: '6º–16º' }, before: [14.0, 77.0], after: [7.7, 27.2] },
+  ],
+  stats: [
+    { value: 16, unit: '', label: { en: 'production builds, one method', pt: 'builds de produção, um método' } },
+    { value: 0, unit: '', label: { en: 'assets deleted', pt: 'assets apagados' } },
+    {
+      value: 3,
+      unit: '%',
+      label: { en: 'left to take on the first, a month later', pt: 'restando no primeiro, um mês depois' },
+    },
+  ] as Stat[],
+  link: 'https://github.com/zednaked/godot-web-build-budget',
+  linkText: { en: 'Read the method', pt: 'Ler o método' },
+};
+
 export const webUi = {
   label: { en: 'Built, then measured', pt: 'Construído, depois medido' },
   intro: {
@@ -560,14 +596,6 @@ export interface Proof {
 }
 
 export const proofs: Proof[] = [
-  {
-    text: {
-      en: 'Sole front-end engineer on a catalogue of 20+ commercial titles shipped to the browser (client work under NDA). Sixteen production builds cut 23% to 76% with no assets deleted, the method written up step by step:',
-      pt: 'Único engenheiro de front-end num catálogo de mais de 20 títulos comerciais publicados para o navegador (trabalho sob NDA). Dezesseis builds de produção cortados de 23% a 76% sem apagar nenhum asset, com o método escrito passo a passo:',
-    },
-    link: 'https://github.com/zednaked/godot-web-build-budget',
-    linkText: 'godot-web-build-budget',
-  },
   {
     text: {
       en: 'Felucca, firmware for a pocket synth: my ratchets shipped in release 1.0.5, credited in the notes.',

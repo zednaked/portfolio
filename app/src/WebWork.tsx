@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { deskWork, figmaUrl, pageStats, pageStory, webUi, webWork } from './content';
 import { useLang } from './i18n';
-import { CaseCard, StatLine, StoryList, useCaseMotion } from './cases';
+import { BudgetCase, CaseCard, StatLine, StoryList, useCaseMotion } from './cases';
 import { Flood } from './Flood';
 
 export function WebWork() {
@@ -20,6 +20,7 @@ export function WebWork() {
         <p className="intro">{t(webUi.intro)}</p>
 
         <div className="cases">
+          <BudgetCase />
           {webWork
             .filter((p) => !p.compact)
             .map((piece) => (
