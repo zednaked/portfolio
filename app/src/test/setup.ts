@@ -1,9 +1,18 @@
 // jsdom lacks the browser APIs the page leans on; these stand in for them.
 import '@testing-library/jest-dom/vitest';
-import { afterEach, vi } from 'vitest';
+import { afterAll, afterEach, vi } from 'vitest';
 import { cleanup } from '@testing-library/react';
 
 afterEach(() => cleanup());
+
+// GSAP's ticker keeps scheduling frames; once jsdom is torn down there is no
+// requestAnimationFrame left to call. Stop it with the file's last test.
+afterAll(async () => {
+  // Imported here, not at the top: motion.ts reads matchMedia, mocked below.
+  const { gsap, ScrollTrigger } = await import('../motion');
+  ScrollTrigger.killAll();
+  gsap.ticker.sleep();
+});
 
 // Node 26 defines its own global localStorage (undefined without a flag), which
 // hides jsdom's. A small in-memory Storage stands in.
