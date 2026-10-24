@@ -19,8 +19,8 @@ export const ui = {
     pt: 'PINTOR + DESENVOLVEDOR CRIATIVO',
   },
   tagline: {
-    en: 'I build interactive things for the browser, and I measure them.',
-    pt: 'Construo coisas interativas para o navegador, e meço cada uma.',
+    en: 'Code is art. I paint, build games for the browser, and measure every one.',
+    pt: 'Código é arte. Pinto, faço jogos para o navegador e meço cada um.',
   },
   jump: { en: 'Jump to', pt: 'Ir para' },
   jumpPaint: { en: 'Painting', pt: 'Pintura' },
@@ -29,8 +29,8 @@ export const ui = {
   jumpCredits: { en: 'Shipped and credited', pt: 'Entregue e creditado' },
   aboutLabel: { en: 'About me', pt: 'Sobre mim' },
   about: {
-    en: 'I learned oil painting through the classical method, and the first portraits in PAINT, above, are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art after them were made. I am also a gardener and a beekeeper. To me, code is art: made with the same care as a painting.',
-    pt: 'Aprendi pintura a óleo pelo método clássico, e os primeiros retratos do PAINT, acima, são óleo sobre tela. Depois passei para a pintura digital no iPad, onde foram feitos a ilustração, o character design e a arte de jogos que vêm depois deles. Também sou jardineiro e apicultor. Pra mim, código é arte: feito com o mesmo cuidado de uma pintura.',
+    en: 'I learned oil painting through the classical method, and the first portraits in PAINT, above, are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art after them were made. I am also a gardener and a beekeeper. I make code with the same care as a painting.',
+    pt: 'Aprendi pintura a óleo pelo método clássico, e os primeiros retratos do PAINT, acima, são óleo sobre tela. Depois passei para a pintura digital no iPad, onde foram feitos a ilustração, o character design e a arte de jogos que vêm depois deles. Também sou jardineiro e apicultor. Faço código com o mesmo cuidado de uma pintura.',
   },
   portraitAlt: {
     en: 'Portrait of Thiago Gonçalves, long dark hair and beard, plaid shirt, holding paintbrushes.',
