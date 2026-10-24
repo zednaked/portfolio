@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion } from './motion';
+import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion, switched } from './motion';
 import { ui } from './content';
 import { createSplashGL } from './splash-gl';
 import { useLang } from './i18n';
@@ -36,6 +36,11 @@ export function Header() {
               () => {
                 splash.classList.add('gl-on');
                 gsap.set(splash, { clipPath: 'none' });
+                // After a motion switch the opening has been seen: no replay.
+                if (switched) {
+                  if (paint) paint.reveal.value = 1;
+                  return;
+                }
                 gsap.to(paint?.reveal ?? {}, { value: 1, duration: 2.2, ease: 'power1.inOut' });
                 // White type needs paint under it: the name waits for the throw.
                 gsap.delayedCall(0.9, () => tl.play());
@@ -59,6 +64,7 @@ export function Header() {
             { scale: 0.6, opacity: 0, duration: 0.4, stagger: 0.08, ease: 'back.out(2)' },
             0.85,
           );
+        if (switched) tl.progress(1);
 
         // While the page scrolls, the paint drifts slower than the type.
         gsap.to('.splash', {
@@ -69,7 +75,8 @@ export function Header() {
         return () => paint?.destroy();
       });
       mm.add(GENTLE_MOTION, () => {
-        gsap.from('.splash, .name, .role, .tagline, .jump, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
+        if (!switched)
+          gsap.from('.splash, .name, .role, .tagline, .jump, .lang', { opacity: 0, duration: 0.8, stagger: 0.12 });
       });
     },
     { scope: root },
@@ -121,7 +128,8 @@ export function Header() {
           title={t(FULL ? ui.motionDown : ui.motionUp)}
         >
           <i aria-hidden="true" />
-          MOTION {FULL ? 'ON' : 'OFF'}
+          {/* The pressed state carries on/off for screen readers. */}
+          MOTION <span aria-hidden="true">{FULL ? 'ON' : 'OFF'}</span>
         </button>
       </div>
     </header>

@@ -105,3 +105,26 @@ test('a keyboard walk from the top reaches every section, all of it visible', as
     ).toBe(true);
   }
 });
+
+test('the motion switch applies at once, keeping the language and the place', async ({ page }) => {
+  await page.goto('./?lang=pt');
+  await page.getByRole('button', { name: 'EN', exact: true }).click();
+  const card = page.locator('article[aria-labelledby="case-cheia"]');
+  await card.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+  const before = await card.evaluate((e) => e.getBoundingClientRect().top);
+  let navigated = false;
+  page.on('framenavigated', () => (navigated = true));
+  const motion = page.locator('.motion-btn');
+  const wasFull = (await motion.getAttribute('aria-pressed')) === 'true';
+  // Clicked where it is, without scrolling to it, so the place is the card's.
+  await motion.evaluate((b: HTMLElement) => {
+    b.click();
+  });
+  await expect(motion).toHaveAttribute('aria-pressed', String(!wasFull));
+  await page.waitForTimeout(1500);
+  expect(navigated).toBe(false);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  const after = await card.evaluate((e) => e.getBoundingClientRect().top);
+  expect(Math.abs(after - before)).toBeLessThan(120);
+});

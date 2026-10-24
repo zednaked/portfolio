@@ -26,7 +26,7 @@ instead of Playwright's download.
 |---|---|---|
 | Content | `src/content.ts` | Every string and number, in both languages, typed with `satisfies Record<string, Text>`; the components never hold copy. |
 | Language | `src/i18n.tsx` | `?lang=` beats the saved choice; switching updates `<html lang>` and the title. |
-| Motion policy | `src/motion.ts` | One decision for the page: the system's reduced-motion setting is the default, the MOTION button overrides it and is remembered. Reduced is gentle (fades, no travel), not frozen. |
+| Motion policy | `src/motion.ts` | One decision for the page: the system's reduced-motion setting is the default (and followed live), the MOTION button overrides it and is remembered. A switch remounts the app under a new key: every GSAP context reverts with its component and rebuilds, no reload, and the reader stays on the card they were reading. Reduced is gentle (fades, no travel), not frozen. |
 | Sections | `src/*.tsx` | One component per section; each owns its timelines inside a GSAP context, so unmounting reverts them. |
 | Film layer | `src/Film.tsx`, `style.css` | Grain and halftone applied to the document (they scroll with the page), timecode, scroll-velocity lean, pointer tilt. |
 

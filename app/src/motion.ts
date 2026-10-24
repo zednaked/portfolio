@@ -8,8 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 gsap.config({ nullTargetWarn: false });
 
 // One decision for the whole page. The system's reduced-motion setting is the
-// default; the Motion button overrides it and the choice is kept. Many phones
-// turn reduced motion on with battery saver, so the reduced path is gentle
+// default; the Motion button overrides it, applies at once and is kept. Many
+// phones turn reduced motion on with battery saver, so the reduced path is gentle
 // (fades, no travel), not frozen.
 export type MotionPref = 'full' | 'reduced';
 
@@ -22,24 +22,98 @@ function saved(): MotionPref | null {
   }
 }
 
-export const systemReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-export const motionPref: MotionPref = saved() ?? (systemReduced ? 'reduced' : 'full');
-export const FULL = motionPref === 'full';
+const reduceQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+export const systemReduced = reduceQuery.matches;
 
+// Live bindings: the whole page is remounted when they change, so every
+// component reads them fresh in its own setup.
+export let motionPref: MotionPref = 'full';
+export let FULL = true;
 // gsap.matchMedia takes media queries: "all" always matches, "not all" never.
-export const FULL_MOTION = FULL ? 'all' : 'not all';
-export const GENTLE_MOTION = FULL ? 'not all' : 'all';
+export let FULL_MOTION = 'all';
+export let GENTLE_MOTION = 'not all';
+/** True once the visitor has switched motion during this visit. */
+export let switched = false;
 
-document.documentElement.classList.add(FULL ? 'motion-full' : 'motion-reduced');
+function apply(pref: MotionPref) {
+  motionPref = pref;
+  FULL = pref === 'full';
+  FULL_MOTION = FULL ? 'all' : 'not all';
+  GENTLE_MOTION = FULL ? 'not all' : 'all';
+  document.documentElement.classList.toggle('motion-full', FULL);
+  document.documentElement.classList.toggle('motion-reduced', !FULL);
+}
+apply(saved() ?? (systemReduced ? 'reduced' : 'full'));
 
+// The page re-renders from a version number: a switch bumps it, and main.tsx
+// keys the app on it.
+let version = 0;
+const listeners = new Set<() => void>();
+export function subscribeMotion(fn: () => void) {
+  listeners.add(fn);
+  return () => {
+    listeners.delete(fn);
+  };
+}
+export const motionVersion = () => version;
+
+// What the reader was looking at, so the switch doesn't move them: the card or
+// section under the upper third of the screen, and how far into it they were.
+function anchor() {
+  const el = document
+    .elementFromPoint(window.innerWidth / 2, window.innerHeight / 3)
+    ?.closest<HTMLElement>('article, section, header');
+  if (!el) return null;
+  const all = [...document.querySelectorAll('article, section, header')];
+  const r = el.getBoundingClientRect();
+  return { index: all.indexOf(el), into: (window.innerHeight / 3 - r.top) / Math.max(1, r.height) };
+}
+function restore(a: ReturnType<typeof anchor>) {
+  if (!a) return;
+  const all = document.querySelectorAll('article, section, header');
+  if (a.index < 0 || a.index >= all.length) return;
+  const el = all[a.index];
+  const r = el.getBoundingClientRect();
+  window.scrollTo(0, window.scrollY + r.top + a.into * r.height - window.innerHeight / 3);
+}
+
+function switchTo(pref: MotionPref) {
+  if (pref === motionPref) return;
+  const a = anchor();
+  apply(pref);
+  switched = true;
+  version++;
+  listeners.forEach((fn) => {
+    fn();
+  });
+  // Once after the new page paints, and again after the deferred sections
+  // have built their triggers (pins add height).
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+      restore(a);
+    });
+  });
+  window.setTimeout(() => {
+    ScrollTrigger.refresh();
+    restore(a);
+  }, 1300);
+}
+
+/** The Motion button: applies at once, and the choice is kept. */
 export function setMotion(pref: MotionPref) {
   try {
     localStorage.setItem('motion', pref);
   } catch {
     // Storage blocked: the switch still applies for this visit.
   }
-  location.reload();
+  switchTo(pref);
 }
+
+// Without a saved choice, the page follows the system setting as it changes.
+reduceQuery.addEventListener('change', (e) => {
+  if (!saved()) switchTo(e.matches ? 'reduced' : 'full');
+});
 
 // Below-the-fold motion is built when the main thread is free, not in the
 // first render: two dozen ScrollTriggers measured at once were a 1 s task on a
