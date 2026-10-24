@@ -89,14 +89,16 @@ speech); the yellow accent never carries text on white.
 
 ### Performance
 
-The build prerenders the first screen (`scripts/prerender.mjs`): the production
+The app mounts only once the shell's paper is on screen, so the shell, not
+the app's re-render of it, is the largest paint: before that, Lighthouse put
+the whole JS download and run inside the LCP (3.1 s; now 2.0 s). The build prerenders the first screen (`scripts/prerender.mjs`): the production
 page is rendered in Chromium and the header and reel are written into
 `index.html`, so the paper and the reel poster paint before any JavaScript
 runs. The WebGL splash runs only on a real GPU (a software renderer would draw
 on the CPU and block the page) and stops drawing once nothing on it moves.
 
 Measured on the live site with Lighthouse 13.5 (median of three runs):
-desktop 100; phone (Moto G profile, slow 4G) 88, LCP 3.0 s, TBT 290 ms;
+desktop 100; phone (Moto G profile, slow 4G) 95-96, LCP 2.0 s, TBT ~200 ms;
 accessibility 100; CLS 0 in both. CI runs the same measurement on every build
 before it can deploy (`scripts/lighthouse.mjs` against `scripts/serve.mjs`,
 gzip like Pages) and blocks it if the phone falls under 85, LCP passes 3.5 s

@@ -110,7 +110,6 @@ export function Header() {
 
   return (
     <header className="top" ref={root}>
-      <div className="tex-paper" aria-hidden="true" />
       <div className="splash" aria-hidden="true" />
       <div className="wrap hero-text">
         <h1 className="name">

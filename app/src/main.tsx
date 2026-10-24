@@ -15,10 +15,29 @@ function Root() {
   return <App key={version} />;
 }
 
-createRoot(el).render(
-  <StrictMode>
-    <LangProvider>
-      <Root />
-    </LangProvider>
-  </StrictMode>,
-);
+// The prerendered shell paints first, then the app takes over: mounting after
+// the shell's paper is on screen lets the shell be the largest paint on its
+// own, instead of the app's re-render of it (which put the whole JS download
+// and run inside the LCP).
+const mount = () =>
+  createRoot(el).render(
+    <StrictMode>
+      <LangProvider>
+        <Root />
+      </LangProvider>
+    </StrictMode>,
+  );
+if (el.childElementCount > 0) {
+  // Once the shell's paper (its largest paint) is decoded and on screen, at
+  // most a second in.
+  const paper = new Image();
+  paper.src = `${import.meta.env.BASE_URL}img/paper.webp`;
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    requestAnimationFrame(() => setTimeout(mount, 0));
+  };
+  paper.decode().then(start, start);
+  setTimeout(start, 1000);
+} else mount();

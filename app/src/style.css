@@ -146,8 +146,18 @@ a:hover {
 .tagline {
   text-shadow: 0 1px 14px rgba(60, 10, 40, 0.35);
 }
-.top .tex-paper {
+/* The header's paper is a pseudo-element, not a div: it is the largest thing
+   on the first screen, and as an element it became the LCP twice (the shell's
+   and, when the app re-rendered it a few pixels taller, the app's). */
+.top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background: url('/img/paper.webp') 0 0 / 640px 640px repeat;
+  opacity: 0.55;
 }
 .hero-text {
   position: relative;
