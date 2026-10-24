@@ -236,12 +236,20 @@ export interface Exhibit {
 }
 
 // From the catalogues, the diploma and the book (photographed 24/10/2026).
+// The Louvre first, the strongest; the rest newest first.
 export const exhibits: Exhibit[] = [
   {
     when: { en: '2015 · Carrousel du Louvre, Paris', pt: '2015 · Carrousel du Louvre, Paris' },
     what: {
       en: 'Gold medal for an oil portrait, Artcom Expo International.',
       pt: 'Medalha de ouro com um retrato a óleo, Artcom Expo International.',
+    },
+  },
+  {
+    when: { en: '2021 · Curitiba', pt: '2021 · Curitiba' },
+    what: {
+      en: 'Kleshas, a virtual exhibition backed by Fundação Cultural de Curitiba through its arts patronage program.',
+      pt: 'Kleshas, exposição virtual apoiada pela Fundação Cultural de Curitiba por meio do mecenato.',
     },
   },
   {
@@ -260,13 +268,6 @@ export const exhibits: Exhibit[] = [
     what: {
       en: 'Solo exhibition and a lecture on portrait painting, Centro Cultural Luis Gagliastri.',
       pt: 'Exposição individual e palestra sobre pintura de retrato, Centro Cultural Luis Gagliastri.',
-    },
-  },
-  {
-    when: { en: '2021 · Curitiba', pt: '2021 · Curitiba' },
-    what: {
-      en: 'Kleshas, a virtual exhibition backed by Fundação Cultural de Curitiba through its arts patronage program.',
-      pt: 'Kleshas, exposição virtual apoiada pela Fundação Cultural de Curitiba por meio do mecenato.',
     },
   },
 ];
