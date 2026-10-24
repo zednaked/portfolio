@@ -614,8 +614,7 @@ export interface Chapter {
   sub: Text;
 }
 
-// red: the first Figma layout's magenta stands in for the reel's primary red.
-export const BAUHAUS = { red: '#a92756', yellow: '#f2b705', blue: '#1d3f9e', black: '#0b0b0b', cream: '#f1ead8' };
+export const BAUHAUS = { red: '#d7261e', yellow: '#f2b705', blue: '#1d3f9e', black: '#0b0b0b', cream: '#f1ead8' };
 
 export const chapters: Record<'paint' | 'play' | 'code', Chapter> = {
   paint: {

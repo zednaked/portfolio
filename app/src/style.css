@@ -89,14 +89,36 @@ a:hover {
   top: 16px;
 }
 
-/* Header: the reel's last card as the first screen. Name in Anton, the three
-   shapes (the circle in the magenta of the first Figma layout), on paper. */
+/* Header: the magenta splash of the first Figma layout, painted onto the
+   paper, with the reel's signature over it: the name in Anton and the three
+   primary shapes. White type holds on the paint. */
 .top {
   position: relative;
-  overflow: hidden;
   padding: clamp(56px, 10vw, 140px) 0 clamp(48px, 7vw, 104px);
-  background: var(--b-cream);
-  color: var(--ink);
+  color: #fff;
+}
+/* Only paint, no paper: the splash runs past the header and drips behind the
+   reel onto the page, as it did on the first layout. */
+.splash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: max(100vw, 900px);
+  aspect-ratio: 1200 / 1417;
+  background: url('/img/splash.webp') no-repeat left top / 100% auto;
+  pointer-events: none;
+  will-change: transform, clip-path;
+}
+.top :focus-visible {
+  outline-color: #fff;
+}
+.hero-shapes {
+  z-index: 0;
+}
+.name,
+.tagline {
+  text-shadow: 0 1px 14px rgba(60, 10, 40, 0.35);
 }
 .top .tex-paper {
   z-index: 0;
@@ -162,7 +184,7 @@ a:hover {
 
 .role {
   margin: 0.9em 0 0;
-  color: var(--accent);
+  color: var(--b-cream);
   font-size: clamp(0.9rem, 0.8rem + 0.4vw, 1.1rem);
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -183,10 +205,10 @@ a:hover {
   min-width: 48px;
   min-height: 44px;
   padding: 0 12px;
-  border: 2px solid var(--ink);
+  border: 2px solid #fff;
   border-radius: 4px;
-  background: transparent;
-  color: var(--ink);
+  background: rgba(40, 10, 30, 0.45);
+  color: #fff;
   font-family: inherit;
   font-size: 1rem;
   font-weight: 700;
@@ -201,8 +223,8 @@ a:hover {
   translate: 0 -2px;
 }
 .lang button[aria-pressed='true'] {
-  background: var(--ink);
-  color: var(--b-cream);
+  background: #fff;
+  color: var(--ink);
 }
 
 @media (max-width: 760px) {
@@ -676,8 +698,7 @@ figcaption span {
   font-display: swap;
 }
 :root {
-  /* The red of the reel's primaries, swapped for the first layout's magenta. */
-  --b-red: #a92756;
+  --b-red: #d7261e;
   --b-yellow: #f2b705;
   --b-blue: #1d3f9e;
   --b-black: #0b0b0b;
@@ -1253,10 +1274,10 @@ figcaption span {
   min-height: 44px;
   margin-top: 10px;
   padding: 0 14px;
-  border: 2px solid var(--ink);
+  border: 2px solid #fff;
   border-radius: 4px;
-  background: transparent;
-  color: var(--ink);
+  background: rgba(40, 10, 30, 0.45);
+  color: #fff;
   font: 700 12px 'Roboto';
   letter-spacing: 0.16em;
   cursor: pointer;
@@ -1269,7 +1290,7 @@ figcaption span {
 }
 .motion-btn[aria-pressed='false'] i {
   background: transparent;
-  box-shadow: inset 0 0 0 2px var(--ink);
+  box-shadow: inset 0 0 0 2px #fff;
 }
 
 /* The timecode is film dressing: on a phone it would sit on the text. */
