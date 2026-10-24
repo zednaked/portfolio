@@ -270,8 +270,8 @@ export const budget = {
 export const webUi = {
   label: { en: 'Built, then measured', pt: 'Construído, depois medido' },
   intro: {
-    en: 'Things I built for the browser and the desktop, each with the number I measured on it.',
-    pt: 'Coisas que construí para o navegador e para a área de trabalho, cada uma com o número que medi nela.',
+    en: 'For the browser and the desktop, each with the number I measured.',
+    pt: 'Para o navegador e para a área de trabalho, cada um com o número que medi.',
   },
   role: { en: 'My role', pt: 'Meu papel' },
   live: { en: 'Open it live', pt: 'Abrir no ar' },
@@ -415,7 +415,7 @@ export const webWork: WebPiece[] = [
       en: 'Rain falls on the real terrain of a metropolitan region and the water runs downhill in a browser tab. Search a street and it tells you at what time the water passes 30 cm there.',
       pt: 'A chuva cai no relevo real de uma região metropolitana e a água desce morro abaixo numa aba do navegador. Busque uma rua e ele diz a que horas a água passa de 30 cm ali.',
     },
-    role: { en: 'Alone: data pipeline, simulation, interface.', pt: 'Sozinho: dados, simulação, interface.' },
+    role: { en: 'Solo: data pipeline, simulation, interface.', pt: 'Sozinho: dados, simulação, interface.' },
     tech: ['three.js', 'GLSL', 'Vite', 'Service Worker'],
     stats: [
       {
@@ -494,7 +494,7 @@ export const webWork: WebPiece[] = [
       en: 'One mechanic as a single self-contained HTML file, with every byte accounted for. Stubbing the WebGPU and Canvas renderers out of the bundle cut 66 KB with no change to the game.',
       pt: 'Uma mecânica num único arquivo HTML autocontido, com cada byte contabilizado. Tirar os renderizadores WebGPU e Canvas do bundle cortou 66 KB sem mudar nada no jogo.',
     },
-    role: { en: 'Alone: game, build tooling, measurement.', pt: 'Sozinho: jogo, ferramenta de build, medição.' },
+    role: { en: 'Solo: game, build tooling, measurement.', pt: 'Sozinho: jogo, ferramenta de build, medição.' },
     tech: ['PixiJS v8', 'WebGL', 'esbuild'],
     stats: [
       { value: 630, unit: ' KB', label: { en: 'the whole ad, one file', pt: 'o anúncio inteiro, um arquivo' } },
@@ -567,7 +567,7 @@ export const deskWork: WebPiece[] = [
       en: 'Seven dwarves with hunger, thirst, sleep, mood and trades dig, farm and brew in a world that keeps ticking while you work, drawn in the colours of the active theme.',
       pt: 'Sete anões com fome, sede, sono, humor e ofícios cavam, plantam e fermentam num mundo que continua andando enquanto você trabalha, desenhado nas cores do tema ativo.',
     },
-    role: { en: 'Alone: simulation and interface.', pt: 'Sozinho: simulação e interface.' },
+    role: { en: 'Solo: simulation and interface.', pt: 'Sozinho: simulação e interface.' },
     tech: ['QML', 'JavaScript'],
     stats: [
       { value: 48, unit: '×30', label: { en: 'cells, 8 levels of depth', pt: 'células, 8 níveis de profundidade' } },
@@ -643,8 +643,8 @@ const play: Text = { en: 'Play it', pt: 'Jogar' };
 export const gamesUi = {
   label: { en: 'Games, made alone', pt: 'Jogos, feitos sozinho' },
   intro: {
-    en: 'Games I made on my own. Most of my game work is client work under NDA; these are the ones I can show.',
-    pt: 'Jogos que fiz por conta própria. A maior parte do meu trabalho com jogos é para cliente, sob NDA; estes são os que posso mostrar.',
+    en: 'Three games of my own, design and code. The studio titles are under NDA; their numbers are in CODE.',
+    pt: 'Três jogos meus, design e código. Os títulos de estúdio estão sob NDA; os números deles estão em CODE.',
   },
 } satisfies Record<string, Text>;
 
@@ -664,7 +664,7 @@ export const games: WebPiece[] = [
       pt: 'Explore distritos, invada o ciberespaço, roube créditos de outros jogadores. Quando alguém derruba o Chrome Dragon, todos voltam ao nível 1. Toda regra roda no servidor; o cliente Godot só desenha o estado e envia o que o jogador quer fazer.',
     },
     role: {
-      en: 'Alone: design, writing, the Godot client, the Cloudflare server, the synthesized audio.',
+      en: 'Solo: design, writing, the Godot client, the Cloudflare server, the synthesized audio.',
       pt: 'Sozinho: design, texto, o cliente Godot, o servidor na Cloudflare, o áudio sintetizado.',
     },
     tech: ['Godot 4.7 web', 'Shaders', 'TypeScript', 'Cloudflare Workers', 'Durable Objects', 'D1', 'WebSocket'],

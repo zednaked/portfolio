@@ -1750,3 +1750,43 @@ main {
   border: 0;
   background: var(--accent);
 }
+
+/* Every case is set on the paper, like the spreads: a rule over it instead of
+   a white card, the media with its own shadow. On a phone the media runs edge
+   to edge. Credits and the exhibition record are set the same way. */
+.case {
+  padding: 18px 0 0;
+  background: none;
+  box-shadow: none;
+  border-top: 3px solid var(--ink);
+}
+.case .cn {
+  display: none;
+}
+.case > .shot {
+  box-shadow: 0 14px 32px rgba(20, 20, 30, 0.2);
+}
+.case.self {
+  padding: 18px 0 0;
+  border-left: 0;
+}
+@media (min-width: 900px) {
+  .case.spread {
+    border-top: 0;
+  }
+  .case:not(.spread),
+  .cases-pair > .case:last-child:nth-child(odd) {
+    padding: 18px 0 0;
+  }
+}
+@media (max-width: 899px) {
+  .case > .shot:not(.phone .shot) {
+    margin: 0 -16px;
+    width: calc(100% + 32px);
+  }
+}
+.proofs li,
+.exhibits li {
+  background: none;
+  padding: 10px 0 10px 16px;
+}
