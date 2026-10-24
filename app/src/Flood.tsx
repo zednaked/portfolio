@@ -88,7 +88,11 @@ export function Flood() {
             setReady(true);
           })
           .catch(() => {
-            // The canvas stays empty and hidden; the caption still reads.
+            // The probe passed but the context didn't open (a driver that
+            // refuses it, a GPU reset): the still takes the stage.
+            if (gone) return;
+            holdPlace();
+            setLive(false);
           });
       },
       { rootMargin: '150% 0px' },

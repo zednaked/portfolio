@@ -468,15 +468,19 @@ export function CaseIndex({ pieces, featured }: { pieces: WebPiece[]; featured: 
           const lead = big ? what : (what.split(/(?<=\.)\s/)[0] ?? what);
           return (
             <li key={p.id} className={big ? 'index-row featured' : 'index-row'}>
-              <img
-                src={p.img}
-                width={p.width}
-                height={p.height}
-                alt={t(p.alt)}
-                loading="lazy"
-                decoding="async"
-                className={p.phone ? 'index-shot phone' : 'index-shot'}
-              />
+              {/* The one-liners go without a picture: a thumbnail of a dark
+                  desktop capture reads as a broken image. */}
+              {big && (
+                <img
+                  src={p.img}
+                  width={p.width}
+                  height={p.height}
+                  alt={t(p.alt)}
+                  loading="lazy"
+                  decoding="async"
+                  className={p.phone ? 'index-shot phone' : 'index-shot'}
+                />
+              )}
               <div>
                 <CaseTitle id={`case-${p.id}`} title={t(p.title)} />
                 <p className="what">{lead}</p>

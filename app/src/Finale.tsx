@@ -17,7 +17,8 @@ export function Finale() {
     const mm = gsap.matchMedia();
     mm.add(FULL_MOTION, () => {
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom bottom', scrub: 0.5 },
+        // Done by the time the card fills the screen, not still rising there.
+        scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'top top', scrub: 0.5 },
       });
       // The shapes arrive as the card comes up, not after a screen of paper.
       tl.from('.f-circle', { scale: 0, duration: 0.3, ease: 'back.out(1.7)' }, 0.05)

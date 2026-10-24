@@ -26,7 +26,7 @@ export const ui = {
   jumpPaint: { en: 'Painting', pt: 'Pintura' },
   jumpPlay: { en: 'Games', pt: 'Jogos' },
   jumpCode: { en: 'Code', pt: 'Código' },
-  jumpCredits: { en: 'Credited by other projects', pt: 'Creditado por outros projetos' },
+  jumpCredits: { en: 'Shipped and credited', pt: 'Entregue e creditado' },
   aboutLabel: { en: 'About me', pt: 'Sobre mim' },
   about: {
     en: 'I learned oil painting through the classical method, and the first portraits in PAINT, above, are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art after them were made. I am also a gardener and a beekeeper.',
@@ -48,8 +48,8 @@ export const ui = {
   motionDown: { en: 'Turn motion down', pt: 'Reduzir o movimento' },
   motionUp: { en: 'Turn full motion on', pt: 'Ligar o movimento completo' },
   colophon: {
-    en: 'This page and the reel share one language: Bauhaus shapes, paper, halftone, grain. React, TypeScript and GSAP; gentler motion when your system asks for it, full motion one tap away.',
-    pt: 'Esta página e o reel falam a mesma língua: formas Bauhaus, papel, retícula, grão. React, TypeScript e GSAP; movimento mais suave quando o sistema pede, o completo a um toque.',
+    en: 'This page and the reel share one language: paint thrown on paper, Bauhaus shapes for the chapters, halftone, grain. React, TypeScript, GSAP, WebGL and three.js; gentler motion when your system asks for it, full motion one tap away.',
+    pt: 'Esta página e o reel falam a mesma língua: tinta jogada no papel, formas Bauhaus nos capítulos, retícula, grão. React, TypeScript, GSAP, WebGL e three.js; movimento mais suave quando o sistema pede, o completo a um toque.',
   },
 } satisfies Record<string, Text>;
 
