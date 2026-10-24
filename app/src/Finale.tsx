@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { gsap, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
-import { finaleUi, ui } from './content';
+import { ui } from './content';
+import { finaleUi } from './content-work';
 import { useLang } from './i18n';
 
 /**

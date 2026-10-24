@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { deskWork, figmaUrl, pageStats, pageStory, webUi, webWork } from './content';
+import { deskWork, figmaUrl, pageStats, pageStory, webUi, webWork } from './content-work';
 import { useLang } from './i18n';
 import { BudgetCase, CaseCard, StatLine, StoryList, useCaseMotion } from './cases';
 import { Flood } from './Flood';

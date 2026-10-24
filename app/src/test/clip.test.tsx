@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LangProvider } from '../i18n';
 import { CaseCard } from '../cases';
-import { games } from '../content';
+import { games } from '../content-work';
 
 const withClip = games.find((g) => g.video);
 

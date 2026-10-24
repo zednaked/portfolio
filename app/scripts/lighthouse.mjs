@@ -1,5 +1,6 @@
-// Lighthouse on the live site, phone profile, median of three runs, with the
-// thresholds the README claims. Runs after each deploy (CI), or by hand:
+// Lighthouse, phone profile, median of three runs, against the thresholds the
+// README claims. CI runs it on the build (served with gzip by serve.mjs)
+// before deploying; by hand it measures the live site:
 //   node scripts/lighthouse.mjs [url]
 import { execFileSync } from 'node:child_process';
 import { mkdtempSync, readFileSync } from 'node:fs';

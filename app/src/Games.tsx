@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { games, gamesUi } from './content';
+import { games, gamesUi } from './content-work';
 import { useLang } from './i18n';
 import { CaseCard, useCaseMotion } from './cases';
 

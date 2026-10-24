@@ -1,4 +1,4 @@
-import { proofs, webUi } from './content';
+import { proofs, webUi } from './content-work';
 import { useLang } from './i18n';
 
 export function Proofs() {

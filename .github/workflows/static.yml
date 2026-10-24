@@ -42,6 +42,13 @@ jobs:
         run: npm run build
       - name: End-to-end tests (Chromium; desktop, phone, reduced motion)
         run: npm run test:e2e
+      # The build is measured before it can deploy: phone profile, median of
+      # three, served with gzip like Pages, against the README's limits.
+      - name: Lighthouse gate (phone, median of 3)
+        run: |
+          node scripts/serve.mjs 4180 &
+          sleep 1
+          CHROME_PATH=$(which google-chrome) node scripts/lighthouse.mjs http://127.0.0.1:4180/portfolio/
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -64,18 +71,3 @@ jobs:
       - uses: actions/configure-pages@v5
       - id: deployment
         uses: actions/deploy-pages@v4
-
-  # The live site, measured after it deploys: phone profile, median of three,
-  # against the numbers the README claims. It reports; it can't un-deploy.
-  lighthouse:
-    needs: deploy
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Lighthouse, phone, median of 3
-        run: CHROME_PATH=$(which google-chrome) node scripts/lighthouse.mjs
-

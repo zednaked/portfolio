@@ -4,7 +4,8 @@ import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from '
 
 // Flip is only the viewer's, so it ships in this chunk, not the first one.
 gsap.registerPlugin(Flip);
-import { artworks, ui, type Artwork } from './content';
+import { ui } from './content';
+import { artworks, type Artwork } from './content-work';
 import { useLang } from './i18n';
 
 export function Gallery() {

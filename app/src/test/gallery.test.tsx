@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LangProvider } from '../i18n';
 import { Gallery } from '../Gallery';
-import { artworks } from '../content';
+import { artworks } from '../content-work';
 
 const first = artworks[0];
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { FULL, ScrollTrigger, refreshSoon } from './motion';
-import { floodUi } from './content';
+import { floodUi } from './content-work';
 import { useLang } from './i18n';
 import type { FloodScene } from './flood-scene';
 import { hasGPU } from './gpu';

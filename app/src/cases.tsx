@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from './motion';
-import { budget, webUi, type Lang, type Stat, type Story, type WebPiece } from './content';
+import type { Lang } from './content';
+import { budget, webUi, type Stat, type Story, type WebPiece } from './content-work';
 import { useLang } from './i18n';
 
 export function format(value: number, decimals: number, lang: Lang): string {
