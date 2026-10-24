@@ -131,7 +131,9 @@ function land(id: string) {
 document.addEventListener('click', (e) => {
   const a = e.target instanceof Element ? e.target.closest<HTMLAnchorElement>('a[href^="#"]') : null;
   const id = a ? decodeURIComponent(a.hash.slice(1)) : '';
-  if (id && !document.getElementById(id)) owe(() => land(id));
+  // Until every deferred section has built its triggers (pins add height),
+  // the section can exist and still move: the link stays owed until then.
+  if (id && (pending > 0 || !document.getElementById(id))) owe(() => land(id));
 });
 
 try {
@@ -201,6 +203,22 @@ reduceQuery.addEventListener('change', (e) => {
 // pin moves everything after it).
 let refreshTimer = 0;
 let settledTimer = 0;
+// Deferred setups not yet run: while any is, the page is still building.
+let pending = 0;
+
+/**
+ * Keep the reader where they are through a change of height the page is about
+ * to make itself (the terrain giving way to its still): the place is taken
+ * now, before the layout moves, and put back after the refresh.
+ */
+export function holdPlace() {
+  if (owed || window.scrollY < 1) return;
+  const a = anchor();
+  owe(() => {
+    restore(a);
+    return true;
+  });
+}
 /** The one way the page re-measures its triggers, so the reader's place
     (or the place owed to them) is kept through every change of height. */
 export function refreshSoon() {
@@ -215,7 +233,8 @@ export function refreshSoon() {
     // one that can't land yet (its section isn't built) waits for the next.
     clearTimeout(settledTimer);
     if (owed) {
-      if (owed()) settledTimer = window.setTimeout(() => (owed = null), 1500);
+      // Paid once it has landed with nothing left to build.
+      if (owed() && pending === 0) settledTimer = window.setTimeout(() => (owed = null), 1500);
     } else if (here) restore(here);
   }, 120);
 }
@@ -225,7 +244,11 @@ export function useIdleGSAP(setup: () => void, scope?: RefObject<Element | null>
   const first = useRef(setup);
   useEffect(() => {
     let ctx: gsap.Context | null = null;
+    let done = false;
+    pending++;
     const run = () => {
+      done = true;
+      pending--;
       ctx = gsap.context(first.current, scope?.current ?? undefined);
       refreshSoon();
     };
@@ -234,6 +257,7 @@ export function useIdleGSAP(setup: () => void, scope?: RefObject<Element | null>
     return () => {
       if (idle) window.cancelIdleCallback(id);
       else clearTimeout(id);
+      if (!done) pending--;
       ctx?.revert();
     };
   }, [scope]);

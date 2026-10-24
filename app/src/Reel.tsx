@@ -63,7 +63,7 @@ export function Reel() {
           <img
             className="reel-shell-poster"
             src={`${base}img/reel-poster.webp`}
-            srcSet={`${base}img/reel-poster-640.webp 640w, ${base}img/reel-poster.webp 1280w`}
+            srcSet={`${base}img/reel-poster-640.webp 640w, ${base}img/reel-poster-960.webp 960w, ${base}img/reel-poster.webp 1280w`}
             sizes="(max-width: 760px) 100vw, 1088px"
             width={1280}
             height={720}

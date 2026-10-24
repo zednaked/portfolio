@@ -45,7 +45,8 @@ test('the CODE act opens on the terrain, and the scroll raises the water', async
   const span = await flood.evaluate((e) => e.offsetHeight - window.innerHeight);
   for (let y = 0; y < top; y += 600) await page.evaluate((v) => window.scrollTo(0, v), y);
   await page.evaluate((v) => window.scrollTo(0, v), top);
-  await expect(page.locator('.flood-canvas.on')).toHaveCount(1, { timeout: 8000 });
+  // Generous: the GPU is shared with the other workers when the suite runs in parallel.
+  await expect(page.locator('.flood-canvas.on')).toHaveCount(1, { timeout: 20000 });
   const low = await page.locator('.flood-readout b').first().textContent();
   await page.evaluate((v) => window.scrollTo(0, v), top + span);
   await page.waitForTimeout(400);
@@ -60,7 +61,8 @@ test('if the GPU drops the terrain, the still takes its place', async ({ page })
   const top = await flood.evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
   for (let y = 0; y < top; y += 600) await page.evaluate((v) => window.scrollTo(0, v), y);
   await page.evaluate((v) => window.scrollTo(0, v), top);
-  await expect(page.locator('.flood-canvas.on')).toHaveCount(1, { timeout: 8000 });
+  // Generous: the GPU is shared with the other workers when the suite runs in parallel.
+  await expect(page.locator('.flood-canvas.on')).toHaveCount(1, { timeout: 20000 });
   await page.locator('.flood-canvas').evaluate((c: HTMLCanvasElement) => {
     c.getContext('webgl2')?.getExtension('WEBGL_lose_context')?.loseContext();
   });

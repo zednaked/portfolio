@@ -94,8 +94,8 @@ Measured on the live site with Lighthouse 13.5 (median of three runs):
 desktop 100; phone (Moto G profile, slow 4G) 88, LCP 3.0 s, TBT 290 ms;
 accessibility 100; CLS 0 in both. CI runs the same measurement on every build
 before it can deploy (`scripts/lighthouse.mjs` against `scripts/serve.mjs`,
-gzip like Pages) and blocks it if the phone falls under 80, LCP passes 3.5 s
-or TBT 400 ms. The copy below the fold ships with the lazy sections
+gzip like Pages) and blocks it if the phone falls under 85, LCP passes 3.5 s
+or TBT 300 ms. The copy below the fold ships with the lazy sections
 (`content-work.ts`), not in the entry chunk. The paper, the largest paint, is preloaded;
 Roboto loads without blocking the first paint; videos and paintings off
 screen are fetched only when they come near, paintings at the size the frame

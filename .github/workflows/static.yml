@@ -47,7 +47,7 @@ jobs:
       - name: Lighthouse gate (phone, median of 3)
         run: |
           node scripts/serve.mjs 4180 &
-          sleep 1
+          until curl -sf http://127.0.0.1:4180/portfolio/ >/dev/null; do sleep 0.2; done
           CHROME_PATH=$(which google-chrome) node scripts/lighthouse.mjs http://127.0.0.1:4180/portfolio/
       - uses: actions/upload-artifact@v4
         if: failure()

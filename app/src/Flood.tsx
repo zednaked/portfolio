@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { FULL, ScrollTrigger, refreshSoon } from './motion';
+import { FULL, ScrollTrigger, holdPlace, refreshSoon } from './motion';
 import { floodUi } from './content-work';
 import { useLang } from './i18n';
 import type { FloodScene } from './flood-scene';
@@ -34,7 +34,10 @@ export function Flood() {
     if (!FULL) return;
     const idle = 'requestIdleCallback' in window;
     const check = () => {
-      if (!hasGPU()) setLive(false);
+      if (!hasGPU()) {
+        holdPlace();
+        setLive(false);
+      }
     };
     const id = idle ? window.requestIdleCallback(check, { timeout: 1500 }) : window.setTimeout(check, 200);
     return () => {
@@ -62,7 +65,10 @@ export function Flood() {
     let st: ScrollTrigger | null = null;
     let gone = false;
     // If the GPU drops the context (a driver reset), the still takes over.
-    const lost = () => setLive(false);
+    const lost = () => {
+      holdPlace();
+      setLive(false);
+    };
     cv.addEventListener('webglcontextlost', lost);
     const io = new IntersectionObserver(
       ([entry]) => {
