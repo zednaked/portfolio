@@ -178,17 +178,6 @@ a:hover {
 .jump a:hover {
   text-decoration-color: var(--b-cream);
 }
-.jump-n {
-  display: inline-grid;
-  place-items: center;
-  min-width: 1.6em;
-  height: 1.6em;
-  border-radius: 50%;
-  background: #fff;
-  color: #7d1b3f;
-  font-size: 0.85em;
-  text-decoration: none;
-}
 .lang {
   display: flex;
   gap: 10px;

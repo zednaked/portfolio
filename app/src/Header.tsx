@@ -1,12 +1,10 @@
 import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion } from './motion';
-import { proofs, ui } from './content';
+import { ui } from './content';
 import { useLang } from './i18n';
 
 const NAME = 'THIAGO GONÇALVES';
-// Credits from other people's projects; the first proof is his own write-up.
-const credited = proofs.filter((p) => !p.link.includes('github.com/zednaked/')).length;
 
 export function Header() {
   const { lang, setLang, t } = useLang();
@@ -75,9 +73,7 @@ export function Header() {
           <a href="#paint">{t(ui.jumpPaint)}</a>
           <a href="#play">{t(ui.jumpPlay)}</a>
           <a href="#code">{t(ui.jumpCode)}</a>
-          <a href="#credits">
-            {t(ui.jumpCredits)} <span className="jump-n">{credited}</span>
-          </a>
+          <a href="#credits">{t(ui.jumpCredits)}</a>
         </nav>
         <div className="lang" role="group" aria-label="Language / Idioma">
           {(['en', 'pt'] as const).map((code) => (
