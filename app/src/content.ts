@@ -472,6 +472,30 @@ export const proofs: Proof[] = [
   },
   {
     text: {
+      en: 'Felucca 1.6.1 runs on both cores of the synth: the split between cores, the measurements and the hardening come from my Jangada firmware, credited in the release and in the code.',
+      pt: 'O Felucca 1.6.1 roda nos dois núcleos do sintetizador: a divisão entre os núcleos, as medições e o reforço vêm do meu firmware Jangada, com crédito no release e no código.',
+    },
+    link: 'https://github.com/hugelton/Felucca/releases/tag/v1.6.1',
+    linkText: 'Felucca v1.6.1',
+  },
+  {
+    text: {
+      en: 'X0X, another firmware for the same synth: my measurements of units whose second core misreads memory, and three fixes, shipped in releases 1.0.4 and 1.0.7, thanked by name.',
+      pt: 'X0X, outro firmware para o mesmo sintetizador: minhas medições de unidades em que o segundo núcleo lê a memória errado, e três correções, saíram nas versões 1.0.4 e 1.0.7, com agradecimento pelo nome.',
+    },
+    link: 'https://github.com/charlesvestal/fm1-x0x/issues/10',
+    linkText: 'charlesvestal/fm1-x0x #10',
+  },
+  {
+    text: {
+      en: 'Audible Field, a web audio piece: after my measurement the author moved its audio to mono Opus, about 90% less audio transferred (32.6 to 1.86 MB), and wrote it up crediting me by name.',
+      pt: 'Audible Field, uma obra de áudio na web: depois da minha medição o autor passou o áudio para Opus mono, cerca de 90% menos áudio transferido (32,6 para 1,86 MB), e publicou o resultado com o meu nome.',
+    },
+    link: 'https://www.linkedin.com/feed/update/urn:li:activity:7515588700316110848/',
+    linkText: 'Gary Boodhoo on LinkedIn',
+  },
+  {
+    text: {
       en: 'Sonix, a Linux DAW in Rust: reading the code, I found an unrouted plugin output growing about 384 KB a second. Fixed and credited in the commit the same day:',
       pt: 'Sonix, uma DAW de Linux em Rust: lendo o código, achei uma saída de plugin sem rota crescendo cerca de 384 KB por segundo. Corrigido e creditado no commit no mesmo dia:',
     },
