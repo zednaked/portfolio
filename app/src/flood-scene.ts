@@ -74,6 +74,8 @@ void main() {
 export interface FloodScene {
   /** 0–1: where the scroll is in the act's opening. */
   setProgress: (p: number) => void;
+  /** Moves the water line by hand, in metres, on top of what the scroll set. */
+  nudge: (metres: number) => void;
   destroy: () => void;
 }
 
@@ -149,11 +151,13 @@ export async function createFloodScene(
   const camera = new PerspectiveCamera(32, 1, 0.1, 100);
 
   let progress = 0;
+  let offset = 0;
   let portrait = false;
   const render = () => {
     // Front-loaded: the first scroll already floods the valley floors.
     const ease = 1 - (1 - progress) ** 2;
-    const level = range.from + (range.to - range.from) * ease;
+    // The hand's offset rides on the scroll's level, kept on the map.
+    const level = Math.max(range.lo + 2, Math.min(range.hi - 40, range.from + (range.to - range.from) * ease + offset));
     mat.uniforms.uLevel.value = level;
     // The camera turns a little and comes down over the city as the water rises.
     group.rotation.y = -0.6 + ease * 1.1;
@@ -192,6 +196,10 @@ export async function createFloodScene(
   return {
     setProgress: (p) => {
       progress = p;
+      render();
+    },
+    nudge: (metres) => {
+      offset = Math.max(-200, Math.min(200, offset + metres));
       render();
     },
     destroy: () => {

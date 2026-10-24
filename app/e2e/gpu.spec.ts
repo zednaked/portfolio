@@ -69,3 +69,22 @@ test('if the GPU drops the terrain, the still takes its place', async ({ page })
   await expect(page.locator('.flood-still')).toBeVisible();
   await expect(page.locator('.flood-canvas')).toHaveCount(0);
 });
+
+test('dragging the map sideways moves the water line', async ({ page }) => {
+  await page.route(/\.(mp4|webm)$/, (r) => r.abort());
+  await page.goto('./');
+  const flood = page.locator('.flood');
+  const top = await flood.evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
+  for (let y = 0; y < top; y += 600) await page.evaluate((v) => window.scrollTo(0, v), y);
+  await page.evaluate((v) => window.scrollTo(0, v + 200), top);
+  await expect(page.locator('.flood-canvas.on')).toHaveCount(1, { timeout: 20000 });
+  const before = parseInt((await page.locator('.flood-readout b').first().textContent()) ?? '0');
+  const box = await page.locator('.flood-canvas').boundingBox();
+  if (!box) throw new Error('no canvas');
+  await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.3);
+  await page.mouse.down();
+  await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.3, { steps: 8 });
+  await page.mouse.up();
+  const after = parseInt((await page.locator('.flood-readout b').first().textContent()) ?? '0');
+  expect(after).toBeGreaterThan(before + 10);
+});

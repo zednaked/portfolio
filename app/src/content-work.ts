@@ -187,6 +187,7 @@ export const floodUi = {
     pt: 'O terreno de Curitiba e da região desenhado como gravura, papel creme e curvas de nível a tinta, com água azul enchendo os vales.',
   },
   level: { en: 'water line', pt: 'linha d’água' },
+  drag: { en: 'Drag the map sideways to move the water.', pt: 'Arraste o mapa para os lados e mova a água.' },
   under: { en: 'of the map below it', pt: 'do mapa abaixo dela' },
   alt: {
     en: 'Cheia in the browser: a 3D satellite map of Curitiba with the rivers in blue and the rain controls on the left.',

@@ -48,6 +48,7 @@ export function Flood() {
     let scene: FloodScene | null = null;
     let st: ScrollTrigger | null = null;
     let gone = false;
+    let detach: () => void = () => undefined;
     // If the GPU drops the context (a driver reset), the still takes over.
     const lost = () => {
       holdPlace();
@@ -86,6 +87,30 @@ export function Flood() {
             });
             s.setProgress(st.progress);
             setReady(true);
+            // Drag sideways on the map to move the water by hand: the scroll
+            // sets the line, the hand plays with it. Sideways only, so a
+            // phone's vertical swipe still scrolls the page.
+            let lastX: number | null = null;
+            const down = (e: PointerEvent) => {
+              lastX = e.clientX;
+              cv.setPointerCapture(e.pointerId);
+            };
+            const move = (e: PointerEvent) => {
+              if (lastX === null) return;
+              s.nudge(((e.clientX - lastX) / cv.clientWidth) * 120);
+              lastX = e.clientX;
+            };
+            const up = () => (lastX = null);
+            cv.addEventListener('pointerdown', down);
+            cv.addEventListener('pointermove', move);
+            cv.addEventListener('pointerup', up);
+            cv.addEventListener('pointercancel', up);
+            detach = () => {
+              cv.removeEventListener('pointerdown', down);
+              cv.removeEventListener('pointermove', move);
+              cv.removeEventListener('pointerup', up);
+              cv.removeEventListener('pointercancel', up);
+            };
           })
           .catch(() => {
             // The probe passed but the context didn't open (a driver that
@@ -100,6 +125,7 @@ export function Flood() {
     io.observe(el);
     return () => {
       gone = true;
+      detach();
       cv.removeEventListener('webglcontextlost', lost);
       io.disconnect();
       st?.kill();
@@ -140,6 +166,7 @@ export function Flood() {
               </span>
             </p>
           )}
+          {live && ready && <p className="flood-drag">{t(floodUi.drag)}</p>}
         </div>
       </div>
     </section>
