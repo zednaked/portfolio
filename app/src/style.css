@@ -1665,8 +1665,16 @@ main {
   .case.spread .cn {
     display: none;
   }
+  /* The media grows past the text column toward the screen edge, by the
+     margin there is, at most 160 px: on a very wide screen it stays near its
+     text instead of being pushed off to the edge. It grows (width) as well as
+     moves (margin), so no gap opens between picture and text. */
+  .case.spread {
+    --bleed: min(160px, max(0px, (100vw - 1088px) / 2));
+  }
   .case.spread > .shot {
-    margin-left: min(0px, calc((1088px - 100vw) / 2));
+    margin-left: calc(-1 * var(--bleed));
+    width: calc(100% + var(--bleed));
     box-shadow: 0 18px 40px rgba(20, 20, 30, 0.22);
   }
   .cases > .case.spread:nth-child(even) {
@@ -1675,7 +1683,7 @@ main {
   .cases > .case.spread:nth-child(even) > .shot {
     order: 2;
     margin-left: 0;
-    margin-right: min(0px, calc((1088px - 100vw) / 2));
+    margin-right: calc(-1 * var(--bleed));
   }
   .case.spread .case-name {
     font-size: clamp(2.6rem, 1.4rem + 3.6vw, 4.6rem);
@@ -1805,12 +1813,6 @@ main {
 .budget figcaption .keys {
   display: block;
   margin-top: 4px;
-}
-/* A spread with its media on the right runs it off the right edge too. */
-@media (min-width: 900px) {
-  .cases > .case.spread:nth-child(even) > .shot {
-    width: calc(100% + max(0px, (100vw - 1088px) / 2));
-  }
 }
 
 /* The book plate is as wide as the book, not the column. */

@@ -232,3 +232,17 @@ test('on a slow CPU a jump clicked during boot lands on its section', async ({ p
   await page.waitForTimeout(3000);
   expect(await page.locator('#credits').evaluate((e) => Math.abs(e.getBoundingClientRect().top))).toBeLessThan(200);
 });
+
+test('on a very wide screen a spread keeps its picture next to its text', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'spreads are a wide-screen layout');
+  await page.setViewportSize({ width: 2560, height: 1200 });
+  await page.goto('./');
+  const spread = page.locator('article[aria-labelledby="case-jangada"]');
+  await spread.scrollIntoViewIfNeeded();
+  const gap = await spread.evaluate((e) => {
+    const shot = e.querySelector('.shot')?.getBoundingClientRect();
+    const body = e.querySelector('.case-body')?.getBoundingClientRect();
+    return shot && body ? Math.min(Math.abs(body.left - shot.right), Math.abs(shot.left - body.right)) : 9999;
+  });
+  expect(gap).toBeLessThan(120);
+});
