@@ -283,8 +283,8 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
         tl.fromTo(
           card.querySelectorAll('.stat-num, .stat-unit'),
           { clipPath: 'inset(100% 0% 0% 0%)', yPercent: 40 },
-          { clipPath: 'inset(0% 0% 0% 0%)', yPercent: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out' },
-          0.35,
+          { clipPath: 'inset(0% 0% 0% 0%)', yPercent: 0, duration: 0.4, stagger: 0.04, ease: 'power3.out' },
+          0.2,
         );
 
         // A clip plays only while its card is on screen.

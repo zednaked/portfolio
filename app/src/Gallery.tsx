@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type UIEvent } from 'react';
 import { Flip } from 'gsap/Flip';
 import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from './motion';
 
@@ -124,6 +124,16 @@ export function Gallery() {
 
   // The enlarged image takes over from the thumbnail: Flip measures the
   // thumbnail, the dialog renders, and the big image animates out of it.
+  // Which painting a phone's swipe row is on, for the counter under it.
+  const [current, setCurrent] = useState(0);
+  const onStripScroll = (e: UIEvent<HTMLDivElement>) => {
+    const row = e.currentTarget;
+    const pieces = [...row.querySelectorAll<HTMLElement>('.piece')];
+    const left = row.scrollLeft + row.clientWidth * 0.3;
+    const i = pieces.findIndex((p) => p.offsetLeft + p.offsetWidth > left);
+    setCurrent(i < 0 ? pieces.length - 1 : i);
+  };
+
   const show = (art: Artwork, button: HTMLButtonElement) => {
     opener.current = button;
     flipState.current = Flip.getState(button.querySelector('img'));
@@ -183,7 +193,7 @@ export function Gallery() {
       <h2 className="label" id="work-h">
         {t(ui.workLabel)}
       </h2>
-      <div className="gallery">
+      <div className="gallery" onScroll={onStripScroll}>
         {artworks.map((art) => (
           <figure className={art.wide ? 'piece wide' : 'piece'} key={art.id}>
             <button
@@ -199,7 +209,7 @@ export function Gallery() {
                     ? `${art.small} 480w, ${art.small.replace('-480', '-640')} 640w, ${art.src} ${art.width}w`
                     : undefined
                 }
-                sizes="(max-width: 760px) 62vw, 600px"
+                sizes="(max-width: 760px) 84vw, 600px"
                 width={art.width}
                 height={art.height}
                 style={{ '--r': art.height / art.width, backgroundColor: art.tone } as CSSProperties}
@@ -216,6 +226,13 @@ export function Gallery() {
           </figure>
         ))}
       </div>
+      {/* Phones swipe the strip: where you are in it, and that there is more. */}
+      <p className="strip-count" aria-hidden="true">
+        <span>
+          {current + 1} / {artworks.length}
+        </span>
+        <span>{current + 1 < artworks.length ? t(ui.swipe) : ''}</span>
+      </p>
 
       {/* A click on the backdrop closes, as in any lightbox; the keyboard has
           Esc (onCancel) and the Close button, so no key handler is missing. */}

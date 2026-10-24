@@ -151,7 +151,8 @@ export async function createFloodScene(
   let progress = 0;
   let portrait = false;
   const render = () => {
-    const ease = progress * progress * (3 - 2 * progress);
+    // Front-loaded: the first scroll already floods the valley floors.
+    const ease = 1 - (1 - progress) ** 2;
     const level = range.from + (range.to - range.from) * ease;
     mat.uniforms.uLevel.value = level;
     // The camera turns a little and comes down over the city as the water rises.

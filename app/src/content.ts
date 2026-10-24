@@ -42,6 +42,7 @@ export const ui = {
     pt: 'No livro: Artists Across Continents 2015 (Artcom Expo), páginas 166 e 167.',
   },
   workLabel: { en: 'Oil and digital paint', pt: 'Óleo e pintura digital' },
+  swipe: { en: 'swipe for more →', pt: 'deslize para ver mais →' },
   open: { en: 'View larger', pt: 'Ver maior' },
   close: { en: 'Close', pt: 'Fechar' },
   motionDown: { en: 'Turn motion down', pt: 'Reduzir o movimento' },

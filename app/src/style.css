@@ -1355,9 +1355,9 @@ figcaption span {
   min-height: 44px;
   display: grid;
   place-items: center;
-  border: 0;
-  background: rgba(11, 11, 11, 0.78);
-  color: var(--b-cream);
+  border: 2px solid var(--b-black);
+  background: var(--b-cream);
+  color: var(--b-black);
   font:
     700 14px/1 system-ui,
     sans-serif;
@@ -1841,4 +1841,28 @@ main {
 .case.self .stat-num::before,
 .case.self .stat-num::after {
   display: none;
+}
+
+@media (max-width: 899px) {
+  /* On a phone the build budget reads heading first, then its chart. */
+  .budget .chart {
+    order: 2;
+  }
+}
+/* The phone strip: big paintings, where you are in it, and a hint to swipe. */
+.strip-count {
+  display: none;
+}
+@media (max-width: 760px) {
+  .motion-full .paint-strip .gallery .piece {
+    --cap: 84vw;
+  }
+  .strip-count {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 6vw 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+  }
 }
