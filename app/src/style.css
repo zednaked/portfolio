@@ -1385,3 +1385,39 @@ figcaption span {
 .motion-reduced .act-body {
   padding-top: 12vh;
 }
+
+/* Wide cases: the media stays beside the text as it scrolls, instead of
+   leaving half the card empty under a short screenshot. */
+@media (min-width: 900px) {
+  .case > .shot {
+    position: sticky;
+    top: 12vh;
+  }
+}
+
+/* Grain and halftone sit under the content: on the paper, not on the
+   paintings, screenshots and white cards. */
+.film-grain,
+.film-riso {
+  z-index: 0;
+}
+.top,
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Phones: the painting strip is a native row you swipe, one painting at a time. */
+@media (max-width: 760px) {
+  .motion-full .paint-strip .gallery {
+    width: auto;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 6vw;
+    padding-bottom: 14px;
+  }
+  .motion-full .paint-strip .gallery .piece {
+    scroll-snap-align: start;
+  }
+}

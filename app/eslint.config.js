@@ -23,7 +23,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['*.config.{js,ts}', 'e2e/**'],
+    files: ['*.config.{js,ts}', 'e2e/**', 'scripts/**'],
     languageOptions: { globals: globals.node },
   },
 );

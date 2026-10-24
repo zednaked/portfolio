@@ -235,7 +235,9 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
               duration: 1.1,
               ease: 'power2.out',
               onUpdate: () => {
-                el.textContent = format(counter.v, decimals, langRef.current);
+                // The off-register ghosts read data-txt: keep them on the counting
+                // number, or they show the final value beside it.
+                el.textContent = el.dataset.txt = format(counter.v, decimals, langRef.current);
               },
             },
             0.55 + i * 0.12,
@@ -292,7 +294,9 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
               duration: 1,
               ease: 'power2.out',
               onUpdate: () => {
-                el.textContent = format(counter.v, decimals, langRef.current);
+                // The off-register ghosts read data-txt: keep them on the counting
+                // number, or they show the final value beside it.
+                el.textContent = el.dataset.txt = format(counter.v, decimals, langRef.current);
               },
             },
             0.3 + k * 0.1,

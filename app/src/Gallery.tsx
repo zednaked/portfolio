@@ -1,5 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
-import { gsap, Flip, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
+import { Flip } from 'gsap/Flip';
+import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
+
+// Flip is only the viewer's, so it ships in this chunk, not the first one.
+gsap.registerPlugin(Flip);
 import { artworks, ui, type Artwork } from './content';
 import { useLang } from './i18n';
 
@@ -38,6 +42,9 @@ export function Gallery() {
       // the strip moves, each painting is uncovered as it comes in.
       const track = root.current?.querySelector<HTMLElement>('.gallery');
       if (!track) return;
+      // On a phone the strip is a native, swipeable row (scroll-snap in the
+      // CSS): pinning a sideways track under a vertical swipe fights the thumb.
+      if (window.matchMedia('(max-width: 760px)').matches) return;
       const dist = () => Math.max(0, track.scrollWidth - window.innerWidth + 96);
       const run = gsap.to(track, {
         x: () => -dist(),

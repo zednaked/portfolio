@@ -1,18 +1,21 @@
-import { useRef } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import { gsap, FULL_MOTION } from './motion';
 import { ui } from './content';
 import { useLang } from './i18n';
 import { Header } from './Header';
-import { Gallery } from './Gallery';
-import { WebWork } from './WebWork';
-import { Games } from './Games';
-import { Proofs } from './Proofs';
 import { Act } from './Chapter';
 import { Reel } from './Reel';
-import { Finale } from './Finale';
 import { Film, Marquee } from './Film';
 import { chapters } from './content';
+
+// Everything below the reel arrives as its own chunk, after the first paint:
+// the phone parses and runs less JavaScript before it can respond.
+const Gallery = lazy(() => import('./Gallery').then((m) => ({ default: m.Gallery })));
+const Games = lazy(() => import('./Games').then((m) => ({ default: m.Games })));
+const WebWork = lazy(() => import('./WebWork').then((m) => ({ default: m.WebWork })));
+const Proofs = lazy(() => import('./Proofs').then((m) => ({ default: m.Proofs })));
+const Finale = lazy(() => import('./Finale').then((m) => ({ default: m.Finale })));
 
 function About() {
   const { t } = useLang();
@@ -22,7 +25,10 @@ function About() {
     () => {
       const mm = gsap.matchMedia();
       mm.add(FULL_MOTION, () => {
-        const tl = gsap.timeline({ delay: 0.5, defaults: { ease: 'power3.out' } });
+        const tl = gsap.timeline({
+          defaults: { ease: 'power3.out' },
+          scrollTrigger: { trigger: root.current, start: 'top 80%', once: true },
+        });
         tl.fromTo(
           '.portrait',
           { clipPath: 'inset(0% 0% 100% 0%)' },
@@ -99,19 +105,22 @@ export function App() {
       <Header />
       <main>
         <Reel />
-        <About />
-        <Proofs />
+        {/* The work comes first; who made it and who credited it, after. */}
         <Marquee words={['PAINT', 'PLAY', 'CODE']} />
-        <Act chapter={chapters.paint}>
-          <Gallery />
-        </Act>
-        <Act chapter={chapters.play}>
-          <Games />
-        </Act>
-        <Act chapter={chapters.code}>
-          <WebWork />
-        </Act>
-        <Finale />
+        <Suspense fallback={null}>
+          <Act chapter={chapters.paint}>
+            <Gallery />
+          </Act>
+          <Act chapter={chapters.play}>
+            <Games />
+          </Act>
+          <Act chapter={chapters.code}>
+            <WebWork />
+          </Act>
+          <About />
+          <Proofs />
+          <Finale />
+        </Suspense>
       </main>
       <Film />
     </div>

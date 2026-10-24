@@ -1,9 +1,8 @@
 import { useEffect, useRef, type RefObject } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Flip } from 'gsap/Flip';
 
-gsap.registerPlugin(ScrollTrigger, Flip);
+gsap.registerPlugin(ScrollTrigger);
 
 // One decision for the whole page. The system's reduced-motion setting is the
 // default; the Motion button overrides it and the choice is kept. Many phones
@@ -72,4 +71,4 @@ export function useIdleGSAP(setup: () => void, scope?: RefObject<Element | null>
   }, [scope]);
 }
 
-export { gsap, ScrollTrigger, Flip };
+export { gsap, ScrollTrigger };
