@@ -52,3 +52,18 @@ test('the CODE act opens on the terrain, and the scroll raises the water', async
   const high = await page.locator('.flood-readout b').first().textContent();
   expect(parseInt(high ?? '0')).toBeGreaterThan(parseInt(low ?? '0'));
 });
+
+test('if the GPU drops the terrain, the still takes its place', async ({ page }) => {
+  await page.route(/\.(mp4|webm)$/, (r) => r.abort());
+  await page.goto('./');
+  const flood = page.locator('.flood');
+  const top = await flood.evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
+  for (let y = 0; y < top; y += 600) await page.evaluate((v) => window.scrollTo(0, v), y);
+  await page.evaluate((v) => window.scrollTo(0, v), top);
+  await expect(page.locator('.flood-canvas.on')).toHaveCount(1, { timeout: 8000 });
+  await page.locator('.flood-canvas').evaluate((c: HTMLCanvasElement) => {
+    c.getContext('webgl2')?.getExtension('WEBGL_lose_context')?.loseContext();
+  });
+  await expect(page.locator('.flood-still')).toBeVisible();
+  await expect(page.locator('.flood-canvas')).toHaveCount(0);
+});

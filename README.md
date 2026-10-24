@@ -91,10 +91,13 @@ runs. The WebGL splash runs only on a real GPU (a software renderer would draw
 on the CPU and block the page) and stops drawing once nothing on it moves.
 
 Measured on the live site with Lighthouse 13.5 (median of three runs):
-desktop 100, LCP 0.67 s; phone (Moto G profile, slow 4G) 83, LCP 2.6 s;
-CLS 0 in both. The reel poster, the largest paint, is preloaded at the size the
-screen needs; Roboto loads without blocking the first paint; videos and
-paintings off screen are fetched only when they come near.
+desktop 100; phone (Moto G profile, slow 4G) 88, LCP 3.0 s, TBT 290 ms;
+accessibility 100; CLS 0 in both. After every deploy, CI runs the same
+measurement (`scripts/lighthouse.mjs`) and fails if the phone falls under 80,
+LCP passes 3.5 s or TBT 400 ms. The paper, the largest paint, is preloaded;
+Roboto loads without blocking the first paint; videos and paintings off
+screen are fetched only when they come near, paintings at the size the frame
+needs (srcset).
 
 ## Tests
 
