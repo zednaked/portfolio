@@ -4,8 +4,9 @@
 //
 // - Reveal: the paint is thrown from the top-left corner, its front broken by
 //   noise, with a darker wet rim where it lands.
-// - Sheen: a faint glint over the paint that follows the pointer (and drifts
-//   on its own on touch screens), so the paint reads as still wet.
+// - Body: the paint is lit as paint: its edges and drops are ridges (taken
+//   from the image itself), brush marks radiate from the corner it was thrown
+//   from, and a glint follows the pointer (drifting on touch screens).
 // - Drips: thin runs creep down from the edges over the first seconds.
 // - Smear: moving the pointer drags the paint a little; it settles back.
 //
@@ -49,15 +50,22 @@ void main() {
 
   // Drips: in a few thin columns, paint creeps down from every edge over the
   // first seconds, thinning as it runs.
-  float cols = uAspect * 260.0;
+  float cols = uAspect * 120.0;
   float cx = floor(uv.x * cols);
-  float run = step(0.9, hash(vec2(cx, 3.1))) * (0.012 + 0.045 * hash(vec2(cx, 8.7))) * smoothstep(1.2, 7.0, uTime);
+  float run = step(0.92, hash(vec2(cx, 3.1))) * (0.012 + 0.035 * hash(vec2(cx, 8.7))) * smoothstep(1.2, 7.0, uTime);
   if (run > 0.0) {
-    float w = 1.0 - smoothstep(0.12, 0.38, abs(fract(uv.x * cols) - 0.5));
-    for (int k = 1; k <= 4; k++) {
-      float s = float(k) / 4.0;
+    float off = abs(fract(uv.x * cols) - 0.5);
+    // Twelve steps: fewer leave a run dashed or stepped instead of smooth.
+    for (int k = 1; k <= 12; k++) {
+      float s = float(k) / 12.0;
+      // Solid paint that narrows as it runs (thinning by transparency would
+      // band at each step).
+      float w = 1.0 - smoothstep(0.08 + 0.22 * (1.0 - s), 0.14 + 0.24 * (1.0 - s), off);
       vec4 up = texture2D(uTex, uv - vec2(0.0, run * s));
-      float da = up.a * w * (1.0 - 0.55 * s);
+      // Only paint with some body runs: solid, and solid a little higher up
+      // too, so specks and small drops stay put.
+      float body = texture2D(uTex, uv - vec2(0.0, run * s + 0.012)).a;
+      float da = smoothstep(0.6, 0.95, up.a) * smoothstep(0.6, 0.95, body) * w;
       if (da > c.a) c = vec4(up.rgb, da);
     }
   }
@@ -70,20 +78,25 @@ void main() {
   float rim = smoothstep(front - 0.07, front - 0.01, r) * m * (1.0 - smoothstep(0.95, 1.0, uReveal));
   c.rgb *= 1.0 - rim * 0.4;
 
-  // Wet sheen: bristle marks along the throw (fine streaks on the diagonal),
-  // caught by a small light that follows the pointer.
-  vec2 dir = normalize(vec2(1.0, 0.6));
-  vec2 q = vec2(dot(uv * vec2(uAspect, 1.0), dir), dot(uv * vec2(uAspect, 1.0), vec2(-dir.y, dir.x))) * vec2(5.0, 140.0);
-  float n0 = noise(q);
-  float h = n0 + 0.5 * noise(q * 2.1 + 5.0);
-  float e = 0.08;
-  vec2 g = vec2(noise(q + vec2(e, 0.0)) - n0, noise(q + vec2(0.0, e)) - n0) / e;
-  vec3 n = normalize(vec3(-g * 0.035, 1.0));
+  // Body: the paint's thickness comes from the image itself (where there is
+  // paint, softened, so every edge and drop is a ridge) plus brush marks
+  // radiating from the corner it was thrown from. A fixed key light from the
+  // top-left models it; a small glint follows the pointer.
+  vec2 tx = vec2(2.0 / 1200.0, 2.0 / 1417.0);
+  float hc = texture2D(uTex, uv).a;
+  float hx = texture2D(uTex, uv + vec2(tx.x, 0.0)).a;
+  float hy = texture2D(uTex, uv + vec2(0.0, tx.y)).a;
+  vec2 p = uv * vec2(uAspect, 1.0);
+  vec2 polar = vec2(length(p) * 9.0, atan(p.y, p.x) * 160.0);
+  float b0 = noise(polar);
+  vec2 bg = vec2(noise(polar + vec2(0.0, 0.6)) - b0, noise(polar + vec2(0.6, 0.0)) - b0);
+  vec2 g = vec2(hx - hc, hy - hc) * 5.0 + bg * 0.5 * hc;
+  vec3 n = normalize(vec3(-g, 1.0));
+  c.rgb *= 0.9 + 0.22 * dot(n, normalize(vec3(-0.5, -0.6, 0.65)));
   vec2 lp = (uLight - uv) * vec2(uAspect, 1.0);
-  vec3 l = normalize(vec3(lp, 0.25));
-  float spec = pow(max(dot(reflect(-l, n), vec3(0.0, 0.0, 1.0)), 0.0), 60.0);
-  float near = exp(-dot(lp, lp) / 0.02);
-  c.rgb += spec * near * 0.14 * (0.6 + 0.4 * h);
+  vec3 l = normalize(vec3(lp, 0.3));
+  float spec = pow(max(dot(reflect(-l, n), vec3(0.0, 0.0, 1.0)), 0.0), 40.0);
+  c.rgb += spec * exp(-dot(lp, lp) / 0.03) * 0.3 * hc;
 
   float a = c.a * m;
   gl_FragColor = vec4(c.rgb * a, a);

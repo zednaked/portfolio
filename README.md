@@ -34,8 +34,11 @@ end-to-end tests use a system Chromium instead of Playwright's download.
 
 - **The opening splash is wet paint in plain WebGL** (`src/splash-gl.ts`, ~3 KB):
   one quad, one texture, one fragment shader. The paint is thrown from the
-  corner with a noisy front and a wet rim, thin drips creep down its edges, a
-  faint glint follows the pointer and the pointer drags the paint. three.js
+  corner with a noisy front and a wet rim; it is lit as paint, its relief
+  taken from the image itself (edges and drops are ridges) with brush marks
+  radiating from the corner; drips run from paint with body; a glint follows
+  the pointer and the pointer drags the paint. The canvas never has more
+  pixels than the image. three.js
   would be ~120 KB gzip for one quad; it stays where the scene graph earns it
   (the flood simulator). The white name waits for the paint under it; the
   canvas draws only while the header is on screen; without WebGL, or under
