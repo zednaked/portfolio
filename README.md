@@ -37,7 +37,7 @@ end-to-end tests use a system Chromium instead of Playwright's download.
   data, baked to a 256 × 256 heightmap (`scripts/bake-cheia.mjs`), drawn as a
   print (paper, ink contours every 20 m and 100 m, rivers) while the scroll
   raises a water line and turns the camera. The readout (height of the line,
-  share of the map below it) is a binary search over the sorted heights. It is
+  share of the map below it) is a lookup in a height histogram built once. It is
   an illustration on the same terrain, and says so; the simulator runs the
   physics. three.js loads as its own chunk with its own budget, only when the
   act comes near and only on a real GPU; it renders on demand, and a lost

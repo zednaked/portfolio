@@ -122,7 +122,11 @@ function owe(place: () => boolean) {
 // however long building takes on a slow phone; not on a wall clock.
 function expireSoon() {
   clearTimeout(owedTimer);
-  if (pending === 0) owedTimer = window.setTimeout(() => (owed = null), 4000);
+  if (pending === 0)
+    owedTimer = window.setTimeout(() => {
+      // Building may have started again since (a lazy section mounting).
+      if (pending === 0) owed = null;
+    }, 4000);
 }
 (['wheel', 'touchstart', 'keydown'] as const).forEach((type) => {
   window.addEventListener(type, () => (owed = null), { passive: true });
@@ -239,7 +243,10 @@ export function refreshSoon() {
     clearTimeout(settledTimer);
     if (owed) {
       // Paid once it has landed with nothing left to build.
-      if (owed() && pending === 0) settledTimer = window.setTimeout(() => (owed = null), 1500);
+      if (owed() && pending === 0)
+        settledTimer = window.setTimeout(() => {
+          if (pending === 0) owed = null;
+        }, 1500);
     } else if (here) restore(here);
   }, 120);
 }
@@ -251,6 +258,9 @@ export function useIdleGSAP(setup: () => void, scope?: RefObject<Element | null>
     let ctx: gsap.Context | null = null;
     let done = false;
     pending++;
+    // Building again: whatever clock was running for the debt stops here.
+    clearTimeout(owedTimer);
+    clearTimeout(settledTimer);
     const run = () => {
       done = true;
       pending--;
