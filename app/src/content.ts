@@ -14,6 +14,8 @@ export interface Artwork {
   alt: Text;
   pixel?: boolean;
   wide?: boolean;
+  /** A 480 px copy for phones, where the frame is about that wide. */
+  small?: string;
   /** Average colour, shown in the frame until the painting arrives. */
   tone: string;
 }
@@ -51,7 +53,7 @@ export const ui = {
     en: 'In print: Artists Across Continents 2015 (Artcom Expo), pages 166 and 167.',
     pt: 'No livro: Artists Across Continents 2015 (Artcom Expo), páginas 166 e 167.',
   },
-  workLabel: { en: 'Work', pt: 'Trabalhos' },
+  workLabel: { en: 'Oil and digital paint', pt: 'Óleo e pintura digital' },
   open: { en: 'View larger', pt: 'Ver maior' },
   close: { en: 'Close', pt: 'Fechar' },
   motionDown: { en: 'Turn motion down', pt: 'Reduzir o movimento' },
@@ -68,6 +70,7 @@ export const artworks: Artwork[] = [
   {
     id: 'pirate',
     src: `${base}img/oil-pirate-medal.webp`,
+    small: `${base}img/oil-pirate-medal-480.webp`,
     tone: '#76614a',
     width: 900,
     height: 1011,
@@ -84,6 +87,7 @@ export const artworks: Artwork[] = [
   {
     id: 'elder',
     src: `${base}img/oil-elder.webp`,
+    small: `${base}img/oil-elder-480.webp`,
     tone: '#83654a',
     width: 760,
     height: 1081,
@@ -97,6 +101,7 @@ export const artworks: Artwork[] = [
   {
     id: 'headscarf',
     src: `${base}img/oil-headscarf.webp`,
+    small: `${base}img/oil-headscarf-480.webp`,
     tone: '#a28e7d',
     width: 760,
     height: 1135,
@@ -212,7 +217,7 @@ export interface Story {
 }
 
 export const webUi = {
-  label: { en: 'Interactive web', pt: 'Web interativa' },
+  label: { en: 'Built, then measured', pt: 'Construído, depois medido' },
   intro: {
     en: 'Things I built for the browser and the desktop, each with the number I measured on it.',
     pt: 'Coisas que construí para o navegador e para a área de trabalho, cada uma com o número que medi nela.',
@@ -228,7 +233,7 @@ export const webUi = {
   decision: { en: 'The call', pt: 'A decisão' },
   tradeoff: { en: 'What it cost', pt: 'O custo' },
   figma: { en: 'Layout in Figma', pt: 'Layout no Figma' },
-  pageLabel: { en: 'This page', pt: 'Esta página' },
+  pageLabel: { en: 'This page, measured too', pt: 'Esta página, medida também' },
   page: {
     en: 'React, TypeScript and GSAP (ScrollTrigger, Flip): chapter cards that collapse into their shape as you scroll, a strip that runs sideways, media that lean with your scroll speed. Every push runs lint, types, unit tests and end-to-end tests with axe before it deploys. Lighthouse on the live site, median of three runs:',
     pt: 'React, TypeScript e GSAP (ScrollTrigger, Flip): cartelas que encolhem na própria forma conforme a rolagem, uma tira que corre de lado, imagens que inclinam com a velocidade. Cada envio passa por lint, tipos, testes de unidade e de ponta a ponta com axe antes de publicar. Lighthouse no site no ar, mediana de três rodadas:',
@@ -338,9 +343,12 @@ export const pageStats: Stat[] = [
     label: { en: 'layout shift, desktop and phone', pt: 'deslocamento de layout, desktop e celular' },
   },
   {
-    value: 26,
+    value: 21,
     unit: '',
-    label: { en: 'unit and end-to-end tests, axe included', pt: 'testes de unidade e de ponta a ponta, com axe' },
+    label: {
+      en: 'unit and end-to-end tests, axe and a GPU run included',
+      pt: 'testes de unidade e de ponta a ponta, com axe e um na GPU',
+    },
   },
 ];
 
@@ -589,7 +597,7 @@ export const proofs: Proof[] = [
 const play: Text = { en: 'Play it', pt: 'Jogar' };
 
 export const gamesUi = {
-  label: { en: 'Games', pt: 'Jogos' },
+  label: { en: 'Games, made alone', pt: 'Jogos, feitos sozinho' },
   intro: {
     en: 'Games I made on my own. Most of my game work is client work under NDA; these are the ones I can show.',
     pt: 'Jogos que fiz por conta própria. A maior parte do meu trabalho com jogos é para cliente, sob NDA; estes são os que posso mostrar.',

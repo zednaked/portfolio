@@ -1,5 +1,5 @@
 import { useRef, useState, type RefObject } from 'react';
-import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
+import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from './motion';
 import { webUi, type Lang, type Stat, type Story, type WebPiece } from './content';
 import { useLang } from './i18n';
 
@@ -36,6 +36,9 @@ function Clip({ piece }: { piece: WebPiece }) {
   const { t } = useLang();
   const video = useRef<HTMLVideoElement>(null);
   const [held, setHeld] = useState(!FULL);
+  // A browser that can decode neither file shows the still instead of an
+  // empty box (a failed video drops its poster).
+  const [failed, setFailed] = useState(false);
   const toggle = () => {
     const v = video.current;
     if (!v) return;
@@ -44,11 +47,21 @@ function Clip({ piece }: { piece: WebPiece }) {
     else v.pause();
     setHeld(!held);
   };
+  if (failed || !piece.video)
+    return (
+      <img
+        src={piece.img}
+        width={piece.width}
+        height={piece.height}
+        loading="lazy"
+        decoding="async"
+        alt={t(piece.alt)}
+      />
+    );
   return (
     <>
       <video
         ref={video}
-        src={piece.video}
         poster={piece.img}
         width={piece.width}
         height={piece.height}
@@ -58,7 +71,16 @@ function Clip({ piece }: { piece: WebPiece }) {
         preload="none"
         data-held={held ? '1' : '0'}
         aria-label={t(piece.alt)}
-      />
+        onError={() => setFailed(true)}
+      >
+        {/* H.264 first; VP9 for browsers built without it. */}
+        <source src={piece.video} type='video/mp4; codecs="avc1.42E01E"' />
+        <source
+          src={piece.video.replace(/\.mp4$/, '.webm')}
+          type='video/webm; codecs="vp9"'
+          onError={() => setFailed(true)}
+        />
+      </video>
       <button type="button" className="clip-btn" aria-pressed={!held} onClick={toggle}>
         <span aria-hidden="true">{held ? '▶' : '❚❚'}</span>
         <span className="sr-only">
@@ -184,12 +206,12 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
         transformOrigin: 'left center',
         duration: 0.5,
         ease: 'power2.out',
-        scrollTrigger: { trigger: `#${headingId}`, start: 'top 90%', once: true },
+        scrollTrigger: { trigger: `#${headingId}`, start: 'top 90%', toggleActions: PLAY_ONCE },
       });
 
       gsap.utils.toArray<HTMLElement>('.case').forEach((card) => {
         const tl = gsap.timeline({
-          scrollTrigger: { trigger: card, start: 'top 92%', once: true },
+          scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: PLAY_ONCE },
           defaults: { ease: 'power3.out' },
         });
         // opacity, never autoAlpha: visibility:hidden takes the card's links
@@ -277,7 +299,7 @@ export function useCaseMotion(root: RefObject<HTMLElement | null>, headingId: st
     });
     mm.add(GENTLE_MOTION, () => {
       gsap.utils.toArray<HTMLElement>('.case').forEach((card) => {
-        const tl = gsap.timeline({ scrollTrigger: { trigger: card, start: 'top 85%', once: true } });
+        const tl = gsap.timeline({ scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: PLAY_ONCE } });
         tl.from(card, { opacity: 0, duration: 0.6 }).from(
           card.querySelectorAll('.cn'),
           { opacity: 0, duration: 0.5, stagger: 0.06 },

@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react';
 import { Flip } from 'gsap/Flip';
-import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
+import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from './motion';
 
 // Flip is only the viewer's, so it ships in this chunk, not the first one.
 gsap.registerPlugin(Flip);
@@ -26,6 +26,7 @@ export function Gallery() {
       (entries) => {
         for (const e of entries) {
           if (!e.isIntersecting || !(e.target instanceof HTMLImageElement)) continue;
+          if (e.target.dataset.srcset) e.target.srcset = e.target.dataset.srcset;
           e.target.src = e.target.dataset.src ?? '';
           io.unobserve(e.target);
         }
@@ -73,6 +74,10 @@ export function Gallery() {
       track.addEventListener('focusin', onFocus);
 
       gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
+        // The paintings already on screen when the strip pins are uncovered
+        // as the section rises, with the frames, not after: an empty white
+        // frame showed through the chapter card otherwise.
+        const onScreen = piece.offsetLeft < window.innerWidth;
         gsap.fromTo(
           piece.querySelector('.reveal'),
           { clipPath: 'inset(100% 0% 0% 0%)' },
@@ -80,12 +85,9 @@ export function Gallery() {
             clipPath: 'inset(0% 0% 0% 0%)',
             duration: 0.9,
             ease: 'power2.inOut',
-            scrollTrigger: {
-              trigger: piece,
-              containerAnimation: run,
-              start: 'left 95%',
-              toggleActions: 'play none none reverse',
-            },
+            scrollTrigger: onScreen
+              ? { trigger: piece, start: 'top 95%', toggleActions: 'play none none reverse' }
+              : { trigger: piece, containerAnimation: run, start: 'left 95%', toggleActions: 'play none none reverse' },
           },
         );
         // The painting drifts inside its frame against the strip's motion.
@@ -113,7 +115,7 @@ export function Gallery() {
         gsap.from(piece, {
           opacity: 0,
           duration: 0.7,
-          scrollTrigger: { trigger: piece, start: 'top 88%', once: true },
+          scrollTrigger: { trigger: piece, start: 'top 88%', toggleActions: PLAY_ONCE },
         });
       });
     });
@@ -191,6 +193,8 @@ export function Gallery() {
             >
               <img
                 data-src={art.src}
+                data-srcset={art.small ? `${art.small} 480w, ${art.src} ${art.width}w` : undefined}
+                sizes="(max-width: 760px) 80vw, 40vw"
                 width={art.width}
                 height={art.height}
                 style={{ '--r': art.height / art.width, backgroundColor: art.tone } as CSSProperties}

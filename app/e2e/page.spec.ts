@@ -137,3 +137,46 @@ test('the motion switch keeps keyboard focus on itself', async ({ page }) => {
   await page.waitForTimeout(300);
   await expect(page.locator('.motion-btn')).toBeFocused();
 });
+
+test('a deep link lands on its section once the page has built itself', async ({ page }) => {
+  await page.goto('./#credits');
+  await expect
+    .poll(async () => page.locator('#credits').evaluate((e) => Math.abs(e.getBoundingClientRect().top)), {
+      timeout: 6000,
+    })
+    .toBeLessThan(150);
+});
+
+test('switching motion at the bottom of the page throws nothing', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('./');
+  await scrollThrough(page);
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+  await page.waitForTimeout(800);
+  for (let i = 0; i < 2; i++) {
+    await page.locator('.motion-btn').evaluate((b: HTMLElement) => {
+      b.click();
+    });
+    await page.waitForTimeout(1500);
+  }
+  expect(errors).toEqual([]);
+});
+
+test('a motion round trip in the painting strip keeps the painting in view', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'the strip is a native swipe row on phones');
+  await page.goto('./');
+  const piece = page.locator('.piece').nth(3);
+  await piece.locator('button').focus();
+  await page.waitForTimeout(1200);
+  for (let i = 0; i < 2; i++) {
+    await page.locator('.motion-btn').evaluate((b: HTMLElement) => {
+      b.click();
+    });
+    await page.waitForTimeout(1600);
+  }
+  const box = await page.locator('.piece').nth(3).boundingBox();
+  const vw = page.viewportSize()?.width ?? 0;
+  const vh = page.viewportSize()?.height ?? 0;
+  expect(box && box.x + box.width > 0 && box.x < vw && box.y + box.height > 0 && box.y < vh).toBe(true);
+});

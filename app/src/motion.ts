@@ -58,23 +58,77 @@ export function subscribeMotion(fn: () => void) {
 export const motionVersion = () => version;
 
 // What the reader was looking at, so the switch doesn't move them: the card or
-// section under the upper third of the screen, and how far into it they were.
+// section under the upper third of the screen and how far into it they were;
+// inside a pinned section (the painting strip), how far along the pin, and
+// which painting is in the middle, for the layout that has no pin.
+const BLOCKS = 'article, section, header';
+const pinOf = (el: Element) =>
+  ScrollTrigger.getAll().find((t) => t.pin && (t.pin === el || t.pin.contains(el) || el.contains(t.pin)));
+
 function anchor() {
-  const el = document
-    .elementFromPoint(window.innerWidth / 2, window.innerHeight / 3)
-    ?.closest<HTMLElement>('article, section, header');
+  const hit = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 3);
+  const el = hit?.closest(BLOCKS);
   if (!el) return null;
-  const all = [...document.querySelectorAll('article, section, header')];
+  const all = [...document.querySelectorAll(BLOCKS)];
   const r = el.getBoundingClientRect();
-  return { index: all.indexOf(el), into: (window.innerHeight / 3 - r.top) / Math.max(1, r.height) };
+  const pin = pinOf(el);
+  const middle = document.elementFromPoint(window.innerWidth / 2, window.innerHeight / 2)?.closest('.piece');
+  return {
+    index: all.indexOf(el),
+    into: (window.innerHeight / 3 - r.top) / Math.max(1, r.height),
+    pin: pin?.isActive ? pin.progress : null,
+    piece: middle ? [...document.querySelectorAll('.piece')].indexOf(middle) : -1,
+  };
 }
 function restore(a: ReturnType<typeof anchor>) {
   if (!a) return;
-  const all = document.querySelectorAll('article, section, header');
+  const all = document.querySelectorAll(BLOCKS);
   if (a.index < 0 || a.index >= all.length) return;
   const el = all[a.index];
+  const pin = pinOf(el);
+  const pieces = document.querySelectorAll('.piece');
+  if (pin && a.pin !== null) {
+    window.scrollTo(0, pin.start + a.pin * (pin.end - pin.start));
+    return;
+  }
+  if (pin && a.piece >= 0) {
+    window.scrollTo(0, pin.start + (a.piece / Math.max(1, pieces.length - 1)) * (pin.end - pin.start));
+    return;
+  }
+  if (a.piece >= 0 && a.piece < pieces.length) {
+    pieces[a.piece].scrollIntoView({ block: 'center' });
+    return;
+  }
   const r = el.getBoundingClientRect();
   window.scrollTo(0, window.scrollY + r.top + a.into * r.height - window.innerHeight / 3);
+}
+
+// Deep links and reloads: the browser jumps to #credits (or back to where a
+// reload left off) before the lazy sections and their pins exist, and lands
+// short. The page does it itself once the sections are built, unless the
+// reader has started scrolling by then.
+let arrival: (() => void) | null = null;
+try {
+  history.scrollRestoration = 'manual';
+  const target = decodeURIComponent(location.hash.slice(1));
+  const nav = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+  const left = nav?.type === 'reload' ? Number(sessionStorage.getItem('scrollY')) : 0;
+  if (target || left)
+    arrival = () => {
+      const el = target ? document.getElementById(target) : null;
+      if (el) el.scrollIntoView();
+      else if (left) window.scrollTo(0, left);
+    };
+  const settle = () => (arrival = null);
+  (['wheel', 'touchstart', 'keydown'] as const).forEach((type) => {
+    window.addEventListener(type, settle, { once: true, passive: true });
+  });
+  window.setTimeout(settle, 4000);
+  window.addEventListener('pagehide', () => {
+    sessionStorage.setItem('scrollY', String(Math.round(window.scrollY)));
+  });
+} catch {
+  // Storage or history blocked: the browser's own behaviour stands.
 }
 
 function switchTo(pref: MotionPref) {
@@ -99,9 +153,12 @@ function switchTo(pref: MotionPref) {
   });
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-      restore(a);
-      if (refocus) document.querySelector<HTMLElement>('.motion-btn')?.focus({ preventScroll: true });
+      try {
+        ScrollTrigger.refresh();
+      } finally {
+        restore(a);
+        if (refocus) document.querySelector<HTMLElement>('.motion-btn')?.focus({ preventScroll: true });
+      }
     });
   });
   window.setTimeout(() => {
@@ -139,6 +196,7 @@ function refreshSoon() {
   refreshTimer = window.setTimeout(() => {
     ScrollTrigger.sort();
     ScrollTrigger.refresh();
+    arrival?.();
   }, 120);
 }
 
@@ -160,5 +218,10 @@ export function useIdleGSAP(setup: () => void, scope?: RefObject<Element | null>
     };
   }, [scope]);
 }
+
+// Entrances play once and stay. Not `once: true`: a trigger that kills itself
+// while ScrollTrigger is refreshing (a motion switch near the bottom) crashed
+// the refresh; playing and never reversing does the same without dying.
+export const PLAY_ONCE = 'play none none none';
 
 export { gsap, ScrollTrigger };

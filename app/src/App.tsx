@@ -1,6 +1,6 @@
 import { lazy, Suspense, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION } from './motion';
+import { gsap, FULL_MOTION, PLAY_ONCE } from './motion';
 import { ui } from './content';
 import { useLang } from './i18n';
 import { Header } from './Header';
@@ -27,7 +27,7 @@ function About() {
       mm.add(FULL_MOTION, () => {
         const tl = gsap.timeline({
           defaults: { ease: 'power3.out' },
-          scrollTrigger: { trigger: root.current, start: 'top 80%', once: true },
+          scrollTrigger: { trigger: root.current, start: 'top 80%', toggleActions: PLAY_ONCE },
         });
         tl.fromTo(
           '.portrait',

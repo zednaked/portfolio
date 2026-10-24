@@ -1,5 +1,5 @@
 import { useRef, type CSSProperties, type ReactNode } from 'react';
-import { gsap, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
+import { gsap, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from './motion';
 import type { Chapter as ChapterData } from './content';
 import { useLang } from './i18n';
 
@@ -37,7 +37,9 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
       const card = root.current?.querySelector<HTMLElement>('.ch-card');
       if (!card) return;
       // Entrance, once: letters rise one by one, the numeral slides, the shape turns in.
-      const intro = gsap.timeline({ scrollTrigger: { trigger: root.current, start: 'top 75%', once: true } });
+      const intro = gsap.timeline({
+        scrollTrigger: { trigger: root.current, start: 'top 75%', toggleActions: PLAY_ONCE },
+      });
       intro
         .from(card.querySelectorAll('.ch-word .lt'), {
           yPercent: 105,
@@ -51,7 +53,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         .from(card.querySelector('.ch-sub'), { y: 20, opacity: 0, duration: 0.6 }, 0.4);
 
       // The exit, scrubbed by the scroll: collapse into the shape.
-      // A steady collapse. Past a third of it the card sinks under the act,
+      // A steady collapse. A fifth of the way in the card sinks under the act,
       // so what is left of the shape passes behind the text, never over it,
       // however fast the page is flung.
       const hold = card.parentElement;
@@ -64,7 +66,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
           ease: 'none',
           scrollTrigger: { trigger: root.current, start: 'top top', end: '+=35%', scrub: 0.6 },
           onUpdate: () => {
-            hold?.classList.toggle('under', (collapse?.progress() ?? 0) > 0.33);
+            hold?.classList.toggle('under', (collapse?.progress() ?? 0) > 0.2);
           },
         },
       );
@@ -89,7 +91,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
         opacity: 0,
         duration: 0.8,
         stagger: 0.12,
-        scrollTrigger: { trigger: root.current, start: 'top 75%', once: true },
+        scrollTrigger: { trigger: root.current, start: 'top 75%', toggleActions: PLAY_ONCE },
       });
     });
   }, root);

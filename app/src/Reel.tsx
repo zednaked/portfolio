@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION } from './motion';
+import { gsap, FULL_MOTION, PLAY_ONCE } from './motion';
 import { reelUi } from './content';
 import { useLang } from './i18n';
 
@@ -31,7 +31,7 @@ export function Reel() {
           duration: 0.8,
           delay: 0.5,
           ease: 'back.out(2)',
-          scrollTrigger: { trigger: root.current, start: 'top 85%', once: true },
+          scrollTrigger: { trigger: root.current, start: 'top 85%', toggleActions: PLAY_ONCE },
         });
         // The frame leans back a little as it leaves, like a screen on a table.
         gsap.to('.reel-frame', {

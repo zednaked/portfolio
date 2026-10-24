@@ -41,9 +41,11 @@ export function Header() {
                   if (paint) paint.reveal.value = 1;
                   return;
                 }
-                gsap.to(paint?.reveal ?? {}, { value: 1, duration: 2.2, ease: 'power1.inOut' });
+                // Thrown fast and settling slow, from the moment the image is in
+                // (started earlier, a slow connection would miss the throw).
+                gsap.to(paint?.reveal ?? {}, { value: 1, duration: 1.9, ease: 'power2.out' });
                 // White type needs paint under it: the name waits for the throw.
-                gsap.delayedCall(0.9, () => tl.play());
+                gsap.delayedCall(0.55, () => tl.play());
               },
               () => {
                 splash.classList.remove('gl-on');
