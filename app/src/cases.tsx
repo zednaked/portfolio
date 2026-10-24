@@ -1,4 +1,4 @@
-import { useRef, useState, type RefObject } from 'react';
+import { useEffect, useRef, useState, type RefObject } from 'react';
 import { gsap, ScrollTrigger, FULL, FULL_MOTION, GENTLE_MOTION, useIdleGSAP, PLAY_ONCE } from './motion';
 import { webUi, type Lang, type Stat, type Story, type WebPiece } from './content';
 import { useLang } from './i18n';
@@ -39,6 +39,22 @@ function Clip({ piece }: { piece: WebPiece }) {
   // A browser that can decode neither file shows the still instead of an
   // empty box (a failed video drops its poster).
   const [failed, setFailed] = useState(false);
+  // The still is fetched when the card comes near, like the clip itself.
+  const [near, setNear] = useState(false);
+  useEffect(() => {
+    const v = video.current;
+    if (!v) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        setNear(true);
+        io.disconnect();
+      },
+      { rootMargin: '800px 0px' },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
   const toggle = () => {
     const v = video.current;
     if (!v) return;
@@ -62,7 +78,7 @@ function Clip({ piece }: { piece: WebPiece }) {
     <>
       <video
         ref={video}
-        poster={piece.img}
+        poster={near ? piece.img : undefined}
         width={piece.width}
         height={piece.height}
         muted
@@ -74,7 +90,7 @@ function Clip({ piece }: { piece: WebPiece }) {
         onError={() => setFailed(true)}
       >
         {/* H.264 first; VP9 for browsers built without it. */}
-        <source src={piece.video} type='video/mp4; codecs="avc1.42E01E"' />
+        <source src={piece.video} type='video/mp4; codecs="avc1.64001F"' />
         <source
           src={piece.video.replace(/\.mp4$/, '.webm')}
           type='video/webm; codecs="vp9"'

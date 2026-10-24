@@ -26,7 +26,22 @@ export function Flood() {
   useEffect(() => {
     langRef.current = lang;
   }, [lang]);
-  const [live, setLive] = useState(() => FULL && hasGPU());
+  const [live, setLive] = useState(FULL);
+  // The GPU is probed in an idle slot after mount, not on the first frame:
+  // the section is far below the fold by then, so a still taking its place
+  // shifts nothing the reader sees.
+  useEffect(() => {
+    if (!FULL) return;
+    const idle = 'requestIdleCallback' in window;
+    const check = () => {
+      if (!hasGPU()) setLive(false);
+    };
+    const id = idle ? window.requestIdleCallback(check, { timeout: 1500 }) : window.setTimeout(check, 200);
+    return () => {
+      if (idle) window.cancelIdleCallback(id);
+      else clearTimeout(id);
+    };
+  }, []);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {

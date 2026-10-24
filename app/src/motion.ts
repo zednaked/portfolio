@@ -108,16 +108,24 @@ function restore(a: ReturnType<typeof anchor>) {
 // short. The page does it itself once the sections are built, unless the
 // reader has started scrolling by then.
 // One place the page owes the reader, kept until the deferred sections have
-// built (each refresh puts it back) or until the reader scrolls on their own.
+// built (each refresh puts it back; it is settled once the refreshes stop) or
+// until the reader scrolls on their own. 8 s at most.
 let owed: (() => void) | null = null;
 let owedTimer = 0;
-function owe(place: () => void, ms: number) {
+function owe(place: () => void, ms = 8000) {
   owed = place;
   clearTimeout(owedTimer);
   owedTimer = window.setTimeout(() => (owed = null), ms);
 }
 (['wheel', 'touchstart', 'keydown'] as const).forEach((type) => {
   window.addEventListener(type, () => (owed = null), { passive: true });
+});
+// A link to a section clicked before the section exists (the lazy chunks are
+// still arriving) is kept as a debt too.
+document.addEventListener('click', (e) => {
+  const a = e.target instanceof Element ? e.target.closest<HTMLAnchorElement>('a[href^="#"]') : null;
+  const id = a ? decodeURIComponent(a.hash.slice(1)) : '';
+  if (id && !document.getElementById(id)) owe(() => document.getElementById(id)?.scrollIntoView());
 });
 
 try {
@@ -128,9 +136,10 @@ try {
   // Reload and Back return to where the reader was, before any #link: the
   // place they left is the one they meant.
   const back = nav?.type === 'reload' || nav?.type === 'back_forward';
-  const left = back ? Number(sessionStorage.getItem(key)) : 0;
-  if (left) owe(() => window.scrollTo(0, left), 4000);
-  else if (target) owe(() => document.getElementById(target)?.scrollIntoView(), 4000);
+  const left = back ? sessionStorage.getItem(key) : null;
+  // A saved 0 counts: the reader was at the top.
+  if (left !== null) owe(() => window.scrollTo(0, Number(left)));
+  else if (target) owe(() => document.getElementById(target)?.scrollIntoView());
   window.addEventListener('pagehide', () => {
     sessionStorage.setItem(key, String(Math.round(window.scrollY)));
   });
@@ -151,7 +160,7 @@ function switchTo(pref: MotionPref) {
   });
   // The place is put back each time the remounted sections finish building
   // their triggers (pins add height), not on a guess of how long that takes.
-  owe(() => restore(a), 3000);
+  owe(() => restore(a));
   requestAnimationFrame(() => {
     if (refocus) document.querySelector<HTMLElement>('.motion-btn')?.focus({ preventScroll: true });
   });
@@ -178,12 +187,20 @@ reduceQuery.addEventListener('change', (e) => {
 // one refresh at the end puts the triggers back in page order (the gallery's
 // pin moves everything after it).
 let refreshTimer = 0;
+let settledTimer = 0;
 function refreshSoon() {
   clearTimeout(refreshTimer);
   refreshTimer = window.setTimeout(() => {
+    // Whatever the reader is looking at stays put while a pin built late adds
+    // height above it, unless the page owes them another place.
+    const here = owed || window.scrollY < 1 ? null : anchor();
     ScrollTrigger.sort();
     ScrollTrigger.refresh();
-    owed?.();
+    if (owed) owed();
+    else if (here) restore(here);
+    // The debt is paid once the refreshes stop.
+    clearTimeout(settledTimer);
+    settledTimer = window.setTimeout(() => (owed = null), 1500);
   }, 120);
 }
 

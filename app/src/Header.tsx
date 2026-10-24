@@ -3,7 +3,6 @@ import { useGSAP } from '@gsap/react';
 import { gsap, FULL, FULL_MOTION, GENTLE_MOTION, setMotion, switched } from './motion';
 import { ui } from './content';
 import type { SplashGL } from './splash-gl';
-import { hasGPU } from './gpu';
 import { useLang } from './i18n';
 
 const NAME = 'THIAGO GONÇALVES';
@@ -31,7 +30,8 @@ export function Header() {
         // the sweep paints it instead).
         gsap.set('.splash', { clipPath: 'polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)' });
         // The shader is its own small chunk, fetched at once: it waits for the
-        // image anyway, and the entry chunk stays lean.
+        // image anyway, and the entry chunk stays lean. It refuses software
+        // GL itself (one context, no separate probe on the first frame).
         let paint: SplashGL | null = null;
         let gone = false;
         const fail = () => {
@@ -39,7 +39,7 @@ export function Header() {
           sweep();
           tl.play();
         };
-        if (splash && hasGPU()) {
+        if (splash) {
           tl.pause();
           // If the image is slow, the name doesn't wait forever.
           gsap.delayedCall(2.5, () => tl.play());

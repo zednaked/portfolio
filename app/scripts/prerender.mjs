@@ -32,6 +32,20 @@ try {
     const header = strip(document.querySelector('header.top'));
     header.classList.add('shell');
     const reel = strip(document.querySelector('main .reel'));
+    // The shell has no media queries for a poster attribute: the still goes
+    // in as an <img> with srcset, so a phone fetches the 640 px one.
+    const video = reel.querySelector('video');
+    if (video) {
+      const base = video.getAttribute('poster').replace(/reel-poster(-640)?\.webp$/, '');
+      const img = document.createElement('img');
+      img.className = 'reel-shell-poster';
+      img.alt = '';
+      img.setAttribute('srcset', `${base}reel-poster-640.webp 640w, ${base}reel-poster.webp 1280w`);
+      img.setAttribute('sizes', '(max-width: 760px) 100vw, 1088px');
+      img.setAttribute('src', `${base}reel-poster.webp`);
+      video.removeAttribute('poster');
+      video.before(img);
+    }
     return `<div class="page">${header.outerHTML}<main>${reel.outerHTML}</main></div>`;
   });
 
