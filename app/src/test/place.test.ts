@@ -73,8 +73,8 @@ describe('the owed place', () => {
     // A lazy section mounts and builds late (a slow phone: its idle slot comes
     // 3 s later, after any settle clock would have run out): the debt is still
     // there when it does, and lands again on the refresh that follows.
-    const idle = window.requestIdleCallback;
-    const cancel = window.cancelIdleCallback;
+    const idle = window.requestIdleCallback.bind(window);
+    const cancel = window.cancelIdleCallback.bind(window);
     window.requestIdleCallback = (cb) => window.setTimeout(() => cb({} as IdleDeadline), 3000);
     window.cancelIdleCallback = (id) => window.clearTimeout(id);
     const { unmount } = render(createElement(Building));
