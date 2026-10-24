@@ -1866,3 +1866,124 @@ main {
     font-variant-numeric: tabular-nums;
   }
 }
+
+/* The index: the smaller work in brief, rows on the paper under one rule. */
+.case-index {
+  border-top: 3px solid var(--ink);
+  padding-top: 18px;
+}
+.index-h {
+  margin: 0 0 18px;
+  font:
+    400 1.05rem/1.2 'Anton',
+    sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.case-index > ul {
+  display: grid;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.index-row {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(11, 11, 11, 0.14);
+}
+.index-row .case-name {
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2rem);
+}
+.index-row .what {
+  margin: 0 0 10px;
+  max-width: 60ch;
+}
+.index-row .stats {
+  border-top: 0;
+  padding-top: 0;
+  margin-bottom: 8px;
+}
+.index-shot {
+  width: 100%;
+  height: auto;
+  box-shadow: 0 10px 24px rgba(20, 20, 30, 0.18);
+}
+.index-shot.phone {
+  max-width: 160px;
+  border: 6px solid #111;
+  border-radius: 18px;
+}
+.index-row.featured {
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+}
+.index-row.featured .index-shot.phone {
+  max-width: 260px;
+}
+.index-row.featured .case-name {
+  font-size: clamp(1.8rem, 1.2rem + 2vw, 2.8rem);
+}
+@media (max-width: 600px) {
+  .index-row,
+  .index-row.featured {
+    grid-template-columns: 1fr;
+  }
+}
+/* The brief rows really are brief: a smaller name, the number and the link
+   on one line (side by side with the picture from tablet width up). */
+.index-row:not(.featured) {
+  gap: 14px 20px;
+  padding-bottom: 18px;
+}
+@media (min-width: 601px) {
+  .index-row:not(.featured) {
+    grid-template-columns: minmax(0, 160px) minmax(0, 1fr);
+  }
+}
+.index-row:not(.featured) .case-name {
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.5rem);
+}
+.index-row:not(.featured) .case-title {
+  margin-bottom: 6px;
+}
+.index-row:not(.featured) .what {
+  margin-bottom: 6px;
+}
+.index-row:not(.featured) > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 20px;
+}
+.index-row:not(.featured) .case-title,
+.index-row:not(.featured) .what {
+  flex-basis: 100%;
+}
+.index-row:not(.featured) .stats {
+  display: flex;
+  margin: 0;
+}
+.index-row:not(.featured) .stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.index-row:not(.featured) .stat-num,
+.index-row:not(.featured) .stat-unit {
+  font-size: 1.4rem;
+}
+.index-row:not(.featured) .stat-label {
+  display: inline;
+  font-size: 0.875rem;
+}
+.index-row:not(.featured) .links {
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .index-row:not(.featured) .index-shot {
+    max-width: 55%;
+  }
+}

@@ -240,6 +240,7 @@ export const webUi = {
     pt: 'Um simulador de enchentes, um sintetizador, dois plugins de área de trabalho, um anúncio jogável e os builds de mais de vinte jogos publicados.',
   },
   role: { en: 'My role', pt: 'Meu papel' },
+  indexLabel: { en: 'More, in brief', pt: 'Mais, em resumo' },
   live: { en: 'Open it live', pt: 'Abrir no ar' },
   code: { en: 'Code', pt: 'Código' },
   tech: { en: 'Technologies', pt: 'Tecnologias' },

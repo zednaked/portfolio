@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { deskWork, figmaUrl, pageStats, pageStory, webUi, webWork } from './content-work';
 import { useLang } from './i18n';
-import { BudgetCase, CaseCard, StatLine, StoryList, useCaseMotion } from './cases';
+import { BudgetCase, CaseCard, CaseIndex, StatLine, StoryList, useCaseMotion } from './cases';
 import { Flood } from './Flood';
 
 export function WebWork() {
@@ -26,11 +26,8 @@ export function WebWork() {
             .map((piece) => (
               <CaseCard piece={piece} key={piece.id} />
             ))}
-          <div className="cases-pair">
-            {[...deskWork, ...webWork.filter((p) => p.compact)].map((piece) => (
-              <CaseCard piece={piece} key={piece.id} />
-            ))}
-          </div>
+          {/* Three cases in full; the rest in brief, the playable ad first. */}
+          <CaseIndex pieces={[...webWork.filter((p) => p.compact), ...deskWork]} featured="playable" />
 
           <article className="case self" aria-labelledby="case-self">
             <div className="case-body">
