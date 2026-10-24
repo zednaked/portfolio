@@ -1387,9 +1387,11 @@ figcaption span {
 }
 
 /* Wide cases: the media stays beside the text as it scrolls, instead of
-   leaving half the card empty under a short screenshot. */
+   leaving half the card empty under a short screenshot. Only where the media
+   sits beside the text: in the stacked pairs it would slide over it. */
 @media (min-width: 900px) {
-  .case > .shot {
+  .case:not(.compact) > .shot,
+  .case.compact.phone > .shot {
     position: sticky;
     top: 12vh;
   }
