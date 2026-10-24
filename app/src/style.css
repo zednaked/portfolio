@@ -65,7 +65,7 @@ a:hover {
 
 .wrap {
   width: 100%;
-  max-width: 1120px;
+  max-width: calc(var(--wrap) + 32px);
   margin: 0 auto;
   padding: 0 16px;
 }
@@ -1687,7 +1687,7 @@ main {
      text instead of being pushed off to the edge. It grows (width) as well as
      moves (margin), so no gap opens between picture and text. */
   .case.spread {
-    --bleed: min(160px, max(0px, (100vw - 1088px) / 2));
+    --bleed: min(160px, max(0px, (100vw - var(--wrap)) / 2));
   }
   .case.spread > .shot {
     margin-left: calc(-1 * var(--bleed));
@@ -2037,4 +2037,22 @@ main {
   height: 100%;
   pointer-events: none;
   mix-blend-mode: screen;
+}
+
+/* Brief rows have no picture: one column, the text at full width. */
+.index-row:not(.featured) {
+  grid-template-columns: 1fr !important;
+}
+/* Wide screens: the column grows (to 1440 px of content) instead of sitting
+   in the middle of a 2560 px screen at 1088. */
+:root {
+  --wrap: 1088px;
+}
+@media (min-width: 1900px) {
+  :root {
+    --wrap: 1408px;
+  }
+  body {
+    font-size: 1.1875rem;
+  }
 }

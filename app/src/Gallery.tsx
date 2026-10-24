@@ -87,8 +87,8 @@ export function Gallery() {
             duration: 0.9,
             ease: 'power2.inOut',
             scrollTrigger: onScreen
-              ? { trigger: piece, start: 'top 95%', toggleActions: 'play none none reverse' }
-              : { trigger: piece, containerAnimation: run, start: 'left 95%', toggleActions: 'play none none reverse' },
+              ? { trigger: piece, start: 'top 95%', toggleActions: PLAY_ONCE }
+              : { trigger: piece, containerAnimation: run, start: 'left 95%', toggleActions: PLAY_ONCE },
           },
         );
         // The painting drifts inside its frame against the strip's motion.
@@ -217,7 +217,11 @@ export function Gallery() {
       </h2>
       <div className="gallery" onScroll={onStripScroll}>
         {artworks.map((art) => (
-          <figure className={art.wide ? 'piece wide' : 'piece'} key={art.id}>
+          <figure
+            className={art.wide ? 'piece wide' : 'piece'}
+            key={art.id}
+            data-medium={art.pixel ? 'pixel' : art.id === 'cards' ? 'layout' : 'paint'}
+          >
             <button
               type="button"
               className="reveal"

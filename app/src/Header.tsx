@@ -61,7 +61,7 @@ export function Header() {
                   // in (started earlier, a slow connection would miss the throw).
                   gsap.to(paint?.reveal ?? {}, { value: 1, duration: 1.9, ease: 'power2.out' });
                   // White type needs paint under it: the name waits for the throw.
-                  gsap.delayedCall(0.55, () => tl.play());
+                  gsap.delayedCall(0.3, () => tl.play());
                 },
                 fail,
               );

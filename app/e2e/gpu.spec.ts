@@ -70,7 +70,7 @@ test('if the GPU drops the terrain, the still takes its place', async ({ page })
   await expect(page.locator('.flood-canvas')).toHaveCount(0);
 });
 
-test('dragging the map sideways moves the water line', async ({ page }) => {
+test('dragging the map sideways moves the water line, and it drains back', async ({ page }) => {
   await page.route(/\.(mp4|webm)$/, (r) => r.abort());
   await page.goto('./');
   const flood = page.locator('.flood');
@@ -84,7 +84,11 @@ test('dragging the map sideways moves the water line', async ({ page }) => {
   await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.3);
   await page.mouse.down();
   await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.3, { steps: 8 });
+  const during = parseInt((await page.locator('.flood-readout b').first().textContent()) ?? '0');
+  expect(during).toBeGreaterThan(before + 10);
+  // Let go: the water drains back to where the scroll has it.
   await page.mouse.up();
-  const after = parseInt((await page.locator('.flood-readout b').first().textContent()) ?? '0');
-  expect(after).toBeGreaterThan(before + 10);
+  await expect
+    .poll(async () => parseInt((await page.locator('.flood-readout b').first().textContent()) ?? '0'))
+    .toBeLessThan(before + 3);
 });

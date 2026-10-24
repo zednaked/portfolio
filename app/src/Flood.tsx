@@ -100,7 +100,10 @@ export function Flood() {
               s.nudge(((e.clientX - lastX) / cv.clientWidth) * 120);
               lastX = e.clientX;
             };
-            const up = () => (lastX = null);
+            const up = () => {
+              if (lastX !== null) s.release();
+              lastX = null;
+            };
             cv.addEventListener('pointerdown', down);
             cv.addEventListener('pointermove', move);
             cv.addEventListener('pointerup', up);

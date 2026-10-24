@@ -63,6 +63,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
       // the shape finishes the collapse alone.
       const words = card.querySelectorAll('.ch-num, .ch-word, .ch-frag, .ch-sub');
       const fadeWords = gsap.quickSetter(words, 'opacity') as (value: number) => void;
+      const fadeCard = gsap.quickSetter(card, 'opacity') as (value: number) => void;
       // A square's edges reach the words almost at once; a circle's and a
       // triangle's only halfway in.
       const wordsFrom = chapter.shape === 'square' ? 0.02 : 0.35;
@@ -79,7 +80,9 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
             // The words hold until the clip reaches them; the act comes up as
             // they go, so there is never a screen of bare paper and a shape.
             fadeWords(gsap.utils.clamp(0, 1, 1 - (p - wordsFrom) / 0.3));
-            reveal?.(gsap.utils.clamp(0, 1, (p - 0.62) / 0.25));
+            reveal?.(gsap.utils.clamp(0, 1, (p - 0.72) / 0.2));
+            // What is left of the shape goes, rather than sitting on the text.
+            fadeCard(gsap.utils.clamp(0, 1, 1 - (p - 0.55) / 0.15));
           },
         },
       );
@@ -101,6 +104,7 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
       });
       return () => {
         if (body) body.style.opacity = '';
+        card.style.opacity = '';
         words.forEach((w) => {
           (w as HTMLElement).style.opacity = '';
         });

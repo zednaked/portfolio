@@ -31,12 +31,12 @@ void main() {
   if (uv.x < 0.0 || uv.y < 0.0 || uv.x > 1.0 || uv.y > 1.0) { gl_FragColor = vec4(0.0); return; }
   float h = lum(uv);
   vec2 g = vec2(lum(uv + vec2(uTexel.x, 0.0)) - h, lum(uv + vec2(0.0, uTexel.y)) - h);
-  vec3 n = normalize(vec3(-g * 6.0, 1.0));
+  vec3 n = normalize(vec3(-g * 8.0, 1.0));
   vec2 lp = (uPointer - vUv) * vec2(uAspect, 1.0);
   vec3 l = normalize(vec3(lp, 0.22));
-  float spec = pow(max(dot(reflect(-l, n), vec3(0.0, 0.0, 1.0)), 0.0), 32.0);
-  float near = exp(-dot(lp, lp) / 0.035);
-  float a = spec * near * 0.32 * uOn;
+  float spec = pow(max(dot(reflect(-l, n), vec3(0.0, 0.0, 1.0)), 0.0), 12.0);
+  float near = exp(-dot(lp, lp) / 0.08);
+  float a = spec * near * 0.85 * uOn;
   gl_FragColor = vec4(vec3(1.0, 0.97, 0.9) * a, a);
 }`;
 
@@ -132,6 +132,8 @@ export function createGlint(strip: HTMLElement): Glint | null {
   const enter = (e: PointerEvent) => {
     if (e.pointerType !== 'mouse') return;
     const button = e.target instanceof Element ? e.target.closest<HTMLElement>('.reveal') : null;
+    // Paintings only: pixel art and a UI layout have no paint to catch light.
+    if (button?.closest('[data-medium="layout"], [data-medium="pixel"]')) return;
     const image = button?.querySelector('img');
     if (!button || !image?.complete || !image.naturalWidth) return;
     if (button !== frame) {

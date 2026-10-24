@@ -76,6 +76,8 @@ export interface FloodScene {
   setProgress: (p: number) => void;
   /** Moves the water line by hand, in metres, on top of what the scroll set. */
   nudge: (metres: number) => void;
+  /** The hand lets go: the water eases back to the scroll's level. */
+  release: () => void;
   destroy: () => void;
 }
 
@@ -152,6 +154,7 @@ export async function createFloodScene(
 
   let progress = 0;
   let offset = 0;
+  let settle = 0;
   let portrait = false;
   const render = () => {
     // Front-loaded: the first scroll already floods the valley floors.
@@ -199,10 +202,25 @@ export async function createFloodScene(
       render();
     },
     nudge: (metres) => {
+      cancelAnimationFrame(settle);
       offset = Math.max(-200, Math.min(200, offset + metres));
       render();
     },
+    release: () => {
+      // Let go and the water drains back to where the scroll has it.
+      const step = () => {
+        offset *= 0.9;
+        render();
+        settle = Math.abs(offset) > 0.2 ? requestAnimationFrame(step) : 0;
+        if (!settle) {
+          offset = 0;
+          render();
+        }
+      };
+      settle = requestAnimationFrame(step);
+    },
     destroy: () => {
+      cancelAnimationFrame(settle);
       ro.disconnect();
       geo.dispose();
       mat.dispose();
