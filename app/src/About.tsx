@@ -43,7 +43,8 @@ export function About() {
           width={400}
           height={399}
           alt={t(ui.portraitAlt)}
-          fetchPriority="high"
+          loading="lazy"
+          decoding="async"
         />
         <div>
           <h2 className="label" id="about-h">

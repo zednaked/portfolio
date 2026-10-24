@@ -216,3 +216,19 @@ test('on a slow CPU a #link still lands on its section and stays there', async (
   const top = await page.locator('#credits').evaluate((e) => e.getBoundingClientRect().top);
   expect(Math.abs(top)).toBeLessThan(200);
 });
+
+test('on a slow CPU a jump clicked during boot lands on its section', async ({ page, browserName }) => {
+  test.skip(browserName !== 'chromium', 'CPU throttling is a Chromium DevTools feature');
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+  await page.goto('./');
+  await page.locator('a[href="#credits"]').first().click();
+  await expect
+    .poll(async () => page.locator('#credits').evaluate((e) => Math.abs(e.getBoundingClientRect().top)), {
+      timeout: 15000,
+    })
+    .toBeLessThan(200);
+  // And it stays there once the page has finished building.
+  await page.waitForTimeout(3000);
+  expect(await page.locator('#credits').evaluate((e) => Math.abs(e.getBoundingClientRect().top))).toBeLessThan(200);
+});

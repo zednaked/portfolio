@@ -109,13 +109,20 @@ function restore(a: ReturnType<typeof anchor>) {
 // reader has started scrolling by then.
 // One place the page owes the reader, kept until the deferred sections have
 // built (each refresh puts it back; it is settled once the refreshes stop) or
-// until the reader scrolls on their own. 8 s at most.
+// until the reader scrolls on their own.
 let owed: (() => boolean) | null = null;
+// Deferred setups not yet run: while any is, the page is still building.
+let pending = 0;
 let owedTimer = 0;
-function owe(place: () => boolean, ms = 8000) {
+function owe(place: () => boolean) {
   owed = place;
+  expireSoon();
+}
+// An unpaid debt expires a few seconds after the page has finished building,
+// however long building takes on a slow phone; not on a wall clock.
+function expireSoon() {
   clearTimeout(owedTimer);
-  owedTimer = window.setTimeout(() => (owed = null), ms);
+  if (pending === 0) owedTimer = window.setTimeout(() => (owed = null), 4000);
 }
 (['wheel', 'touchstart', 'keydown'] as const).forEach((type) => {
   window.addEventListener(type, () => (owed = null), { passive: true });
@@ -203,8 +210,6 @@ reduceQuery.addEventListener('change', (e) => {
 // pin moves everything after it).
 let refreshTimer = 0;
 let settledTimer = 0;
-// Deferred setups not yet run: while any is, the page is still building.
-let pending = 0;
 
 /**
  * Keep the reader where they are through a change of height the page is about
@@ -249,6 +254,7 @@ export function useIdleGSAP(setup: () => void, scope?: RefObject<Element | null>
     const run = () => {
       done = true;
       pending--;
+      if (pending === 0 && owed) expireSoon();
       ctx = gsap.context(first.current, scope?.current ?? undefined);
       refreshSoon();
     };

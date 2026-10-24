@@ -1113,7 +1113,7 @@ figcaption span {
 }
 .film-grain {
   opacity: 0.16;
-  background: url('/img/grain.png') repeat;
+  background: url('/img/grain.webp') repeat;
   background-size: 128px;
 }
 .film-riso {

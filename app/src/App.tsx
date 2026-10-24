@@ -1,6 +1,6 @@
 import { lazy, Suspense, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
-import { gsap, FULL_MOTION } from './motion';
+import { gsap, FULL_MOTION, FULL } from './motion';
 import { ui } from './content';
 import { useLang } from './i18n';
 import { Header } from './Header';
@@ -13,7 +13,14 @@ import { chapters } from './content';
 // the phone parses and runs less JavaScript before it can respond.
 const Gallery = lazy(() => import('./Gallery').then((m) => ({ default: m.Gallery })));
 const Games = lazy(() => import('./Games').then((m) => ({ default: m.Games })));
-const WebWork = lazy(() => import('./WebWork').then((m) => ({ default: m.WebWork })));
+// The GPU is probed as the CODE chunk arrives, before the terrain renders:
+// the act is laid out once, live or as its still, never swapped later.
+const WebWork = lazy(() =>
+  Promise.all([import('./WebWork'), import('./gpu')]).then(([m, g]) => {
+    if (FULL) g.hasGPU();
+    return { default: m.WebWork };
+  }),
+);
 const About = lazy(() => import('./About').then((m) => ({ default: m.About })));
 const Proofs = lazy(() => import('./Proofs').then((m) => ({ default: m.Proofs })));
 const Finale = lazy(() => import('./Finale').then((m) => ({ default: m.Finale })));

@@ -26,25 +26,9 @@ export function Flood() {
   useEffect(() => {
     langRef.current = lang;
   }, [lang]);
-  const [live, setLive] = useState(FULL);
-  // The GPU is probed in an idle slot after mount, not on the first frame:
-  // the section is far below the fold by then, so a still taking its place
-  // shifts nothing the reader sees.
-  useEffect(() => {
-    if (!FULL) return;
-    const idle = 'requestIdleCallback' in window;
-    const check = () => {
-      if (!hasGPU()) {
-        holdPlace();
-        setLive(false);
-      }
-    };
-    const id = idle ? window.requestIdleCallback(check, { timeout: 1500 }) : window.setTimeout(check, 200);
-    return () => {
-      if (idle) window.cancelIdleCallback(id);
-      else clearTimeout(id);
-    };
-  }, []);
+  // Probed (and cached) when the CODE chunk arrived, so the act is laid out
+  // once: live, or as its still. Only a lost context swaps it later.
+  const [live, setLive] = useState(() => FULL && hasGPU());
   const [ready, setReady] = useState(false);
   // The still is much shorter than the live stage: re-measure through the one
   // refresh, so the reader's place (or a #link's) holds.
