@@ -32,6 +32,17 @@ end-to-end tests use a system Chromium instead of Playwright's download.
 
 ### Motion decisions worth knowing
 
+- **The CODE act opens on Cheia's terrain, in three.js** (`src/flood-scene.ts`,
+  `src/Flood.tsx`): the real relief of Curitiba from the flood simulator's own
+  data, baked to a 256 × 256 heightmap (`scripts/bake-cheia.mjs`), drawn as a
+  print (paper, ink contours every 20 m and 100 m, rivers) while the scroll
+  raises a water line and turns the camera. The readout (height of the line,
+  share of the map below it) is a binary search over the sorted heights. It is
+  an illustration on the same terrain, and says so; the simulator runs the
+  physics. three.js loads as its own chunk with its own budget, only when the
+  act comes near and only on a real GPU; it renders on demand, and a lost
+  context hands over to the still.
+
 - **The opening splash is wet paint in plain WebGL** (`src/splash-gl.ts`, ~3 KB):
   one quad, one texture, one fragment shader. The paint is thrown from the
   corner with a noisy front and a wet rim; it is lit as paint, its relief

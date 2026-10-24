@@ -216,6 +216,22 @@ export interface Story {
   tradeoff: Text;
 }
 
+// The CODE act's opening: Cheia's terrain with a water line raised by the scroll.
+export const floodUi = {
+  kind: { en: 'live, on the real terrain', pt: 'ao vivo, no terreno real' },
+  caption: {
+    en: "The relief of Curitiba and its metro area, from the simulator's own data (SRTM, about 34 m a cell). Scroll and the water line rises: the lowest ground goes under first. An illustration on the same terrain; the simulator itself runs the physics.",
+    pt: 'O relevo de Curitiba e da região metropolitana, com os dados do próprio simulador (SRTM, cerca de 34 m por célula). Role e a linha d’água sobe: o terreno mais baixo afunda primeiro. Uma ilustração sobre o mesmo terreno; a física roda no simulador.',
+  },
+  level: { en: 'water line', pt: 'linha d’água' },
+  under: { en: 'of the map below it', pt: 'do mapa abaixo dela' },
+  open: { en: 'Open the simulator', pt: 'Abrir o simulador' },
+  alt: {
+    en: 'Cheia in the browser: a 3D satellite map of Curitiba with the rivers in blue and the rain controls on the left.',
+    pt: 'O Cheia no navegador: um mapa 3D de satélite de Curitiba com os rios em azul e os controles de chuva à esquerda.',
+  },
+};
+
 export const webUi = {
   label: { en: 'Built, then measured', pt: 'Construído, depois medido' },
   intro: {

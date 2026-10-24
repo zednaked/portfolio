@@ -33,3 +33,22 @@ test('the splash is painted by WebGL and survives a resize after it goes idle', 
   await page.waitForTimeout(400);
   expect(await paintCoverage(page)).toBeGreaterThan(0.1);
 });
+
+test('the CODE act opens on the terrain, and the scroll raises the water', async ({ page }) => {
+  // Video decoding can reset some GPU drivers under automation; the piece is
+  // what is under test here.
+  await page.route(/\.(mp4|webm)$/, (r) => r.abort());
+  await page.goto('./');
+  const flood = page.locator('.flood');
+  await expect(flood).toHaveClass(/is-live/);
+  const top = await flood.evaluate((e) => e.getBoundingClientRect().top + window.scrollY);
+  const span = await flood.evaluate((e) => e.offsetHeight - window.innerHeight);
+  for (let y = 0; y < top; y += 600) await page.evaluate((v) => window.scrollTo(0, v), y);
+  await page.evaluate((v) => window.scrollTo(0, v), top);
+  await expect(page.locator('.flood-canvas.on')).toHaveCount(1, { timeout: 8000 });
+  const low = await page.locator('.flood-readout b').first().textContent();
+  await page.evaluate((v) => window.scrollTo(0, v), top + span);
+  await page.waitForTimeout(400);
+  const high = await page.locator('.flood-readout b').first().textContent();
+  expect(parseInt(high ?? '0')).toBeGreaterThan(parseInt(low ?? '0'));
+});
