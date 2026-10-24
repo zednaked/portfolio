@@ -7,7 +7,7 @@ import { Header } from './Header';
 import { Act } from './Chapter';
 import { Reel } from './Reel';
 import { Film, Marquee } from './Film';
-import { chapters } from './content';
+import { bookImages, chapters, exhibits } from './content';
 
 // Everything below the reel arrives as its own chunk, after the first paint:
 // the phone parses and runs less JavaScript before it can respond.
@@ -35,13 +35,10 @@ function About() {
           { clipPath: 'inset(0% 0% 0% 0%)', duration: 0.8, ease: 'power2.inOut' },
         )
           .from('.label', { scaleX: 0, transformOrigin: 'left center', duration: 0.45 }, 0.25)
-          // Only position moves on the text box: it stays visible from the
-          // first frame, so it can count as the largest paint right away.
           .from('.box', { y: 24, duration: 0.6 }, 0.4)
-          // The award pops in like a stamp. It grows from smaller than its
-          // final size, so its first paint never outranks the text box as LCP.
-          .from('.award', { scale: 0.7, rotation: -8, opacity: 0, duration: 0.5, ease: 'back.out(2.2)' }, 0.85)
-          .from('.show', { x: -20, opacity: 0, duration: 0.45 }, 1.1);
+          // The record of exhibitions, then the book laid down page by page.
+          .from('.exhibits li', { x: -20, opacity: 0, duration: 0.45, stagger: 0.08 }, 0.7)
+          .from('.book img', { y: 24, rotation: -3, opacity: 0, duration: 0.6, stagger: 0.1 }, 1.0);
       });
     },
     { scope: root },
@@ -62,14 +59,31 @@ function About() {
           {t(ui.aboutLabel)}
         </h2>
         <p className="box">{t(ui.about)}</p>
-        <p className="award">
-          <strong>{t(ui.awardYear)}</strong>
-          <span>{t(ui.award)}</span>
-        </p>
-        <p className="show">
-          <strong>{t(ui.showYear)}</strong>
-          <span>{t(ui.show)}</span>
-        </p>
+        <h3 className="exhibits-h">{t(ui.exhibitsLabel)}</h3>
+        <ul className="exhibits">
+          {exhibits.map((ex) => (
+            <li key={ex.when.en}>
+              <strong>{t(ex.when)}</strong>
+              <span>{t(ex.what)}</span>
+            </li>
+          ))}
+        </ul>
+        <figure className="book">
+          <div className="book-row">
+            {bookImages.map((img) => (
+              <img
+                key={img.src}
+                src={img.src}
+                width={img.width}
+                height={img.height}
+                alt={t(img.alt)}
+                loading="lazy"
+                decoding="async"
+              />
+            ))}
+          </div>
+          <figcaption>{t(ui.bookLabel)}</figcaption>
+        </figure>
       </div>
     </section>
   );

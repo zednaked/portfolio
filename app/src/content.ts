@@ -37,22 +37,17 @@ export const ui = {
   jumpCredits: { en: 'Credited by other projects', pt: 'Creditado por outros projetos' },
   aboutLabel: { en: 'About me', pt: 'Sobre mim' },
   about: {
-    en: 'I learned oil painting through the classical method, and the first portraits below are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art that follow were made. I am also a gardener and a beekeeper.',
-    pt: 'Aprendi pintura a óleo pelo método clássico, e os primeiros retratos abaixo são óleo sobre tela. Depois passei para a pintura digital no iPad, onde foram feitos a ilustração, o character design e a arte de jogos que vêm em seguida. Também sou jardineiro e apicultor.',
+    en: 'I learned oil painting through the classical method, and the first portraits in PAINT, above, are oil on canvas. Then I moved to digital painting on the iPad, where the illustration, character design and game art after them were made. I am also a gardener and a beekeeper.',
+    pt: 'Aprendi pintura a óleo pelo método clássico, e os primeiros retratos do PAINT, acima, são óleo sobre tela. Depois passei para a pintura digital no iPad, onde foram feitos a ilustração, o character design e a arte de jogos que vêm depois deles. Também sou jardineiro e apicultor.',
   },
   portraitAlt: {
     en: 'Portrait of Thiago Gonçalves, long dark hair and beard, plaid shirt, holding paintbrushes.',
     pt: 'Retrato de Thiago Gonçalves, cabelo comprido escuro e barba, camisa xadrez, segurando pincéis.',
   },
-  awardYear: { en: '2015 · Carrousel du Louvre, Paris', pt: '2015 · Carrousel du Louvre, Paris' },
-  award: {
-    en: 'Gold medal for an oil painting at the Artcom Expo International exhibition, Carrousel du Louvre, October 2015.',
-    pt: 'Medalha de ouro com uma pintura a óleo na exposição Artcom Expo International, no Carrousel du Louvre, em outubro de 2015.',
-  },
-  showYear: { en: '2021 · Curitiba', pt: '2021 · Curitiba' },
-  show: {
-    en: 'Kleshas, a virtual exhibition backed by Fundação Cultural de Curitiba through its arts patronage program.',
-    pt: 'Kleshas, exposição virtual apoiada pela Fundação Cultural de Curitiba por meio do mecenato.',
+  exhibitsLabel: { en: 'Exhibitions and awards', pt: 'Exposições e prêmios' },
+  bookLabel: {
+    en: 'In print: Artists Across Continents 2015 (Artcom Expo), pages 166 and 167.',
+    pt: 'No livro: Artists Across Continents 2015 (Artcom Expo), páginas 166 e 167.',
   },
   workLabel: { en: 'Work', pt: 'Trabalhos' },
   open: { en: 'View larger', pt: 'Ver maior' },
@@ -234,6 +229,77 @@ export const webUi = {
   },
   proofLabel: { en: 'Shipped and credited', pt: 'Entregue e creditado' },
 } satisfies Record<string, Text>;
+
+export interface Exhibit {
+  when: Text;
+  what: Text;
+}
+
+// From the catalogues, the diploma and the book (photographed 24/10/2026).
+export const exhibits: Exhibit[] = [
+  {
+    when: { en: '2015 · Carrousel du Louvre, Paris', pt: '2015 · Carrousel du Louvre, Paris' },
+    what: {
+      en: 'Gold medal for an oil portrait, Artcom Expo International.',
+      pt: 'Medalha de ouro com um retrato a óleo, Artcom Expo International.',
+    },
+  },
+  {
+    when: { en: '2015 · Embassy of Brazil, Oslo', pt: '2015 · Embaixada do Brasil, Oslo' },
+    what: {
+      en: 'Medal and honour of merit at the XI Salão Premiado; the painting stayed with the embassy as a gift.',
+      pt: 'Medalha e honra ao mérito no XI Salão Premiado; a pintura ficou de presente com a embaixada.',
+    },
+  },
+  {
+    when: { en: '2015 · Artcom Expo, Dubai', pt: '2015 · Artcom Expo, Dubai' },
+    what: { en: 'Honourable mention.', pt: 'Menção honrosa.' },
+  },
+  {
+    when: { en: '2014 · Pinhais, Brazil', pt: '2014 · Pinhais' },
+    what: {
+      en: 'Solo exhibition and a lecture on portrait painting, Centro Cultural Luis Gagliastri.',
+      pt: 'Exposição individual e palestra sobre pintura de retrato, Centro Cultural Luis Gagliastri.',
+    },
+  },
+  {
+    when: { en: '2021 · Curitiba', pt: '2021 · Curitiba' },
+    what: {
+      en: 'Kleshas, a virtual exhibition backed by Fundação Cultural de Curitiba through its arts patronage program.',
+      pt: 'Kleshas, exposição virtual apoiada pela Fundação Cultural de Curitiba por meio do mecenato.',
+    },
+  },
+];
+
+export const bookImages = [
+  {
+    src: `${base}img/book-cover.webp`,
+    width: 600,
+    height: 816,
+    alt: {
+      en: 'Cover of the book Artists Across Continents 2015, Artcom Expo.',
+      pt: 'Capa do livro Artists Across Continents 2015, Artcom Expo.',
+    },
+  },
+  {
+    src: `${base}img/book-page.webp`,
+    width: 640,
+    height: 616,
+    alt: {
+      en: 'Page 166 of the book: a photo of Thiago holding brushes, titled "Artist: Thiago Gonçalves, Brazil".',
+      pt: 'Página 166 do livro: foto de Thiago segurando pincéis, com o título "Artist: Thiago Gonçalves, Brazil".',
+    },
+  },
+  {
+    src: `${base}img/book-spread.webp`,
+    width: 640,
+    height: 1014,
+    alt: {
+      en: 'Page 167: four of his portraits, "To the Gallows", "Sight", "Traveller" and a charcoal of a long-haired man.',
+      pt: 'Página 167: quatro retratos dele, "To the Gallows", "Sight", "Traveller" e um carvão de um homem de cabelo comprido.',
+    },
+  },
+];
 
 export const pageStory: Story = {
   why: {

@@ -1421,3 +1421,50 @@ main {
     scroll-snap-align: start;
   }
 }
+
+/* Exhibitions and awards, and the book they are printed in */
+.exhibits-h {
+  margin: 28px 0 10px;
+  font:
+    400 1.05rem/1.2 'Anton',
+    sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.exhibits {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.exhibits li {
+  display: grid;
+  gap: 2px;
+  padding: 10px 14px;
+  background: #fff;
+  border-left: 6px solid var(--b-red);
+}
+.exhibits strong {
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+.book {
+  margin: 20px 0 0;
+  padding: 12px 12px 14px;
+}
+.book-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+}
+.book-row img {
+  width: 100%;
+  height: auto;
+}
+.book figcaption {
+  margin: 10px 4px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
