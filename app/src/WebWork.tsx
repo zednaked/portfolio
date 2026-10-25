@@ -3,6 +3,7 @@ import { deskWork, figmaUrl, pageStats, pageStory, webUi, webWork } from './cont
 import { useLang } from './i18n';
 import { BudgetCase, CaseCard, CaseIndex, StatLine, StoryList, useCaseMotion } from './cases';
 import { Flood } from './Flood';
+import { Nirbija } from './Nirbija';
 
 export function WebWork() {
   const { t } = useLang();
@@ -13,6 +14,8 @@ export function WebWork() {
     <>
       {/* The act opens on a piece, full width, before the cases. */}
       <Flood />
+      {/* The flagship, before the cases: its own band, the colour of the app. */}
+      <Nirbija />
       <section className="wrap web" id="web" aria-labelledby="web-h" ref={root}>
         <h2 className="label" id="web-h">
           {t(webUi.label)}

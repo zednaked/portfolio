@@ -234,6 +234,61 @@ export const budget = {
   linkText: { en: 'Read the method', pt: 'Ler o método' },
 };
 
+// The flagship: Nirbija, set apart from the cases (facts from its README).
+export const nirbija = {
+  kicker: { en: 'The big one', pt: 'O grande' },
+  kind: { en: 'a Linux mixer that is also an instrument', pt: 'um mixer para Linux que também é instrumento' },
+  what: {
+    en: 'A rack of channel strips in the spirit of AUM on iOS, which Linux does not have. A drone synth, a sixteen-pad sampler, a looper, a step sequencer and an arpeggiator ship inside it; LV2, CLAP and VST3 go in the same slot, over JACK or PipeWire, with the plugins’ own editors in the window.',
+    pt: 'Um rack de canais no espírito do AUM do iOS, que o Linux não tem. Um sintetizador drone, um sampler de dezesseis pads, um looper, um sequenciador e um arpejador vêm dentro dele; LV2, CLAP e VST3 entram no mesmo slot, via JACK ou PipeWire, com os editores dos próprios plugins na janela.',
+  },
+  rule: {
+    en: 'The bar is a live set: you edit while it plays and nothing may click, step or drop out. Every fader, send, mute and loop edge walks instead of jumping, and a test measures the largest sample-to-sample step and fails above it.',
+    pt: 'A régua é um show ao vivo: você edita enquanto toca e nada pode estalar, pular ou sumir. Cada fader, envio, mute e borda de loop caminha em vez de saltar, e um teste mede o maior salto entre amostras e falha acima dele.',
+  },
+  fm1: {
+    en: 'It plays hardware from the inside: the FM-1 running my Jangada firmware is a strip like any other, its four tracks read, edited and saved with the session, both ways over Jangada’s own SysEx.',
+    pt: 'Ele toca hardware por dentro: o FM-1 com o meu firmware Jangada é um canal como outro qualquer, com as quatro trilhas lidas, editadas e salvas na sessão, nos dois sentidos, pelo SysEx da própria Jangada.',
+  },
+  role: {
+    en: 'Solo: design, C++20 audio engine, Qt Quick interface, tests.',
+    pt: 'Sozinho: design, motor de áudio em C++20, interface em Qt Quick, testes.',
+  },
+  stats: [
+    {
+      value: 0.1,
+      decimals: 1,
+      unit: ' ms',
+      label: {
+        en: 'to render 16 strips with inserts and sends, 2% of the block’s time',
+        pt: 'para renderizar 16 canais com inserts e envios, 2% do tempo do bloco',
+      },
+    },
+    {
+      value: 11,
+      unit: '',
+      label: { en: 'instruments built in, nothing to install', pt: 'instrumentos embutidos, nada para instalar' },
+    },
+    {
+      value: 0,
+      unit: '',
+      label: {
+        en: 'allocations, locks or logs on the audio thread',
+        pt: 'alocações, locks ou logs na thread de áudio',
+      },
+    },
+  ] as Stat[],
+  alt: {
+    en: 'Nirbija on Linux: channel strips on the left, the Drone’s six strings, the Looper and the Sampler’s sixteen pads open beside them, and the master fader on the right.',
+    pt: 'O Nirbija no Linux: canais à esquerda, as seis cordas do Drone, o Looper e os dezesseis pads do Sampler abertos ao lado, e o fader master à direita.',
+  },
+  site: 'https://zednaked.github.io/nirbija-site/',
+  code: 'https://github.com/zednaked/Nirbija',
+  siteLabel: { en: 'See it', pt: 'Ver' },
+  download: 'https://github.com/zednaked/Nirbija/releases',
+  downloadLabel: { en: 'AppImage', pt: 'AppImage' },
+};
+
 export const webUi = {
   label: { en: 'Built, then measured', pt: 'Construído, depois medido' },
   intro: {
@@ -353,7 +408,7 @@ export const pageStats: Stat[] = [
     label: { en: 'layout shift, desktop and phone', pt: 'deslocamento de layout, desktop e celular' },
   },
   {
-    value: 21,
+    value: 36,
     unit: '',
     label: {
       en: 'unit and end-to-end tests, axe and a GPU run included',

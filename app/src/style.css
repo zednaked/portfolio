@@ -2056,3 +2056,111 @@ main {
     font-size: 1.1875rem;
   }
 }
+
+/* Nirbija, the flagship: a dark band the colour of the app itself. */
+.nirbija {
+  --nb-bg: #14161b;
+  --nb-ink: #ecebe6;
+  --nb-muted: #b4b8c2;
+  --nb-accent: #6fb3ff;
+  position: relative;
+  margin: 0 0 clamp(56px, 8vw, 104px);
+  padding: clamp(48px, 7vw, 96px) 0;
+  background: var(--nb-bg);
+  color: var(--nb-ink);
+}
+.nb-kicker {
+  margin: 0 0 10px;
+  color: var(--nb-accent);
+  font:
+    400 1rem/1.2 'Anton',
+    sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.nb-title {
+  margin: 0 0 clamp(24px, 3vw, 40px);
+}
+.nb-name {
+  display: block;
+  font:
+    400 clamp(3.4rem, 1.6rem + 7vw, 8rem) / 0.9 'Anton',
+    sans-serif;
+  text-transform: uppercase;
+}
+.nb-kind {
+  display: block;
+  margin-top: 10px;
+  color: var(--nb-muted);
+  font-size: clamp(1.1rem, 0.95rem + 0.6vw, 1.5rem);
+}
+.nb-shot {
+  display: block;
+  width: 100%;
+  max-width: 1600px;
+  height: auto;
+  margin: 0 auto;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+.nb-body {
+  display: grid;
+  gap: 0 48px;
+  padding-top: clamp(28px, 4vw, 48px);
+}
+.nb-body p {
+  margin: 0 0 14px;
+  max-width: 62ch;
+}
+.nb-lead {
+  font-size: clamp(1.125rem, 1rem + 0.5vw, 1.4rem);
+  line-height: 1.5;
+}
+.nirbija .stats {
+  margin: 8px 0 24px;
+  border-top-color: rgba(236, 235, 230, 0.18);
+}
+.nirbija .stat-num,
+.nirbija .stat-unit {
+  color: var(--nb-accent);
+}
+.nirbija .stat-label,
+.nirbija .case-role {
+  color: var(--nb-muted);
+}
+.nirbija .case-role strong {
+  color: var(--nb-ink);
+}
+.nirbija .stat-num::before,
+.nirbija .stat-num::after {
+  display: none;
+}
+.nirbija .links a:not(.btn) {
+  color: var(--nb-ink);
+}
+.nirbija .btn {
+  background: var(--nb-accent);
+  color: #0b0b0b;
+}
+.nirbija :focus-visible {
+  outline-color: var(--nb-accent);
+}
+@media (min-width: 900px) {
+  .nb-body {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+  .nb-lead,
+  .nirbija .stats {
+    grid-column: 1 / -1;
+  }
+}
+/* A keyboard reaching Nirbija before its entrance has played sees it whole. */
+.nirbija:focus-within .nb-body > *,
+.nirbija:focus-within .nb-kicker,
+.nirbija:focus-within .nb-name,
+.nirbija:focus-within .nb-kind {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.nirbija:focus-within .nb-shot {
+  clip-path: none !important;
+}
