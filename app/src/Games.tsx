@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import { ciberteia, games, gamesUi } from './content-work';
+import { ciberteia, gamesUi, reidaboca, rinha } from './content-work';
 import { useLang } from './i18n';
-import { CaseCard, useCaseMotion } from './cases';
+import { useCaseMotion } from './cases';
 import { Flagship } from './Flagship';
 
 export function Games() {
@@ -9,26 +9,18 @@ export function Games() {
   const root = useRef<HTMLElement>(null);
   useCaseMotion(root, 'games-h');
 
-  // The order is the data's: the first game leads, the rest pair up below.
-  const [featured, ...rest] = games;
+  // Each game is a flagship: its own band, in the colours of the game.
   return (
-    <>
-      {/* The flagship, before the cases: its own band, the colours of the game. */}
-      <Flagship piece={ciberteia} />
-      <section className="wrap web games" id="games" aria-labelledby="games-h" ref={root}>
+    <section className="games" id="games" aria-labelledby="games-h" ref={root}>
+      <div className="wrap web">
         <h2 className="label" id="games-h">
           {t(gamesUi.label)}
         </h2>
         <p className="intro">{t(gamesUi.intro)}</p>
-        <div className="cases">
-          <CaseCard piece={featured} />
-          <div className="cases-pair">
-            {rest.map((piece) => (
-              <CaseCard piece={piece} key={piece.id} />
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
+      </div>
+      {[ciberteia, rinha, reidaboca].map((piece) => (
+        <Flagship piece={piece} key={piece.id} />
+      ))}
+    </section>
   );
 }

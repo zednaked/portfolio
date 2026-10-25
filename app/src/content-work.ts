@@ -370,6 +370,126 @@ export const ciberteia: Flagship = {
   note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
 };
 
+export const rinha: Flagship = {
+  id: 'rinha',
+  name: 'Rinha',
+  kicker: { en: 'Strategy, drawn in code', pt: 'Estratégia, desenhada em código' },
+  kind: { en: 'a real-time strategy game for the browser', pt: 'um jogo de estratégia em tempo real para o navegador' },
+  what: {
+    en: 'StarCraft-style real-time strategy in the browser: mine crystal and gas, build a base, climb three tech tiers and fight AI opponents. Or watch them fight each other: in spectator mode a director camera follows the biggest battle, and a panel shows what each AI is doing and plans next.',
+    pt: 'Estratégia em tempo real no estilo StarCraft, no navegador: minere cristal e gás, erga uma base, suba três níveis de tecnologia e enfrente IAs. Ou assista às IAs se enfrentando: no modo espectador uma câmera-diretora segue a maior batalha, e um painel mostra o que cada IA está fazendo e o que planeja.',
+  },
+  more: [
+    {
+      en: 'Units are built, not painted. Each one is 15 to 28 polygons, and the code animates them by name: a part called Leg strides, a Barrel kicks back when it fires, a Turret aims on its own. A new unit is a scene and a data file, with no animation code and no art pipeline.',
+      pt: 'As unidades são montadas, não pintadas. Cada uma tem de 15 a 28 polígonos, e o código anima pelo nome: a peça chamada Leg dá o passo, o Barrel recua no tiro, a Turret mira sozinha. Unidade nova é uma cena e um arquivo de dados, sem código de animação e sem pipeline de arte.',
+    },
+    {
+      en: 'No two AIs play alike. Each rolls five traits at the start of a match (aggression, economy, tech, defence, army mix) that set how many workers it wants, when it attacks and what it builds. Difficulty only shifts the range of the roll. It plays fair, too: it sees only what its units see, remembers what it scouted and sends scouts for the rest.',
+      pt: 'Nenhuma IA joga igual a outra. Cada uma sorteia cinco traços no início da partida (agressão, economia, tecnologia, defesa, composição do exército) que definem quantos trabalhadores quer, quando ataca e o que constrói. A dificuldade só desloca a faixa do sorteio. E ela joga limpo: só vê o que as suas unidades veem, lembra o que explorou e manda batedores atrás do resto.',
+    },
+  ],
+  role: {
+    en: 'Solo: design, GDScript, the AI, the procedural art, the performance work.',
+    pt: 'Sozinho: design, GDScript, a IA, a arte procedural, o trabalho de performance.',
+  },
+  stats: [
+    {
+      value: 169,
+      unit: '',
+      label: {
+        en: 'polygons draw the nine units; there is not one sprite or texture',
+        pt: 'polígonos desenham as nove unidades; não há um sprite ou textura sequer',
+      },
+    },
+    {
+      value: 12,
+      unit: '×',
+      label: {
+        en: 'faster frame in the worst case, four armies in one fight: from about 130 ms to 11 ms',
+        pt: 'mais rápido o quadro no pior caso, quatro exércitos numa só batalha: de uns 130 ms para 11 ms',
+      },
+    },
+    {
+      value: 5,
+      unit: '',
+      label: {
+        en: 'personality traits each AI rolls, so no two play the same match',
+        pt: 'traços de personalidade que cada IA sorteia, e nenhuma joga a mesma partida',
+      },
+    },
+  ],
+  width: 1600,
+  height: 900,
+  alt: {
+    en: 'Rinha in spectator mode: on a green map with grey rocks, a red army and a blue army clash beside two blue command centres. Yellow and red bases sit lower left, a minimap in the corner shows the four teams, and the panel on the left lists each Hard AI with its workers, army, score and current plan.',
+    pt: 'Rinha no modo espectador: num mapa verde com rochas cinza, um exército vermelho e um azul se chocam ao lado de dois centros de comando azuis. Bases amarelas e vermelhas ficam embaixo à esquerda, um minimapa no canto mostra os quatro times, e o painel à esquerda lista cada IA no Difícil com trabalhadores, exército, pontuação e plano atual.',
+  },
+  links: [{ href: 'https://zedcave.itch.io/rinha', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
+  note: { en: 'Made in Godot 4. The source is private.', pt: 'Feito em Godot 4. O código é privado.' },
+};
+
+export const reidaboca: Flagship = {
+  id: 'reidaboca',
+  name: 'O Rei da Boca',
+  kicker: { en: 'Day, then night', pt: 'De dia, depois de noite' },
+  kind: {
+    en: 'a first-person base defence over a day and a night',
+    pt: 'uma defesa de base em primeira pessoa ao longo de um dia e uma noite',
+  },
+  what: {
+    en: 'By day you tend the crops, repair the base, hire guards and send squads at the rival base. At dusk the light goes and the waves come. Destroy the rival base before it destroys yours. Dying costs you five seconds; losing the base, or running out of money, ends the run.',
+    pt: 'De dia você cuida das plantas, repara a base, contrata seguranças e manda esquadrões contra a base rival. No fim da tarde a luz vai embora e as ondas chegam. Destrua a base rival antes que ela destrua a sua. Morrer custa cinco segundos; perder a base, ou ficar sem dinheiro, encerra a partida.',
+  },
+  more: [
+    {
+      en: 'An enemy hunts by what he knows, not by where the game says you are. Sight and sound write a last known position, and chasing, searching and calling out to the squad all read from it. So every shot is a choice: it tells everyone in earshot where you stand.',
+      pt: 'O inimigo caça pelo que sabe, não por onde o jogo diz que você está. Visão e som gravam uma última posição conhecida, e perseguir, procurar e avisar o esquadrão leem dela. Então cada tiro é uma escolha: ele conta a todos ao alcance do som onde você está.',
+    },
+    {
+      en: 'The rival plays by your rules. Its purchases go through the same code as your menu, and it gets more aggressive the more you provoke it. A rival that cheats can only be endured; one that runs the same economy can be read and outplayed.',
+      pt: 'O rival joga pelas suas regras. As compras dele passam pelo mesmo código do seu menu, e ele fica mais agressivo quanto mais você o provoca. Um rival que trapaceia só se aguenta; um que roda a mesma economia dá para ler e superar.',
+    },
+  ],
+  role: {
+    en: 'Solo: design, Godot 4 code, enemy and rival AI, lighting, headless tests.',
+    pt: 'Sozinho: design, código em Godot 4, IA dos inimigos e do rival, iluminação, testes headless.',
+  },
+  stats: [
+    {
+      value: 13,
+      unit: '',
+      label: {
+        en: 'states in one enemy’s head, from roaming to searching a cold trail to running away',
+        pt: 'estados na cabeça de um inimigo, de vagar a procurar uma pista fria a fugir',
+      },
+    },
+    {
+      value: 55,
+      unit: '%',
+      label: {
+        en: 'of their daylight sight the enemies keep at night: the AI reads the same sun that lights the level',
+        pt: 'da visão diurna que os inimigos mantêm à noite: a IA lê o mesmo sol que ilumina o mapa',
+      },
+    },
+    {
+      value: 13326,
+      unit: '',
+      label: { en: 'lines of GDScript, written alone', pt: 'linhas de GDScript, escritas sozinho' },
+    },
+  ],
+  width: 1600,
+  height: 900,
+  alt: {
+    en: 'O Rei da Boca at dusk, in first person: a pistol held in front of a sandstone street under a violet sky, three enemies outlined in red trading fire behind crates and barrels, a gun light flaring on the wall to the right.',
+    pt: 'O Rei da Boca no fim da tarde, em primeira pessoa: uma pistola diante de uma rua de arenito sob céu violeta, três inimigos contornados de vermelho trocando tiros atrás de caixotes e barris, uma lanterna de arma estourando na parede à direita.',
+  },
+  links: [
+    { href: 'https://zedcave.itch.io/o-rei-da-boca', label: { en: 'See it on itch', pt: 'Ver no itch' }, btn: true },
+  ],
+  note: { en: 'The source is private.', pt: 'O código é privado.' },
+};
+
 export const webUi = {
   label: { en: 'Built, then measured', pt: 'Construído, depois medido' },
   intro: {
@@ -733,61 +853,13 @@ export const proofs: Proof[] = [
   },
 ];
 
-const play: Text = { en: 'Play it', pt: 'Jogar' };
-
 export const gamesUi = {
   label: { en: 'Games, made alone', pt: 'Jogos, feitos sozinho' },
   intro: {
-    en: 'Two more of my own, design and code. The studio titles are under NDA; their numbers are in CODE.',
-    pt: 'Mais dois meus, design e código. Os títulos de estúdio estão sob NDA; os números deles estão em CODE.',
+    en: 'Three games of my own, design and code. The studio titles are under NDA; their numbers are in CODE.',
+    pt: 'Três jogos meus, design e código. Os títulos de estúdio estão sob NDA; os números deles estão em CODE.',
   },
 } satisfies Record<string, Text>;
-
-export const games: WebPiece[] = [
-  {
-    id: 'rinha',
-    img: `${base}img/game-rinha.webp`,
-    video: `${base}video/game-rinha.mp4`,
-    width: 800,
-    height: 450,
-    liveLabel: play,
-    title: { en: 'Rinha, a tactical RTS', pt: 'Rinha, um RTS tático' },
-    what: {
-      en: 'Real-time strategy in the browser. Here, four AI players on Hard, watched in spectator mode.',
-      pt: 'Estratégia em tempo real no navegador. Aqui, quatro IAs no modo difícil, vistas no modo espectador.',
-    },
-    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
-    tech: ['Godot 4', 'HTML5'],
-    stats: [],
-    alt: {
-      en: 'Rinha in spectator mode: a top-down map with a base, units in blue, a minimap in the corner and a score panel for four AI players.',
-      pt: 'Rinha no modo espectador: um mapa visto de cima com uma base, unidades em azul, um minimapa no canto e o placar de quatro IAs.',
-    },
-    live: 'https://zedcave.itch.io/rinha',
-  },
-  {
-    id: 'reidaboca',
-    img: `${base}img/game-reidaboca.webp`,
-    video: `${base}video/game-reidaboca.mp4`,
-    width: 800,
-    height: 450,
-    compact: true,
-    liveLabel: { en: 'See it on itch', pt: 'Ver no itch' },
-    title: { en: 'O Rei da Boca, a tactical FPS', pt: 'O Rei da Boca, um FPS tático' },
-    what: {
-      en: 'First-person base defence with a day and night cycle: by day you tend the crops, repair the base and hire guards; by night the waves come. Destroy the rival base before it destroys yours.',
-      pt: 'Defesa de base em primeira pessoa com ciclo de dia e noite: de dia você cuida das plantas, repara a base e contrata seguranças; de noite vêm as ondas. Destrua a base rival antes que ela destrua a sua.',
-    },
-    role: { en: 'My own game: design and code.', pt: 'Jogo meu: design e código.' },
-    tech: ['Godot 4', '3D', 'FPS'],
-    stats: [],
-    alt: {
-      en: 'O Rei da Boca in first person: a hand holding a pistol in a sunlit courtyard, with the base menu open over a workbench.',
-      pt: 'O Rei da Boca em primeira pessoa: uma mão segurando uma pistola num pátio ensolarado, com o menu da base aberto sobre uma bancada.',
-    },
-    live: 'https://zedcave.itch.io/o-rei-da-boca',
-  },
-];
 
 export const finaleUi = {
   role: { en: 'PAINTER + CREATIVE DEVELOPER', pt: 'PINTOR + DESENVOLVEDOR CRIATIVO' },

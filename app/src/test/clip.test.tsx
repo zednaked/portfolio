@@ -3,13 +3,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LangProvider } from '../i18n';
 import { CaseCard } from '../cases';
-import { games } from '../content-work';
+import { deskWork, webWork } from '../content-work';
 
-const withClip = games.find((g) => g.video);
+const withClip = [...webWork, ...deskWork].find((p) => p.video);
 
 describe('case clip', () => {
   it('starts held under reduced motion and can be played and paused', async () => {
-    if (!withClip) throw new Error('no game with a clip in the content');
+    if (!withClip) throw new Error('no case with a clip in the content');
     render(
       <LangProvider>
         <CaseCard piece={withClip} />

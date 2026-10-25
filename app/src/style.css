@@ -2003,6 +2003,140 @@ main {
   }
 }
 
+.strip-count {
+  display: none;
+}
+@media (max-width: 760px) {
+  .motion-full .paint-strip .gallery .piece {
+    --cap: 84vw;
+  }
+  .strip-count {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 6vw 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* The index: the smaller work in brief, rows on the paper under one rule. */
+.case-index {
+  border-top: 3px solid var(--ink);
+  padding-top: 18px;
+}
+.index-h {
+  margin: 0 0 18px;
+  font:
+    400 1.05rem/1.2 'Anton',
+    sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.case-index > ul {
+  display: grid;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.index-row {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(11, 11, 11, 0.14);
+}
+.index-row .case-name {
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 2rem);
+}
+.index-row .what {
+  margin: 0 0 10px;
+  max-width: 60ch;
+}
+.index-row .stats {
+  border-top: 0;
+  padding-top: 0;
+  margin-bottom: 8px;
+}
+.index-shot {
+  width: 100%;
+  height: auto;
+  box-shadow: 0 10px 24px rgba(20, 20, 30, 0.18);
+}
+.index-shot.phone {
+  max-width: 160px;
+  border: 6px solid #111;
+  border-radius: 18px;
+}
+.index-row.featured {
+  grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+}
+.index-row.featured .index-shot.phone {
+  max-width: 260px;
+}
+.index-row.featured .case-name {
+  font-size: clamp(1.8rem, 1.2rem + 2vw, 2.8rem);
+}
+@media (max-width: 600px) {
+  .index-row,
+  .index-row.featured {
+    grid-template-columns: 1fr;
+  }
+}
+/* The brief rows really are brief: a smaller name, the number and the link
+   on one line (side by side with the picture from tablet width up). */
+.index-row:not(.featured) {
+  gap: 14px 20px;
+  padding-bottom: 18px;
+}
+
+.index-row:not(.featured) .case-name {
+  font-size: clamp(1.2rem, 1rem + 0.8vw, 1.5rem);
+}
+.index-row:not(.featured) .case-title {
+  margin-bottom: 6px;
+}
+.index-row:not(.featured) .what {
+  margin-bottom: 6px;
+}
+.index-row:not(.featured) > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 20px;
+}
+.index-row:not(.featured) .case-title,
+.index-row:not(.featured) .what {
+  flex-basis: 100%;
+}
+.index-row:not(.featured) .stats {
+  display: flex;
+  margin: 0;
+}
+.index-row:not(.featured) .stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.index-row:not(.featured) .stat-num,
+.index-row:not(.featured) .stat-unit {
+  font-size: 1.4rem;
+}
+.index-row:not(.featured) .stat-label {
+  display: inline;
+  font-size: 0.875rem;
+}
+.index-row:not(.featured) .links {
+  margin: 0;
+}
+@media (max-width: 600px) {
+  .index-row:not(.featured) .index-shot {
+    max-width: 55%;
+  }
+}
+
 /* Games: the two smaller cases each take a row, media beside the text, so a
    tall card never leaves a hole beside a short one. */
 @media (min-width: 900px) {
@@ -2196,4 +2330,71 @@ main {
     0 0 0 1px rgba(61, 255, 154, 0.18),
     0 30px 80px rgba(0, 0, 0, 0.6),
     0 0 60px rgba(61, 255, 154, 0.08);
+}
+
+/* Rinha: the game's tactical grid (hairlines at 5%, a major line every four
+   cells at 11%), its zoomed-out unit marker and the four team colours. */
+.rinha {
+  --nb-bg: #0f141c;
+  --nb-ink: #dfdfdf;
+  --nb-muted: #adb2b8;
+  --nb-accent: #ff594c;
+  overflow: hidden;
+}
+.rinha::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px) 0 0 / 192px 192px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px) 0 0 / 192px 192px,
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px) 0 0 / 48px 48px;
+  mask-image: linear-gradient(to bottom, #000, transparent 70%);
+}
+.rinha > * {
+  position: relative;
+}
+.rinha .nb-kicker::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 0.8em;
+  margin-right: 0.5em;
+  background: currentColor;
+  clip-path: polygon(100% 50%, 0 100%, 18% 50%, 0 0);
+}
+.rinha .nb-name::after {
+  content: '';
+  display: block;
+  width: 96px;
+  height: 6px;
+  margin-top: 14px;
+  background: linear-gradient(90deg, #4c99ff 0 25%, #ff594c 0 50%, #59ff73 0 75%, #ffd94c 0);
+}
+
+/* O Rei da Boca: the band is the sky at the turn of the cycle, a sunset glow
+   at the top sinking into dusk; the name is stamped like the logo. */
+.reidaboca {
+  --nb-bg: #120d24;
+  --nb-ink: #fff2d9;
+  --nb-muted: #d08f56;
+  --nb-accent: #ffd94d;
+  overflow: hidden;
+  background:
+    radial-gradient(90% 38% at 72% 0%, rgba(224, 38, 10, 0.32), transparent 70%),
+    linear-gradient(to bottom, #3a1420 0, #1a0f2e 22%, var(--nb-bg) 48%);
+}
+.reidaboca .nb-name {
+  color: var(--nb-accent);
+  text-shadow:
+    3px 3px 0 #000,
+    0 0 28px rgba(224, 38, 10, 0.35);
+}
+.reidaboca .nb-shot {
+  box-shadow:
+    0 0 0 1px rgba(255, 217, 77, 0.16),
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 70px rgba(224, 38, 10, 0.12);
 }
