@@ -28,16 +28,24 @@ const mount = () =>
     </StrictMode>,
   );
 if (el.childElementCount > 0) {
-  // Once the shell's paper (its largest paint) is decoded and on screen, at
-  // most a second in.
-  const paper = new Image();
-  paper.src = `${import.meta.env.BASE_URL}img/paper.webp`;
+  // Once the browser has recorded the shell's largest paint (not merely once
+  // the paper image has decoded: a decoded image is not yet a painted one),
+  // a second and a half at most.
   let started = false;
   const start = () => {
     if (started) return;
     started = true;
     requestAnimationFrame(() => setTimeout(mount, 0));
   };
-  paper.decode().then(start, start);
-  setTimeout(start, 1000);
+  try {
+    new PerformanceObserver((list, obs) => {
+      if (list.getEntries().length > 0) {
+        obs.disconnect();
+        start();
+      }
+    }).observe({ type: 'largest-contentful-paint', buffered: true });
+  } catch {
+    start();
+  }
+  setTimeout(start, 1500);
 } else mount();
