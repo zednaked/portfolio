@@ -62,6 +62,12 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- With JS on, the prerendered shell (written into #root at build) can't
+         take input until the app replaces it: a click or focus there would be
+         lost. Without JS it stays usable. -->
+    <script>
+      document.querySelector('#root > .page')?.setAttribute('inert', '');
+    </script>
     <noscript
       ><p style="padding: 16px">
         This page needs JavaScript. The art is also on <a href="https://github.com/zednaked">github.com/zednaked</a>.

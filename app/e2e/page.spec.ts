@@ -132,6 +132,8 @@ test('the motion switch applies at once, keeping the language and the place', as
 
 test('the motion switch keeps keyboard focus on itself', async ({ page }) => {
   await page.goto('./');
+  // The prerendered shell is inert until the app takes over; focus waits.
+  await expect(page.locator('#root > .page:not([inert])')).toBeAttached();
   const motion = page.locator('.motion-btn');
   await motion.focus();
   await page.keyboard.press('Enter');
@@ -245,4 +247,20 @@ test('on a very wide screen a spread keeps its picture next to its text', async 
     return shot && body ? Math.min(Math.abs(body.left - shot.right), Math.abs(shot.left - body.right)) : 9999;
   });
   expect(gap).toBeLessThan(120);
+});
+
+test('the shell takes no input until the app is up, then the app does', async ({ page }) => {
+  // Hold the app's script so the shell is all there is for a moment.
+  let release = () => undefined as unknown;
+  const held = new Promise((r) => (release = r));
+  await page.route(/assets\/index-.*\.js$/, async (route) => {
+    await held;
+    await route.continue();
+  });
+  await page.goto('./', { waitUntil: 'commit' });
+  await expect(page.locator('#root > .page[inert]')).toBeAttached();
+  release();
+  await expect(page.locator('#root > .page:not([inert])')).toBeAttached();
+  await page.locator('.reel-play').click();
+  await expect(page.locator('.reel video')).toBeFocused();
 });
