@@ -1,9 +1,9 @@
 import { useRef } from 'react';
-import { deskWork, figmaUrl, pageStats, pageStory, webUi, webWork } from './content-work';
+import { deskWork, figmaUrl, nirbija, pageStats, pageStory, webUi, webWork } from './content-work';
 import { useLang } from './i18n';
 import { BudgetCase, CaseCard, CaseIndex, StatLine, StoryList, useCaseMotion } from './cases';
 import { Flood } from './Flood';
-import { Nirbija } from './Nirbija';
+import { Flagship } from './Flagship';
 
 export function WebWork() {
   const { t } = useLang();
@@ -15,7 +15,7 @@ export function WebWork() {
       {/* The act opens on a piece, full width, before the cases. */}
       <Flood />
       {/* The flagship, before the cases: its own band, the colour of the app. */}
-      <Nirbija />
+      <Flagship piece={nirbija} />
       <section className="wrap web" id="web" aria-labelledby="web-h" ref={root}>
         <h2 className="label" id="web-h">
           {t(webUi.label)}

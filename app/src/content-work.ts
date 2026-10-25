@@ -235,21 +235,44 @@ export const budget = {
 };
 
 // The flagship: Nirbija, set apart from the cases (facts from its README).
-export const nirbija = {
+/** A flagship gets its own band before its chapter's cases. */
+export interface Flagship {
+  id: string;
+  name: string;
+  kicker: Text;
+  kind: Text;
+  what: Text;
+  /** The paragraphs after the numbers. */
+  more: Text[];
+  role: Text;
+  stats: Stat[];
+  /** `<id>-900.webp` and `<id>-1600.webp` in img/. */
+  width: number;
+  height: number;
+  alt: Text;
+  links: { href: string; label: Text; btn?: boolean }[];
+  note?: Text;
+}
+
+export const nirbija: Flagship = {
+  id: 'nirbija',
+  name: 'Nirbija',
   kicker: { en: 'The big one', pt: 'O grande' },
   kind: { en: 'a Linux mixer that is also an instrument', pt: 'um mixer para Linux que também é instrumento' },
   what: {
     en: 'A rack of channel strips in the spirit of AUM on iOS, which Linux does not have. A drone synth, a sixteen-pad sampler, a looper, a step sequencer and an arpeggiator ship inside it; LV2, CLAP and VST3 go in the same slot, over JACK or PipeWire, with the plugins’ own editors in the window.',
     pt: 'Um rack de canais no espírito do AUM do iOS, que o Linux não tem. Um sintetizador drone, um sampler de dezesseis pads, um looper, um sequenciador e um arpejador vêm dentro dele; LV2, CLAP e VST3 entram no mesmo slot, via JACK ou PipeWire, com os editores dos próprios plugins na janela.',
   },
-  rule: {
-    en: 'The bar is a live set: you edit while it plays and nothing may click, step or drop out. Every fader, send, mute and loop edge walks instead of jumping, and a test measures the largest sample-to-sample step and fails above it.',
-    pt: 'A régua é um show ao vivo: você edita enquanto toca e nada pode estalar, pular ou sumir. Cada fader, envio, mute e borda de loop caminha em vez de saltar, e um teste mede o maior salto entre amostras e falha acima dele.',
-  },
-  fm1: {
-    en: 'It plays hardware from the inside: the FM-1 running my Jangada firmware is a strip like any other, its four tracks read, edited and saved with the session, both ways over Jangada’s own SysEx.',
-    pt: 'Ele toca hardware por dentro: o FM-1 com o meu firmware Jangada é um canal como outro qualquer, com as quatro trilhas lidas, editadas e salvas na sessão, nos dois sentidos, pelo SysEx da própria Jangada.',
-  },
+  more: [
+    {
+      en: 'The bar is a live set: you edit while it plays and nothing may click, step or drop out. Every fader, send, mute and loop edge walks instead of jumping, and a test measures the largest sample-to-sample step and fails above it.',
+      pt: 'A régua é um show ao vivo: você edita enquanto toca e nada pode estalar, pular ou sumir. Cada fader, envio, mute e borda de loop caminha em vez de saltar, e um teste mede o maior salto entre amostras e falha acima dele.',
+    },
+    {
+      en: 'It plays hardware from the inside: the FM-1 running my Jangada firmware is a strip like any other, its four tracks read, edited and saved with the session, both ways over Jangada’s own SysEx.',
+      pt: 'Ele toca hardware por dentro: o FM-1 com o meu firmware Jangada é um canal como outro qualquer, com as quatro trilhas lidas, editadas e salvas na sessão, nos dois sentidos, pelo SysEx da própria Jangada.',
+    },
+  ],
   role: {
     en: 'Solo: design, C++20 audio engine, Qt Quick interface, tests.',
     pt: 'Sozinho: design, motor de áudio em C++20, interface em Qt Quick, testes.',
@@ -277,16 +300,74 @@ export const nirbija = {
         pt: 'alocações, locks ou logs na thread de áudio',
       },
     },
-  ] as Stat[],
+  ],
+  width: 1600,
+  height: 881,
   alt: {
     en: 'Nirbija on Linux: channel strips on the left, the Drone’s six strings, the Looper and the Sampler’s sixteen pads open beside them, and the master fader on the right.',
     pt: 'O Nirbija no Linux: canais à esquerda, as seis cordas do Drone, o Looper e os dezesseis pads do Sampler abertos ao lado, e o fader master à direita.',
   },
-  site: 'https://zednaked.github.io/nirbija-site/',
-  code: 'https://github.com/zednaked/Nirbija',
-  siteLabel: { en: 'See it', pt: 'Ver' },
-  download: 'https://github.com/zednaked/Nirbija/releases',
-  downloadLabel: { en: 'AppImage', pt: 'AppImage' },
+  links: [
+    { href: 'https://zednaked.github.io/nirbija-site/', label: { en: 'See it', pt: 'Ver' }, btn: true },
+    { href: 'https://github.com/zednaked/Nirbija', label: { en: 'Code', pt: 'Código' } },
+    { href: 'https://github.com/zednaked/Nirbija/releases', label: { en: 'AppImage', pt: 'AppImage' } },
+  ],
+};
+
+export const ciberteia: Flagship = {
+  id: 'ciberteia',
+  name: 'Ciberteia',
+  kicker: { en: 'Made alone, end to end', pt: 'Feito sozinho, de ponta a ponta' },
+  kind: { en: 'a multiplayer cyberpunk text RPG', pt: 'um RPG de texto cyberpunk multiplayer' },
+  what: {
+    en: 'Explore six districts, jack into cyberspace, steal credits from other players. Dying prints a clone and costs everything but your base stats. When someone takes down the Chrome Dragon, the whole city goes back to level 1 and the winner’s name stays on the wall of Legends.',
+    pt: 'Explore seis distritos, invada o ciberespaço, roube créditos de outros jogadores. Morrer imprime um clone e custa tudo menos os atributos base. Quando alguém derruba o Chrome Dragon, a cidade inteira volta ao nível 1 e o nome do vencedor fica no mural de Lendas.',
+  },
+  more: [
+    {
+      en: 'The free tier drew the architecture. Who is standing where never touches the database: a 5-second heartbeat alone would spend the day’s 100,000 writes, so presence lives in the open sockets of a Durable Object, and only settled facts reach D1. Hibernating WebSockets instead of polling.',
+      pt: 'O plano gratuito desenhou a arquitetura. Quem está onde nunca toca o banco: um heartbeat a cada 5 segundos gastaria sozinho as 100.000 escritas do dia, então a presença mora nos sockets abertos de um Durable Object, e só fato consumado chega ao D1. WebSocket com hibernação em vez de polling.',
+    },
+    {
+      en: 'A world made of type, the roguelike way: three shaders (CRT, phosphor, backdrop), one typeface and text, and fourteen sounds synthesized by a script. The 38 MB engine is over the 25 MB file limit of Pages and Workers, so the game is served from R2.',
+      pt: 'Um mundo feito de tipografia, à moda roguelike: três shaders (CRT, fósforo, fundo), uma fonte e texto, e catorze sons sintetizados por script. O motor de 38 MB passa do limite de 25 MB por arquivo do Pages e do Workers, então o jogo é servido do R2.',
+    },
+  ],
+  role: {
+    en: 'Solo: design, writing, the Godot client, the Cloudflare server, the synthesized audio.',
+    pt: 'Sozinho: design, texto, o cliente Godot, o servidor na Cloudflare, o áudio sintetizado.',
+  },
+  stats: [
+    {
+      value: 0,
+      unit: '',
+      label: {
+        en: 'art files: every visual is shaders, type and text',
+        pt: 'arquivos de arte: todo o visual é shader, tipografia e texto',
+      },
+    },
+    {
+      value: 720,
+      unit: ' → 1',
+      label: {
+        en: 'requests per player-hour: polling every 5 s vs a hibernating WebSocket',
+        pt: 'requisições por jogador por hora: polling a cada 5 s contra WebSocket com hibernação',
+      },
+    },
+    {
+      value: 0,
+      unit: ' USD',
+      label: { en: 'a month, on the Cloudflare free tier', pt: 'por mês, no plano gratuito da Cloudflare' },
+    },
+  ],
+  width: 1600,
+  height: 899,
+  alt: {
+    en: 'Ciberteia in play: a green-on-black terminal under a CRT glow, in the district Quebrada, with its description, the local traffic of other players, the places to visit and the routes out, and the player’s health, credits and cycles along the top.',
+    pt: 'Ciberteia em jogo: um terminal verde sobre preto sob brilho de CRT, no distrito Quebrada, com a descrição, o tráfego local de outros jogadores, os locais para visitar e as rotas de saída, e a vida, os créditos e os ciclos do jogador no topo.',
+  },
+  links: [{ href: 'https://ciberteia-api.zednaked.workers.dev/', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
+  note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
 };
 
 export const webUi = {
@@ -657,8 +738,8 @@ const play: Text = { en: 'Play it', pt: 'Jogar' };
 export const gamesUi = {
   label: { en: 'Games, made alone', pt: 'Jogos, feitos sozinho' },
   intro: {
-    en: 'Three games of my own, design and code. The studio titles are under NDA; their numbers are in CODE.',
-    pt: 'Três jogos meus, design e código. Os títulos de estúdio estão sob NDA; os números deles estão em CODE.',
+    en: 'Two more of my own, design and code. The studio titles are under NDA; their numbers are in CODE.',
+    pt: 'Mais dois meus, design e código. Os títulos de estúdio estão sob NDA; os números deles estão em CODE.',
   },
 } satisfies Record<string, Text>;
 
@@ -683,72 +764,6 @@ export const games: WebPiece[] = [
       pt: 'Rinha no modo espectador: um mapa visto de cima com uma base, unidades em azul, um minimapa no canto e o placar de quatro IAs.',
     },
     live: 'https://zedcave.itch.io/rinha',
-  },
-  {
-    id: 'ciberteia',
-    img: `${base}img/game-ciberteia.webp`,
-    width: 800,
-    compact: true,
-    height: 450,
-    liveLabel: play,
-    title: {
-      en: 'Ciberteia, a multiplayer cyberpunk text RPG',
-      pt: 'Ciberteia, um RPG de texto cyberpunk multiplayer',
-    },
-    what: {
-      en: 'Explore districts, jack into cyberspace, steal credits from other players. When someone takes down the Chrome Dragon, everyone goes back to level 1. Every rule runs on the server; the Godot client only draws the state and sends what the player wants to do.',
-      pt: 'Explore distritos, invada o ciberespaço, roube créditos de outros jogadores. Quando alguém derruba o Chrome Dragon, todos voltam ao nível 1. Toda regra roda no servidor; o cliente Godot só desenha o estado e envia o que o jogador quer fazer.',
-    },
-    role: {
-      en: 'Solo: design, writing, the Godot client, the Cloudflare server, the synthesized audio.',
-      pt: 'Sozinho: design, texto, o cliente Godot, o servidor na Cloudflare, o áudio sintetizado.',
-    },
-    tech: ['Godot 4.7 web', 'Shaders', 'TypeScript', 'Cloudflare Workers', 'Durable Objects', 'D1', 'WebSocket'],
-    stats: [
-      {
-        value: 0,
-        unit: '',
-        label: {
-          en: 'art files: every visual is shaders, type and text',
-          pt: 'arquivos de arte: todo o visual é shader, tipografia e texto',
-        },
-      },
-      {
-        value: 14,
-        unit: '',
-        label: { en: 'sounds, all synthesized by a script', pt: 'sons, todos sintetizados por script' },
-      },
-      {
-        value: 720,
-        unit: ' → 1',
-        label: {
-          en: 'requests per player-hour: polling every 5 s vs a hibernating WebSocket',
-          pt: 'requisições por jogador por hora: polling a cada 5 s contra WebSocket com hibernação',
-        },
-      },
-      {
-        value: 0,
-        unit: ' USD',
-        label: { en: 'a month, on the Cloudflare free tier', pt: 'por mês, no plano gratuito da Cloudflare' },
-      },
-    ],
-    note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
-    alt: {
-      en: "Ciberteia in play: a green-on-black terminal interface with a CRT glow and colour fringing over a neon grid, showing the district Arcologia Flutuante, its locations and the player's health and experience bars.",
-      pt: 'Ciberteia em jogo: uma interface de terminal verde sobre preto, com brilho de CRT e franjas de cor sobre uma grade neon, mostrando o distrito Arcologia Flutuante, seus locais e as barras de vida e experiência do jogador.',
-    },
-    live: 'https://ciberteia-api.zednaked.workers.dev/',
-    story: {
-      why: { en: 'A game I always wanted to make.', pt: 'Um jogo que eu sempre quis fazer.' },
-      decision: {
-        en: 'The roguelike tradition, worlds made of type: every visual is shaders and typography, no art files at all, and every rule runs on the server.',
-        pt: 'A tradição roguelike, mundos feitos de tipografia: todo o visual é shader e tipografia, nenhum arquivo de arte, e toda regra roda no servidor.',
-      },
-      tradeoff: {
-        en: 'With no images, every beat (danger, reward, a city changing) has to land through words, rhythm and effects alone, so the story is told several ways at once.',
-        pt: 'Sem imagens, cada momento (perigo, recompensa, uma cidade mudando) tem que acontecer só com palavras, ritmo e efeitos, então a história é contada de vários jeitos ao mesmo tempo.',
-      },
-    },
   },
   {
     id: 'reidaboca',

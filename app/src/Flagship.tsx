@@ -1,18 +1,19 @@
 import { useRef } from 'react';
 import { gsap, FULL_MOTION, PLAY_ONCE, useIdleGSAP } from './motion';
-import { nirbija, webUi } from './content-work';
+import { webUi, type Flagship as Piece } from './content-work';
 import { StatLine } from './cases';
 import { useLang } from './i18n';
 
 const base = import.meta.env.BASE_URL;
 
 /**
- * The flagship, set apart from the cases: a dark band the colour of the app
- * itself, the screenshot at full width, the numbers that matter for audio.
+ * A flagship, set apart from its chapter's cases: a dark band in the colours
+ * of the work itself, the screenshot at full width, the numbers that matter.
  */
-export function Nirbija() {
+export function Flagship({ piece }: { piece: Piece }) {
   const { t } = useLang();
   const root = useRef<HTMLElement>(null);
+  const heading = `${piece.id}-h`;
 
   useIdleGSAP(() => {
     const mm = gsap.matchMedia();
@@ -33,51 +34,47 @@ export function Nirbija() {
   }, root);
 
   return (
-    <section className="nirbija" aria-labelledby="nirbija-h" ref={root}>
+    <section className={`flagship ${piece.id}`} aria-labelledby={heading} ref={root}>
       <div className="wrap">
-        <p className="nb-kicker">{t(nirbija.kicker)}</p>
-        <h3 id="nirbija-h" className="nb-title">
-          <span className="nb-name">Nirbija</span>
+        <p className="nb-kicker">{t(piece.kicker)}</p>
+        <h3 id={heading} className="nb-title">
+          <span className="nb-name">{piece.name}</span>
           <span className="sr-only">, </span>
-          <span className="nb-kind">{t(nirbija.kind)}</span>
+          <span className="nb-kind">{t(piece.kind)}</span>
         </h3>
       </div>
       <img
         className="nb-shot"
-        src={`${base}img/nirbija-1600.webp`}
-        srcSet={`${base}img/nirbija-900.webp 900w, ${base}img/nirbija-1600.webp 1600w`}
+        src={`${base}img/${piece.id}-1600.webp`}
+        srcSet={`${base}img/${piece.id}-900.webp 900w, ${base}img/${piece.id}-1600.webp 1600w`}
         sizes="(max-width: 1700px) 100vw, 1600px"
-        width={1600}
-        height={881}
+        width={piece.width}
+        height={piece.height}
         loading="lazy"
         decoding="async"
-        alt={t(nirbija.alt)}
+        alt={t(piece.alt)}
       />
       <div className="wrap nb-body">
-        <p className="nb-lead">{t(nirbija.what)}</p>
+        <p className="nb-lead">{t(piece.what)}</p>
         <ul className="stats">
-          {nirbija.stats.map((stat, i) => (
+          {piece.stats.map((stat, i) => (
             <StatLine stat={stat} key={i} />
           ))}
         </ul>
-        <p>{t(nirbija.rule)}</p>
-        <p>{t(nirbija.fm1)}</p>
+        {piece.more.map((text, i) => (
+          <p key={i}>{t(text)}</p>
+        ))}
         <p className="case-role">
-          <strong>{t(webUi.role)}:</strong> {t(nirbija.role)}
+          <strong>{t(webUi.role)}:</strong> {t(piece.role)}
         </p>
+        {piece.note && <p className="case-role">{t(piece.note)}</p>}
         <p className="links">
-          <a className="btn" href={nirbija.site}>
-            {t(nirbija.siteLabel)}
-            <span className="sr-only">: Nirbija</span>
-          </a>
-          <a href={nirbija.code}>
-            {t(webUi.code)}
-            <span className="sr-only">: Nirbija</span>
-          </a>
-          <a href={nirbija.download}>
-            {t(nirbija.downloadLabel)}
-            <span className="sr-only">: Nirbija</span>
-          </a>
+          {piece.links.map((link) => (
+            <a className={link.btn ? 'btn' : undefined} href={link.href} key={link.href}>
+              {t(link.label)}
+              <span className="sr-only">: {piece.name}</span>
+            </a>
+          ))}
         </p>
       </div>
     </section>
