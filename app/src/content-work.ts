@@ -325,12 +325,12 @@ export const ciberteia: Flagship = {
   },
   more: [
     {
-      en: 'The free tier drew the architecture. Who is standing where never touches the database: a 5-second heartbeat alone would spend the day’s 100,000 writes, so presence lives in the open sockets of a Durable Object, and only settled facts reach D1. Hibernating WebSockets instead of polling.',
-      pt: 'O plano gratuito desenhou a arquitetura. Quem está onde nunca toca o banco: um heartbeat a cada 5 segundos gastaria sozinho as 100.000 escritas do dia, então a presença mora nos sockets abertos de um Durable Object, e só fato consumado chega ao D1. WebSocket com hibernação em vez de polling.',
+      en: 'The free tier drew the architecture. Who is standing where never touches the database: a 5-second heartbeat alone would spend the day’s 100,000 writes, so presence lives in the open sockets of a Durable Object, and only settled facts reach D1.',
+      pt: 'O plano gratuito desenhou a arquitetura. Quem está onde nunca toca o banco: um heartbeat a cada 5 segundos gastaria sozinho as 100.000 escritas do dia, então a presença mora nos sockets abertos de um Durable Object, e só fato consumado chega ao D1.',
     },
     {
-      en: 'A world made of type, the roguelike way: three shaders (CRT, phosphor, backdrop), one typeface and text, and fourteen sounds synthesized by a script. The 38 MB engine is over the 25 MB file limit of Pages and Workers, so the game is served from R2.',
-      pt: 'Um mundo feito de tipografia, à moda roguelike: três shaders (CRT, fósforo, fundo), uma fonte e texto, e catorze sons sintetizados por script. O motor de 38 MB passa do limite de 25 MB por arquivo do Pages e do Workers, então o jogo é servido do R2.',
+      en: 'A world made of type, the roguelike way: three shaders (CRT, phosphor, backdrop), one typeface and text, and fourteen sounds synthesized by a script.',
+      pt: 'Um mundo feito de tipografia, à moda roguelike: três shaders (CRT, fósforo, fundo), uma fonte e texto, e catorze sons sintetizados por script.',
     },
   ],
   role: {
@@ -363,8 +363,8 @@ export const ciberteia: Flagship = {
   width: 1600,
   height: 899,
   alt: {
-    en: 'Ciberteia in play: a green-on-black terminal under a CRT glow, in the district Quebrada, with its description, the local traffic of other players, the places to visit and the routes out, and the player’s health, credits and cycles along the top.',
-    pt: 'Ciberteia em jogo: um terminal verde sobre preto sob brilho de CRT, no distrito Quebrada, com a descrição, o tráfego local de outros jogadores, os locais para visitar e as rotas de saída, e a vida, os créditos e os ciclos do jogador no topo.',
+    en: 'Ciberteia in play: a green-on-black terminal under a CRT glow, in the district Quebrada, with its places, routes out and the local traffic of other players.',
+    pt: 'Ciberteia em jogo: um terminal verde sobre preto sob brilho de CRT, no distrito Quebrada, com os locais, as rotas de saída e o tráfego local de outros jogadores.',
   },
   links: [{ href: 'https://ciberteia-api.zednaked.workers.dev/', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
   note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
@@ -376,8 +376,8 @@ export const rinha: Flagship = {
   kicker: { en: 'Strategy, drawn in code', pt: 'Estratégia, desenhada em código' },
   kind: { en: 'a real-time strategy game for the browser', pt: 'um jogo de estratégia em tempo real para o navegador' },
   what: {
-    en: 'StarCraft-style real-time strategy in the browser: mine crystal and gas, build a base, climb three tech tiers and fight AI opponents. Or watch them fight each other: in spectator mode a director camera follows the biggest battle, and a panel shows what each AI is doing and plans next.',
-    pt: 'Estratégia em tempo real no estilo StarCraft, no navegador: minere cristal e gás, erga uma base, suba três níveis de tecnologia e enfrente IAs. Ou assista às IAs se enfrentando: no modo espectador uma câmera-diretora segue a maior batalha, e um painel mostra o que cada IA está fazendo e o que planeja.',
+    en: 'StarCraft-style real-time strategy in the browser: mine crystal and gas, build a base, climb three tech tiers and fight AI opponents. In spectator mode, a director camera follows the biggest battle.',
+    pt: 'Estratégia em tempo real no estilo StarCraft, no navegador: minere cristal e gás, erga uma base, suba três níveis de tecnologia e enfrente IAs. No modo espectador, uma câmera-diretora segue a maior batalha.',
   },
   more: [
     {
@@ -385,8 +385,8 @@ export const rinha: Flagship = {
       pt: 'As unidades são montadas, não pintadas. Cada uma tem de 15 a 28 polígonos, e o código anima pelo nome: a peça chamada Leg dá o passo, o Barrel recua no tiro, a Turret mira sozinha. Unidade nova é uma cena e um arquivo de dados, sem código de animação e sem pipeline de arte.',
     },
     {
-      en: 'No two AIs play alike. Each rolls five traits at the start of a match (aggression, economy, tech, defence, army mix) that set how many workers it wants, when it attacks and what it builds. Difficulty only shifts the range of the roll. It plays fair, too: it sees only what its units see, remembers what it scouted and sends scouts for the rest.',
-      pt: 'Nenhuma IA joga igual a outra. Cada uma sorteia cinco traços no início da partida (agressão, economia, tecnologia, defesa, composição do exército) que definem quantos trabalhadores quer, quando ataca e o que constrói. A dificuldade só desloca a faixa do sorteio. E ela joga limpo: só vê o que as suas unidades veem, lembra o que explorou e manda batedores atrás do resto.',
+      en: 'No two AIs play alike. Each rolls five traits at the start of a match (aggression, economy, tech, defence, army mix) that set how many workers it wants, when it attacks and what it builds. It plays fair, too: it sees only what its units see, remembers what it scouted and sends scouts for the rest.',
+      pt: 'Nenhuma IA joga igual a outra. Cada uma sorteia cinco traços no início da partida (agressão, economia, tecnologia, defesa, composição do exército) que definem quantos trabalhadores quer, quando ataca e o que constrói. E ela joga limpo: só vê o que as suas unidades veem, lembra o que explorou e manda batedores atrás do resto.',
     },
   ],
   role: {
@@ -422,8 +422,8 @@ export const rinha: Flagship = {
   width: 1600,
   height: 900,
   alt: {
-    en: 'Rinha in spectator mode: on a green map with grey rocks, a red army and a blue army clash beside two blue command centres. Yellow and red bases sit lower left, a minimap in the corner shows the four teams, and the panel on the left lists each Hard AI with its workers, army, score and current plan.',
-    pt: 'Rinha no modo espectador: num mapa verde com rochas cinza, um exército vermelho e um azul se chocam ao lado de dois centros de comando azuis. Bases amarelas e vermelhas ficam embaixo à esquerda, um minimapa no canto mostra os quatro times, e o painel à esquerda lista cada IA no Difícil com trabalhadores, exército, pontuação e plano atual.',
+    en: 'Rinha in spectator mode: a red army and a blue army clash on a green map, beside a minimap of the four teams and a panel with each AI’s score and plan.',
+    pt: 'Rinha no modo espectador: um exército vermelho e um azul se chocam num mapa verde, ao lado de um minimapa dos quatro times e de um painel com a pontuação e o plano de cada IA.',
   },
   links: [{ href: 'https://zedcave.itch.io/rinha', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
   note: { en: 'Made in Godot 4. The source is private.', pt: 'Feito em Godot 4. O código é privado.' },
@@ -438,8 +438,8 @@ export const reidaboca: Flagship = {
     pt: 'uma defesa de base em primeira pessoa ao longo de um dia e uma noite',
   },
   what: {
-    en: 'By day you tend the crops, repair the base, hire guards and send squads at the rival base. At dusk the light goes and the waves come. Destroy the rival base before it destroys yours. Dying costs you five seconds; losing the base, or running out of money, ends the run.',
-    pt: 'De dia você cuida das plantas, repara a base, contrata seguranças e manda esquadrões contra a base rival. No fim da tarde a luz vai embora e as ondas chegam. Destrua a base rival antes que ela destrua a sua. Morrer custa cinco segundos; perder a base, ou ficar sem dinheiro, encerra a partida.',
+    en: 'By day you tend the crops, repair the base, hire guards and send squads at the rival base. At dusk the light goes and the waves come. Destroy the rival base before it destroys yours.',
+    pt: 'De dia você cuida das plantas, repara a base, contrata seguranças e manda esquadrões contra a base rival. No fim da tarde a luz vai embora e as ondas chegam. Destrua a base rival antes que ela destrua a sua.',
   },
   more: [
     {
@@ -447,8 +447,8 @@ export const reidaboca: Flagship = {
       pt: 'O inimigo caça pelo que sabe, não por onde o jogo diz que você está. Visão e som gravam uma última posição conhecida, e perseguir, procurar e avisar o esquadrão leem dela. Então cada tiro é uma escolha: ele conta a todos ao alcance do som onde você está.',
     },
     {
-      en: 'The rival plays by your rules. Its purchases go through the same code as your menu, and it gets more aggressive the more you provoke it. A rival that cheats can only be endured; one that runs the same economy can be read and outplayed.',
-      pt: 'O rival joga pelas suas regras. As compras dele passam pelo mesmo código do seu menu, e ele fica mais agressivo quanto mais você o provoca. Um rival que trapaceia só se aguenta; um que roda a mesma economia dá para ler e superar.',
+      en: 'The rival plays by your rules. Its purchases go through the same code as your menu, and it gets more aggressive the more you provoke it.',
+      pt: 'O rival joga pelas suas regras. As compras dele passam pelo mesmo código do seu menu, e ele fica mais agressivo quanto mais você o provoca.',
     },
   ],
   role: {
@@ -481,8 +481,8 @@ export const reidaboca: Flagship = {
   width: 1600,
   height: 900,
   alt: {
-    en: 'O Rei da Boca at dusk, in first person: a pistol held in front of a sandstone street under a violet sky, three enemies outlined in red trading fire behind crates and barrels, a gun light flaring on the wall to the right.',
-    pt: 'O Rei da Boca no fim da tarde, em primeira pessoa: uma pistola diante de uma rua de arenito sob céu violeta, três inimigos contornados de vermelho trocando tiros atrás de caixotes e barris, uma lanterna de arma estourando na parede à direita.',
+    en: 'O Rei da Boca at dusk, in first person: a pistol aimed down a sandstone street under a violet sky, enemies outlined in red trading fire behind crates.',
+    pt: 'O Rei da Boca no fim da tarde, em primeira pessoa: uma pistola apontada para uma rua de arenito sob céu violeta, inimigos contornados de vermelho trocando tiros atrás de caixotes.',
   },
   links: [
     { href: 'https://zedcave.itch.io/o-rei-da-boca', label: { en: 'See it on itch', pt: 'Ver no itch' }, btn: true },
