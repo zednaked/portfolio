@@ -135,7 +135,7 @@ export function Film() {
       <div className="film-grain" aria-hidden="true" />
       <div className="film-riso" aria-hidden="true" />
       <p className="film-tc" aria-hidden="true">
-        TG · PORTFOLIO · <span ref={tc}>00:00:00:00</span>
+        ZED.ART.BR · <span ref={tc}>00:00:00:00</span>
       </p>
     </>
   );

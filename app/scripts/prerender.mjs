@@ -18,7 +18,7 @@ const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PAT
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
   await page.goto(`http://127.0.0.1:${PORT}/?lang=en`);
-  await page.waitForSelector('main .reel');
+  await page.waitForSelector('.hero .reel');
   // Fonts in and the gentle fades finished, so the copy is the settled page.
   await page.evaluate(() => document.fonts.ready);
   await page.waitForFunction(() => getComputedStyle(document.querySelector('.reel')).opacity === '1');
@@ -31,8 +31,8 @@ try {
     };
     const header = strip(document.querySelector('header.top'));
     header.classList.add('shell');
-    const reel = strip(document.querySelector('main .reel'));
-    return `<div class="page">${header.outerHTML}<main>${reel.outerHTML}</main></div>`;
+    const reel = strip(document.querySelector('.hero .reel'));
+    return `<div class="page"><div class="hero">${header.outerHTML}${reel.outerHTML}</div></div>`;
   });
 
   const file = new URL('../dist/index.html', import.meta.url);

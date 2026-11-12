@@ -19,6 +19,11 @@ export interface Artwork {
   small?: string;
   /** Average colour, shown in the frame until the painting arrives. */
   tone: string;
+  /** Oil on canvas: hung in the first room, large, on the dark wall. */
+  oil?: boolean;
+  /** An award and where it was given, set large on the painting's label. */
+  award?: Text;
+  where?: string;
 }
 
 export const artworks: Artwork[] = [
@@ -27,6 +32,9 @@ export const artworks: Artwork[] = [
     src: `${base}img/oil-pirate-medal.webp`,
     small: `${base}img/oil-pirate-medal-480.webp`,
     tone: '#76614a',
+    oil: true,
+    award: { en: 'Gold medal', pt: 'Medalha de ouro' },
+    where: 'Carrousel du Louvre, Paris, 2015',
     width: 900,
     height: 1011,
     title: { en: 'Portrait of a pirate, gold medal', pt: 'Retrato de um pirata, medalha de ouro' },
@@ -44,6 +52,7 @@ export const artworks: Artwork[] = [
     src: `${base}img/oil-elder.webp`,
     small: `${base}img/oil-elder-480.webp`,
     tone: '#83654a',
+    oil: true,
     width: 760,
     height: 1081,
     title: { en: 'Old man in a turban', pt: 'Ancião de turbante' },
@@ -58,6 +67,7 @@ export const artworks: Artwork[] = [
     src: `${base}img/oil-headscarf.webp`,
     small: `${base}img/oil-headscarf-480.webp`,
     tone: '#a28e7d',
+    oil: true,
     width: 760,
     height: 1135,
     title: { en: 'Man in a white headscarf', pt: 'Homem de lenço branco' },
@@ -246,7 +256,7 @@ export interface Flagship {
   more: Text[];
   role: Text;
   stats: Stat[];
-  /** `<id>-900.webp` and `<id>-1600.webp` in img/. */
+  /** `<id>-900.webp` and `<id>-<width>.webp` in img/. */
   width: number;
   height: number;
   alt: Text;
@@ -312,6 +322,77 @@ export const nirbija: Flagship = {
     { href: 'https://github.com/zednaked/Nirbija', label: { en: 'Code', pt: 'Código' } },
     { href: 'https://github.com/zednaked/Nirbija/releases', label: { en: 'AppImage', pt: 'AppImage' } },
   ],
+};
+
+// Mamulengo, from its public README (zednaked/mamulengo): the numbers are the
+// ones measured there.
+export const mamulengo: Flagship = {
+  id: 'mamulengo',
+  name: 'Mamulengo',
+  kicker: { en: 'Worked from both sides', pt: 'Manipulado dos dois lados' },
+  kind: {
+    en: 'a 2D skeletal animation toolkit, run by people and Claude Code together',
+    pt: 'um kit de animação 2D por esqueleto, operado por pessoas e pelo Claude Code juntos',
+  },
+  what: {
+    en: 'Rig a character from a layered PSD, animate it on a timeline, or ask Claude to do it over MCP and watch every bone it moves, live, in the same editor. A C++ core written from scratch plays the result in Godot and in the browser. It opens and writes Spine 4.3 projects and adds what Spine does not have: effects per part, particles, 2.5D turns.',
+    pt: 'Rigue um personagem a partir de um PSD em camadas, anime na linha do tempo, ou peça ao Claude pelo MCP e veja cada osso que ele move, ao vivo, no mesmo editor. Um núcleo em C++ escrito do zero toca o resultado no Godot e no navegador. Ele abre e grava projetos Spine 4.3 e acrescenta o que o Spine não tem: efeitos por peça, partículas, giros 2.5D.',
+  },
+  more: [
+    {
+      en: 'The core is clean-room: whoever writes it works from a written spec and from numbers measured on the reference runtime as a black box, never from its source. Where measuring was not enough, someone else read the reference and wrote the behaviour down, and those passages are marked in the spec.',
+      pt: 'O núcleo é de sala limpa: quem escreve trabalha a partir de uma especificação e de números medidos no runtime de referência como caixa-preta, nunca do código dele. Onde medir não bastou, outra pessoa leu a referência e descreveu o comportamento, e esses trechos estão marcados na especificação.',
+    },
+    {
+      en: 'The interface and the agent call the same typed commands, so undo, history and watching the agent work come for free. A mamulengo is the hand puppet of northeastern Brazil, worked from below the stage.',
+      pt: 'A interface e o agente chamam os mesmos comandos tipados, então desfazer, histórico e ver o agente trabalhar vêm de graça. Mamulengo é o boneco de mão do Nordeste, manipulado por baixo do palco.',
+    },
+  ],
+  role: {
+    en: 'Solo, working with Claude Code: design, the editor, the format, the C++ core, the measurements.',
+    pt: 'Sozinho, trabalhando com o Claude Code: design, o editor, o formato, o núcleo em C++, as medições.',
+  },
+  stats: [
+    {
+      value: 466,
+      unit: '/466',
+      label: {
+        en: 'playback scripts match the reference runtime on every frame, events included',
+        pt: 'roteiros de reprodução batem com o runtime de referência em todo quadro, eventos inclusive',
+      },
+    },
+    {
+      value: 175,
+      unit: ' KB',
+      label: {
+        en: 'the whole core in the browser, WebAssembly, gzipped (456 KB raw)',
+        pt: 'o núcleo inteiro no navegador, WebAssembly, com gzip (456 KB sem)',
+      },
+    },
+    {
+      value: 5,
+      unit: '×',
+      label: {
+        en: 'faster, about, than the runtime it replaces: 20 characters posed in 0.043 ms a frame, native',
+        pt: 'mais rápido, aproximadamente, que o runtime que substitui: 20 personagens posados em 0,043 ms por quadro, nativo',
+      },
+    },
+  ],
+  width: 1400,
+  height: 748,
+  alt: {
+    en: 'The Mamulengo editor while Claude Code works: tools on top, a blue robot on the stage, saved versions on the left, the agent’s activity feed on the right and the timeline of keys below.',
+    pt: 'O editor do Mamulengo enquanto o Claude Code trabalha: ferramentas em cima, um robô azul no palco, as versões salvas à esquerda, a atividade do agente à direita e a linha do tempo com as chaves embaixo.',
+  },
+  links: [
+    { href: 'https://mamulengo.zed.art.br/demo/', label: { en: 'Try it live', pt: 'Testar no ar' }, btn: true },
+    { href: 'https://mamulengo.zed.art.br/', label: { en: 'Open the editor', pt: 'Abrir o editor' } },
+    { href: 'https://github.com/zednaked/mamulengo', label: { en: 'Code', pt: 'Código' } },
+  ],
+  note: {
+    en: 'MIT. The editor is in Portuguese. Robot art by Kenney (CC0).',
+    pt: 'MIT. O editor é em português. Arte do robô por Kenney (CC0).',
+  },
 };
 
 export const ciberteia: Flagship = {
@@ -510,6 +591,8 @@ export const webUi = {
   pauseClip: { en: 'Pause clip', pt: 'Pausar vídeo' },
   playClip: { en: 'Play clip', pt: 'Tocar vídeo' },
   readDecision: { en: 'Read the decision', pt: 'Ler a decisão' },
+  readMore: { en: 'How it is built', pt: 'Como foi feito' },
+  deskLabel: { en: 'On the desktop', pt: 'Na área de trabalho' },
   why: { en: 'Why', pt: 'Por quê' },
   decision: { en: 'The call', pt: 'A decisão' },
   tradeoff: { en: 'What it cost', pt: 'O custo' },
@@ -811,6 +894,8 @@ export const deskWork: WebPiece[] = [
 ];
 
 export interface Proof {
+  /** The project, set as the credit's title. */
+  name: string;
   text: Text;
   link: string;
   linkText: string;
@@ -822,6 +907,7 @@ export const proofs: Proof[] = [
       en: 'Felucca, firmware for a pocket synth: my ratchets shipped in release 1.0.5, credited in the notes.',
       pt: 'Felucca, firmware de um sintetizador de bolso: meus ratchets saíram na versão 1.0.5, com crédito nas notas.',
     },
+    name: 'Felucca',
     link: 'https://github.com/hugelton/Felucca/pull/100',
     linkText: 'hugelton/Felucca #100',
   },
@@ -830,6 +916,7 @@ export const proofs: Proof[] = [
       en: 'Felucca 1.6.1 runs on both cores of the synth: the split between cores, the measurements and the hardening come from my Jangada firmware, credited in the release and in the code.',
       pt: 'O Felucca 1.6.1 roda nos dois núcleos do sintetizador: a divisão entre os núcleos, as medições e o reforço vêm do meu firmware Jangada, com crédito no release e no código.',
     },
+    name: 'Felucca 1.6.1',
     link: 'https://github.com/hugelton/Felucca/releases/tag/v1.6.1',
     linkText: 'Felucca v1.6.1',
   },
@@ -838,6 +925,7 @@ export const proofs: Proof[] = [
       en: 'X0X, another firmware for the same synth: my measurements of units whose second core misreads memory, and three fixes, shipped in releases 1.0.4 and 1.0.7, thanked by name.',
       pt: 'X0X, outro firmware para o mesmo sintetizador: minhas medições de unidades em que o segundo núcleo lê a memória errado, e três correções, saíram nas versões 1.0.4 e 1.0.7, com agradecimento pelo nome.',
     },
+    name: 'X0X',
     link: 'https://github.com/charlesvestal/fm1-x0x/issues/10',
     linkText: 'charlesvestal/fm1-x0x #10',
   },
@@ -846,6 +934,7 @@ export const proofs: Proof[] = [
       en: 'Audible Field, a web audio piece: after my measurement the author moved its audio to mono Opus, about 90% less audio transferred (32.6 to 1.86 MB), and wrote it up crediting me by name.',
       pt: 'Audible Field, uma obra de áudio na web: depois da minha medição o autor passou o áudio para Opus mono, cerca de 90% menos áudio transferido (32,6 para 1,86 MB), e publicou o resultado com o meu nome.',
     },
+    name: 'Audible Field',
     link: 'https://www.linkedin.com/feed/update/urn:li:activity:7515588700316110848/',
     linkText: 'Gary Boodhoo on LinkedIn',
   },
@@ -854,6 +943,7 @@ export const proofs: Proof[] = [
       en: 'Sonix, a Linux DAW in Rust: reading the code, I found an unrouted plugin output growing about 384 KB a second. Fixed and credited in the commit the same day:',
       pt: 'Sonix, uma DAW de Linux em Rust: lendo o código, achei uma saída de plugin sem rota crescendo cerca de 384 KB por segundo. Corrigido e creditado no commit no mesmo dia:',
     },
+    name: 'Sonix',
     link: 'https://github.com/alexwest1981/sonix/commit/cdb2447',
     linkText: 'sonix cdb2447',
   },
@@ -872,4 +962,8 @@ export const finaleUi = {
   remote: { en: 'Curitiba, Brazil · remote, any time zone', pt: 'Curitiba, Brasil · remoto, qualquer fuso' },
   available: { en: 'Open to remote work. Write to me:', pt: 'Disponível para trabalho remoto. Escreva:' },
   cv: { en: 'CV (PDF)', pt: 'Currículo (PDF, em inglês)' },
+  house: { en: 'Also on zed.art.br', pt: 'Também em zed.art.br' },
 } satisfies Record<string, Text>;
+
+// Everything else that lives on the domain, by its subdomain.
+export const house = ['arcade', 'cheia', 'jangada', 'nirbija', 'mamulengo'];

@@ -52,9 +52,12 @@ export function App() {
       <a className="skip" href="#work">
         {t(ui.skip)}
       </a>
-      <Header />
-      <main>
+      {/* Name and reel share the first screen: side by side on a wide one. */}
+      <div className="hero">
+        <Header />
         <Reel />
+      </div>
+      <main>
         {/* The work comes first; who made it and who credited it, after. */}
         <Marquee words={['PAINT', 'PLAY', 'CODE']} />
         <Suspense fallback={null}>

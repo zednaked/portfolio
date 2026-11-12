@@ -99,7 +99,7 @@ test('a keyboard walk from the top reaches every section, all of it visible', as
     expect(stop.inView, `"${stop.label}" is off screen`).toBe(true);
     expect(stop.visible, `"${stop.label}" is invisible`).toBe(true);
   }
-  for (const reachable of ['Play it', 'Open it live', 'zednaked@gmail.com']) {
+  for (const reachable of ['Play it', 'Open it live', 'zed@zed.art.br']) {
     expect(
       stops.some((s) => s.includes(reachable)),
       `${reachable} never takes focus`,

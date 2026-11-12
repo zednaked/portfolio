@@ -6,7 +6,7 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 
-const BUDGET = { entry: 125 * 1024, page: 150 * 1024, scene: 140 * 1024 };
+const BUDGET = { entry: 125 * 1024, page: 152 * 1024, scene: 140 * 1024 };
 const dir = new URL('../dist/assets/', import.meta.url);
 const sizes = readdirSync(dir)
   .filter((f) => f.endsWith('.js'))

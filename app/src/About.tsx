@@ -51,34 +51,41 @@ export function About() {
             {t(ui.aboutLabel)}
           </h2>
           <p className="box">{t(ui.about)}</p>
-          <h3 className="exhibits-h">{t(ui.exhibitsLabel)}</h3>
-          <ul className="exhibits">
-            {exhibits.map((ex) => (
-              <li key={ex.when.en}>
-                <strong>{t(ex.when)}</strong>
-                <span>{t(ex.what)}</span>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
-      {/* The book, under the portrait and the record. */}
-      <figure className="book">
-        <div className="book-row">
-          {bookImages.map((img) => (
-            <img
-              key={img.src}
-              src={img.src}
-              width={img.width}
-              height={img.height}
-              alt={t(img.alt)}
-              loading="lazy"
-              decoding="async"
-            />
-          ))}
-        </div>
-        <figcaption>{t(ui.bookLabel)}</figcaption>
-      </figure>
+      {/* The record as a timeline: the year set large, the Louvre largest. */}
+      <div className="record">
+        <h3 className="exhibits-h">{t(ui.exhibitsLabel)}</h3>
+        <ol className="exhibits">
+          {exhibits.map((ex, i) => {
+            const [year, ...place] = t(ex.when).split(' · ');
+            return (
+              <li key={ex.when.en} className={i === 0 ? 'first' : undefined}>
+                <span className="ex-year">{year}</span>
+                <strong>{place.join(' · ')}</strong>
+                <span>{t(ex.what)}</span>
+              </li>
+            );
+          })}
+        </ol>
+        {/* The book, on the same wall as the record it prints. */}
+        <figure className="book">
+          <div className="book-row">
+            {bookImages.map((img) => (
+              <img
+                key={img.src}
+                src={img.src}
+                width={img.width}
+                height={img.height}
+                alt={t(img.alt)}
+                loading="lazy"
+                decoding="async"
+              />
+            ))}
+          </div>
+          <figcaption>{t(ui.bookLabel)}</figcaption>
+        </figure>
+      </div>
     </section>
   );
 }

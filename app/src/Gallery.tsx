@@ -21,7 +21,7 @@ export function Gallery() {
   // one is fetched when it comes within two screens of view, in either axis;
   // until it lands, its frame holds the painting's average colour.
   useEffect(() => {
-    const imgs = root.current?.querySelectorAll<HTMLImageElement>('.gallery img[data-src]');
+    const imgs = root.current?.querySelectorAll<HTMLImageElement>('img[data-src]');
     if (!imgs) return;
     const io = new IntersectionObserver(
       (entries) => {
@@ -43,8 +43,21 @@ export function Gallery() {
     mm.add(FULL_MOTION, () => {
       // The paintings run sideways while you scroll down: the section pins,
       // the strip moves, each painting is uncovered as it comes in.
-      const track = root.current?.querySelector<HTMLElement>('.gallery');
-      if (!track) return;
+      const strip = root.current?.querySelector<HTMLElement>('.paint-strip');
+      const track = strip?.querySelector<HTMLElement>('.gallery');
+      // The oils hang still on their wall: each is uncovered as it comes up,
+      // on any screen.
+      gsap.utils.toArray<HTMLElement>('.oil-room .piece').forEach((piece) => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: piece, start: 'top 82%', toggleActions: PLAY_ONCE },
+        });
+        tl.fromTo(
+          piece.querySelector('.reveal'),
+          { clipPath: 'inset(100% 0% 0% 0%)' },
+          { clipPath: 'inset(0% 0% 0% 0%)', duration: 1, ease: 'power2.inOut', clearProps: 'clipPath' },
+        ).from(piece.querySelectorAll('figcaption > *'), { y: 16, opacity: 0, duration: 0.5, stagger: 0.08 }, 0.5);
+      });
+      if (!strip || !track) return;
       // On a phone the strip is a native, swipeable row (scroll-snap in the
       // CSS): pinning a sideways track under a vertical swipe fights the thumb.
       if (window.matchMedia('(max-width: 760px)').matches) return;
@@ -53,7 +66,7 @@ export function Gallery() {
         x: () => -dist(),
         ease: 'none',
         scrollTrigger: {
-          trigger: root.current,
+          trigger: strip,
           start: 'top top',
           end: () => `+=${dist()}`,
           pin: true,
@@ -74,7 +87,7 @@ export function Gallery() {
       };
       track.addEventListener('focusin', onFocus);
 
-      gsap.utils.toArray<HTMLElement>('.piece').forEach((piece) => {
+      gsap.utils.toArray<HTMLElement>('.gallery .piece').forEach((piece) => {
         // The paintings already on screen when the strip pins are uncovered
         // as the section rises, with the frames, not after: an empty white
         // frame showed through the chapter card otherwise.
@@ -210,55 +223,89 @@ export function Gallery() {
     });
   };
 
+  const oils = artworks.filter((art) => art.oil);
+  const digital = artworks.filter((art) => !art.oil);
+  const piece = (art: Artwork, sizes: string, extra = '') => (
+    <figure
+      className={`piece${art.wide ? ' wide' : ''}${extra}`}
+      key={art.id}
+      data-medium={art.pixel ? 'pixel' : art.id === 'cards' ? 'layout' : 'paint'}
+    >
+      <button
+        type="button"
+        className="reveal"
+        aria-label={`${t(art.title)}. ${t(ui.open)}`}
+        onClick={(e) => show(art, e.currentTarget)}
+      >
+        <img
+          data-src={art.src}
+          data-srcset={
+            art.small
+              ? `${art.small} 480w, ${art.small.replace('-480', '-640')} 640w, ${art.src} ${art.width}w`
+              : undefined
+          }
+          sizes={sizes}
+          width={art.width}
+          height={art.height}
+          style={{ '--r': art.height / art.width, backgroundColor: art.tone } as CSSProperties}
+          decoding="async"
+          alt={t(art.alt)}
+          className={art.pixel ? 'pixel' : undefined}
+          data-flip-id={art.id}
+        />
+      </button>
+      <figcaption>
+        {art.award && (
+          <span className="award-line">
+            <b>{t(art.award)}</b>
+            <i>{art.where}</i>
+          </span>
+        )}
+        <strong>{t(art.title)}</strong>
+        <span>{t(art.caption)}</span>
+      </figcaption>
+    </figure>
+  );
+
   return (
-    <section className="wrap paint-strip" id="work" aria-labelledby="work-h" tabIndex={-1} ref={root}>
-      <h2 className="label" id="work-h">
-        {t(ui.workLabel)}
-      </h2>
-      <div className="gallery" onScroll={onStripScroll}>
-        {artworks.map((art) => (
-          <figure
-            className={art.wide ? 'piece wide' : 'piece'}
-            key={art.id}
-            data-medium={art.pixel ? 'pixel' : art.id === 'cards' ? 'layout' : 'paint'}
+    <section className="paint" id="work" aria-labelledby="work-h" tabIndex={-1} ref={root}>
+      {/* The first room: the oils, hung large on a dark wall, the medal first. */}
+      <div className="oil-room">
+        <div className="wrap">
+          <h2 className="label" id="work-h">
+            {t(ui.oilLabel)}
+          </h2>
+          <div className="oil-lead">
+            {oils.slice(0, 1).map((art) => piece(art, '(max-width: 760px) 92vw, 50vw', ' lead'))}
+          </div>
+          <div
+            className="oil-pair"
+            style={{ '--sum': oils.slice(1).reduce((n, art) => n + art.width / art.height, 0) } as CSSProperties}
           >
-            <button
-              type="button"
-              className="reveal"
-              aria-label={`${t(art.title)}. ${t(ui.open)}`}
-              onClick={(e) => show(art, e.currentTarget)}
-            >
-              <img
-                data-src={art.src}
-                data-srcset={
-                  art.small
-                    ? `${art.small} 480w, ${art.small.replace('-480', '-640')} 640w, ${art.src} ${art.width}w`
-                    : undefined
-                }
-                sizes="(max-width: 760px) 84vw, 600px"
-                width={art.width}
-                height={art.height}
-                style={{ '--r': art.height / art.width, backgroundColor: art.tone } as CSSProperties}
-                decoding="async"
-                alt={t(art.alt)}
-                className={art.pixel ? 'pixel' : undefined}
-                data-flip-id={art.id}
-              />
-            </button>
-            <figcaption>
-              <strong>{t(art.title)}</strong>
-              <span>{t(art.caption)}</span>
-            </figcaption>
-          </figure>
-        ))}
+            {oils.slice(1).map((art) => (
+              <div key={art.id} style={{ flex: `${art.width / art.height} 1 0` }}>
+                {piece(art, '(max-width: 760px) 92vw, 40vw')}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      {/* Phones swipe the strip: where you are in it, and that there is more. */}
-      <p className="strip-count" aria-hidden="true">
-        <span>
-          {current + 1} / {artworks.length}
-        </span>
-        <span>{current + 1 < artworks.length ? t(ui.swipe) : ''}</span>
-      </p>
+      {/* The second room: the digital work, a strip that runs sideways. */}
+      <div className="wrap paint-strip">
+        <h2 className="label" id="digital-h">
+          {t(ui.digitalLabel)}
+        </h2>
+        <div className="gallery" onScroll={onStripScroll}>
+          {digital.map((art) => piece(art, '(max-width: 760px) 84vw, 600px'))}
+        </div>
+        {/* Phones swipe the strip: where you are in it, and that there is more. */}
+        <p className="strip-count" aria-hidden="true">
+          <span>
+            {current + 1} / {digital.length}
+          </span>
+          <span>{current + 1 < digital.length ? t(ui.swipe) : ''}</span>
+        </p>
+      </div>
 
       {/* A click on the backdrop closes, as in any lightbox; the keyboard has
           Esc (onCancel) and the Close button, so no key handler is missing. */}

@@ -452,60 +452,45 @@ export function BudgetCase() {
   );
 }
 
-// The smaller work, in brief: a line, one number, the link. The first one
-// (the piece closest to client work) keeps its picture large and two numbers.
-export function CaseIndex({ pieces, featured }: { pieces: WebPiece[]; featured: string }) {
+// The playable ad, in brief under its own rule: the picture, two numbers,
+// the links. (The desktop pieces follow it as cards with their clips.)
+export function CaseIndex({ piece: p }: { piece: WebPiece }) {
   const { t } = useLang();
   return (
     <section className="case-index" aria-labelledby="index-h">
       <h3 id="index-h" className="index-h">
         {t(webUi.indexLabel)}
       </h3>
-      <ul>
-        {pieces.map((p) => {
-          const big = p.id === featured;
-          const what = t(p.what);
-          const lead = big ? what : (what.split(/(?<=\.)\s/)[0] ?? what);
-          return (
-            <li key={p.id} className={big ? 'index-row featured' : 'index-row'}>
-              {/* The one-liners go without a picture: a thumbnail of a dark
-                  desktop capture reads as a broken image. */}
-              {big && (
-                <img
-                  src={p.img}
-                  width={p.width}
-                  height={p.height}
-                  alt={t(p.alt)}
-                  loading="lazy"
-                  decoding="async"
-                  className={p.phone ? 'index-shot phone' : 'index-shot'}
-                />
-              )}
-              <div>
-                <CaseTitle id={`case-${p.id}`} title={t(p.title)} />
-                <p className="what">{lead}</p>
-                <ul className="stats">
-                  {p.stats.slice(0, big ? 2 : 1).map((stat, i) => (
-                    <StatLine stat={stat} key={i} />
-                  ))}
-                </ul>
-                <p className="links">
-                  <a className={big ? 'btn' : undefined} href={p.live}>
-                    {t(p.liveLabel ?? webUi.live)}
-                    <span className="sr-only">: {t(p.title)}</span>
-                  </a>
-                  {p.code && (
-                    <a href={p.code}>
-                      {t(webUi.code)}
-                      <span className="sr-only">: {t(p.title)}</span>
-                    </a>
-                  )}
-                </p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="index-row featured">
+        <img
+          src={p.img}
+          width={p.width}
+          height={p.height}
+          alt={t(p.alt)}
+          loading="lazy"
+          decoding="async"
+          className="index-shot phone"
+        />
+        <div>
+          <CaseTitle id={`case-${p.id}`} title={t(p.title)} />
+          <p className="what">{t(p.what)}</p>
+          <ul className="stats">
+            {p.stats.map((stat, i) => (
+              <StatLine stat={stat} key={i} />
+            ))}
+          </ul>
+          <p className="links">
+            <a className="btn" href={p.live}>
+              {t(webUi.live)}
+              <span className="sr-only">: {t(p.title)}</span>
+            </a>
+            <a href={p.code}>
+              {t(webUi.code)}
+              <span className="sr-only">: {t(p.title)}</span>
+            </a>
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

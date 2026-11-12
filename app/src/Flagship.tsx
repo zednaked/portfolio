@@ -5,6 +5,7 @@ import { StatLine } from './cases';
 import { useLang } from './i18n';
 
 const base = import.meta.env.BASE_URL;
+const PHONE = window.matchMedia('(max-width: 760px)').matches;
 
 /**
  * A flagship, set apart from its chapter's cases: a dark band in the colours
@@ -45,8 +46,8 @@ export function Flagship({ piece }: { piece: Piece }) {
       </div>
       <img
         className="nb-shot"
-        src={`${base}img/${piece.id}-1600.webp`}
-        srcSet={`${base}img/${piece.id}-900.webp 900w, ${base}img/${piece.id}-1600.webp 1600w`}
+        src={`${base}img/${piece.id}-${piece.width}.webp`}
+        srcSet={`${base}img/${piece.id}-900.webp 900w, ${base}img/${piece.id}-${piece.width}.webp ${piece.width}w`}
         sizes="(max-width: 1700px) 100vw, 1600px"
         width={piece.width}
         height={piece.height}
@@ -61,9 +62,14 @@ export function Flagship({ piece }: { piece: Piece }) {
             <StatLine stat={stat} key={i} />
           ))}
         </ul>
-        {piece.more.map((text, i) => (
-          <p key={i}>{t(text)}</p>
-        ))}
+        {/* The reasoning: open beside the numbers on a wide screen, one tap
+            away on a phone, where it would be three screens of text. */}
+        <details className="decision nb-more" open={!PHONE}>
+          <summary>{t(webUi.readMore)}</summary>
+          {piece.more.map((text, i) => (
+            <p key={i}>{t(text)}</p>
+          ))}
+        </details>
         <p className="case-role">
           <strong>{t(webUi.role)}:</strong> {t(piece.role)}
         </p>

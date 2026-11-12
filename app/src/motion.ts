@@ -91,8 +91,11 @@ function restore(a: ReturnType<typeof anchor>) {
     window.scrollTo(0, pin.start + a.pin * (pin.end - pin.start));
     return;
   }
-  if (pin && a.piece >= 0) {
-    window.scrollTo(0, pin.start + (a.piece / Math.max(1, pieces.length - 1)) * (pin.end - pin.start));
+  // Only the strip's own paintings ride the pin; an oil is reached directly.
+  const inPin = pin?.trigger ? [...pin.trigger.querySelectorAll('.piece')] : [];
+  const i = inPin.indexOf(pieces[a.piece]);
+  if (pin && i >= 0) {
+    window.scrollTo(0, pin.start + (i / Math.max(1, inPin.length - 1)) * (pin.end - pin.start));
     return;
   }
   if (a.piece >= 0 && a.piece < pieces.length) {

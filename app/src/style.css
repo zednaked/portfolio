@@ -975,7 +975,7 @@ figcaption span {
 .motion-full .paint-strip .reveal img {
   will-change: transform;
 }
-.motion-full .paint-strip #work-h {
+.motion-full .paint-strip .label {
   margin-left: 6vw;
 }
 
@@ -2397,4 +2397,456 @@ main {
     0 0 0 1px rgba(255, 217, 77, 0.16),
     0 30px 80px rgba(0, 0, 0, 0.6),
     0 0 70px rgba(224, 38, 10, 0.12);
+}
+
+/* ===================== v4: the house (zed.art.br) ===================== */
+
+/* The first screen. On a wide screen the reel sits beside the name: a
+   painter's page opens on a painting. Narrower, the reel follows the name. */
+.hero > .reel {
+  position: relative;
+  z-index: 1;
+}
+@media (min-width: 1100px) {
+  .hero {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+  .hero > .top {
+    grid-area: 1 / 1 / 2 / 3;
+    padding-bottom: clamp(48px, 5vw, 72px);
+  }
+  /* The type keeps to the left half: its column ends just short of the middle. */
+  .hero .hero-text {
+    padding-right: calc(min(50vw, (var(--wrap) + 32px) / 2) + 24px);
+  }
+  /* Sized by the column it sits in, not only by the screen: the longer word
+     (about 4.2 em wide) always fits, whatever the reader's font size. */
+  .hero .name {
+    font-size: min(8.5rem, 7.6vw, calc((min(50vw, (var(--wrap) + 32px) / 2) - 64px) / 4.5));
+  }
+  .hero .name .line {
+    white-space: nowrap;
+  }
+  .hero > .reel {
+    grid-area: 1 / 2 / 2 / 3;
+    z-index: 2;
+    align-self: start;
+    justify-self: start;
+    max-width: 860px;
+    margin: calc(clamp(56px, 10vw, 140px) + 0.5rem) 0 0;
+    padding: 0 40px clamp(40px, 4vw, 64px) 0;
+  }
+  .hero .reel-play {
+    width: clamp(72px, 7vw, 120px);
+  }
+}
+
+/* The timecode runs up the right edge like the print on a film's margin,
+   inside the page's gutter: it never sits under a line of text. */
+.film-tc {
+  right: 6px;
+  bottom: 16px;
+  padding: 8px 3px;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+}
+
+/* PAINT, first room: the oils on a dark wall, hung large, the medal first. */
+.oil-room {
+  --wall: #17110f;
+  position: relative;
+  margin-bottom: clamp(48px, 7vw, 96px);
+  padding: clamp(56px, 8vw, 112px) 0 clamp(64px, 9vw, 128px);
+  background: var(--wall);
+  color: var(--b-cream);
+}
+.oil-room .label {
+  margin-bottom: clamp(28px, 4vw, 56px);
+  color: var(--b-cream);
+}
+.oil-room figure,
+.oil-room figure:hover {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+.oil-room .reveal {
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65);
+}
+.oil-room .reveal img {
+  width: 100%;
+  height: auto;
+}
+.oil-room :focus-visible {
+  outline-color: var(--b-yellow);
+}
+/* A museum label: a rule, the title, the medium. */
+.oil-room figcaption {
+  max-width: 34ch;
+  margin: 18px 0 0;
+  padding-top: 12px;
+  border-top: 2px solid var(--b-red);
+}
+.oil-room figcaption strong {
+  color: var(--b-cream);
+}
+.oil-room figcaption > span {
+  color: #cbc1b0;
+}
+.award-line {
+  display: block;
+}
+.award-line b {
+  display: block;
+  color: var(--b-yellow);
+  font:
+    400 clamp(3rem, 1.5rem + 5vw, 6rem) / 0.92 'Anton',
+    sans-serif;
+  text-transform: uppercase;
+}
+.award-line i {
+  display: block;
+  margin: 12px 0 18px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--b-red);
+  color: var(--b-cream);
+  font-size: 0.95rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.oil-lead figcaption {
+  padding-top: 0;
+  border-top: 0;
+}
+.oil-pair {
+  display: grid;
+  gap: clamp(40px, 6vw, 64px);
+  margin-top: clamp(56px, 8vw, 120px);
+}
+@media (min-width: 761px) {
+  /* The painting as tall as the screen allows; its label beside it, low. */
+  .oil-lead .piece {
+    display: grid;
+    grid-template-columns: minmax(0, calc(min(78vh, 820px) * 0.89)) minmax(220px, 1fr);
+    gap: clamp(28px, 5vw, 80px);
+    align-items: end;
+  }
+  .oil-lead figcaption {
+    margin: 0 0 8px;
+  }
+  /* The other two share a height: each takes width by its own proportion. */
+  .oil-pair {
+    display: flex;
+    align-items: flex-start;
+    max-width: calc(min(76vh, 820px) * var(--sum) + clamp(40px, 6vw, 64px));
+    margin-left: auto;
+  }
+  .oil-pair > div {
+    min-width: 0;
+  }
+}
+@media (max-width: 760px) {
+  .oil-pair > div {
+    flex: none !important;
+  }
+}
+.paint-strip {
+  padding-bottom: clamp(48px, 7vw, 80px);
+}
+
+/* A flagship's numbers, set like a poster: a column of large figures beside
+   the text on a wide screen. */
+.nb-more {
+  margin: 0;
+  border-top: 0;
+}
+.flagship .decision summary {
+  color: var(--nb-accent);
+}
+.flagship .decision summary:focus-visible {
+  outline-color: var(--nb-accent);
+}
+@media (min-width: 761px) {
+  .nb-more summary {
+    display: none;
+  }
+}
+@media (min-width: 900px) {
+  .nb-body {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 0 clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+  .nb-body > *,
+  .nb-lead {
+    grid-column: 1;
+  }
+  .flagship .stats {
+    grid-column: 2;
+    grid-row: 1 / span 6;
+    grid-template-columns: 1fr;
+    gap: 26px;
+    margin: 0;
+    padding: 4px 0 4px clamp(24px, 3vw, 48px);
+    border-top: 0;
+    border-left: 1px solid rgba(236, 235, 230, 0.2);
+  }
+  .flagship .stat-num,
+  .flagship .stat-unit {
+    font:
+      400 clamp(3.4rem, 1.6rem + 4.6vw, 6rem) / 0.95 'Anton',
+      sans-serif;
+  }
+  .flagship .stat-unit {
+    font-size: clamp(1.6rem, 1rem + 2vw, 2.8rem);
+  }
+  .flagship .stat-label {
+    max-width: 32ch;
+    margin-top: 6px;
+    font-size: 1rem;
+  }
+}
+
+/* The desktop pieces: two cards under one rule, each with its clip. */
+.desk {
+  padding-top: 18px;
+  border-top: 3px solid var(--ink);
+}
+.desk .case {
+  padding-top: 0;
+  border-top: 0;
+}
+
+/* About: the text large beside the portrait, then the record as a timeline. */
+.about {
+  gap: clamp(40px, 6vw, 72px);
+}
+.portrait {
+  max-width: 400px;
+  border-color: #fff;
+  box-shadow: 0 18px 40px rgba(20, 20, 30, 0.22);
+}
+.about .box {
+  max-width: 34em;
+  font-size: clamp(1.2rem, 1rem + 1vw, 1.7rem);
+  line-height: 1.45;
+}
+@media (min-width: 720px) {
+  /* A tablet keeps the portrait small enough to leave the text a real column. */
+  .about-main {
+    grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
+    gap: 32px clamp(28px, 5vw, 56px);
+    align-items: center;
+  }
+  .about .portrait {
+    position: static;
+  }
+}
+@media (min-width: 1000px) {
+  .about-main {
+    grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+  }
+}
+.record {
+  display: grid;
+  gap: clamp(28px, 4vw, 40px);
+}
+.exhibits-h {
+  margin: 0;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--ink);
+}
+.exhibits {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 28px 32px;
+}
+.exhibits li {
+  align-content: start;
+  gap: 4px;
+  padding: 0;
+  border-left: 0;
+}
+.ex-year {
+  color: var(--b-red);
+  font:
+    400 clamp(2.4rem, 1.6rem + 2.4vw, 3.6rem) / 1 'Anton',
+    sans-serif;
+}
+.exhibits strong {
+  font-size: 1.05rem;
+}
+/* The Louvre: the year as large as a chapter numeral. */
+.exhibits li.first {
+  grid-column: 1 / -1;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: clamp(18px, 3vw, 40px);
+  align-items: center;
+  padding-bottom: clamp(20px, 3vw, 32px);
+  border-bottom: 1px solid rgba(11, 11, 11, 0.16);
+}
+.exhibits li.first .ex-year {
+  grid-row: 1 / span 2;
+  font-size: clamp(4.4rem, 2rem + 10vw, 11rem);
+  line-height: 0.9;
+}
+.exhibits li.first strong {
+  align-self: end;
+  font:
+    400 clamp(1.5rem, 1rem + 2.2vw, 3rem) / 1.05 'Anton',
+    sans-serif;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.exhibits li.first > span:last-child {
+  align-self: start;
+  font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.4rem);
+}
+/* The book is evidence for the record: it stands beside the timeline on a wide
+   screen, its two photographs cut to one height, the caption under them. */
+.about .book,
+.about .book:hover {
+  display: block;
+  width: auto;
+  max-width: 460px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+.book-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.book-row img {
+  min-width: 0;
+  box-shadow: 0 14px 32px rgba(20, 20, 30, 0.2);
+}
+/* Each takes width by its own proportion (cover 600 x 816, page 640 x 1014). */
+.book-row img:first-child {
+  flex: 0.735 1 0;
+}
+.book-row img:last-child {
+  flex: 0.631 1 0;
+}
+.book figcaption {
+  max-width: none;
+  margin: 14px 0 0;
+  padding-top: 10px;
+  border-top: 3px solid var(--ink);
+  color: var(--ink);
+  font-size: 1rem;
+}
+@media (min-width: 1000px) {
+  .record {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+    column-gap: clamp(40px, 5vw, 72px);
+    align-items: start;
+  }
+  .exhibits-h {
+    grid-column: 1 / -1;
+  }
+  .about .book {
+    max-width: none;
+  }
+  /* Beside the book the column is narrower: the year gives the place room. */
+  .exhibits li.first .ex-year {
+    font-size: clamp(5rem, 9vw, 8rem);
+  }
+}
+
+/* Credits: the project's name over each one, like the cases. */
+.proofs {
+  gap: 28px 48px;
+}
+.proofs li {
+  padding: 16px 0 0;
+  border-top: 3px solid var(--ink);
+  border-left: 0;
+}
+.proof-name {
+  margin: 0 0 8px;
+  font:
+    400 clamp(1.5rem, 1.2rem + 1vw, 2.1rem) / 1 'Anton',
+    sans-serif;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.proofs p {
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* The house, on the last card: the other addresses on this domain. */
+.f-house {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 18px;
+  margin: 0 0 2px;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.f-house span {
+  color: var(--ink);
+  font:
+    400 1rem/1 'Anton',
+    sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.f-house a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--ink);
+}
+
+/* The signature's shapes on a phone: measured up from the footer, so they
+   never climb under the buttons; a short screen has no room for them. */
+@media (max-width: 720px) {
+  .f-circle {
+    top: auto;
+    bottom: 250px;
+  }
+  .f-square,
+  .f-tri {
+    top: auto;
+    bottom: 204px;
+  }
+}
+@media (max-width: 720px) and (max-height: 780px), (max-height: 520px) {
+  .f-circle,
+  .f-square,
+  .f-tri {
+    display: none;
+  }
+}
+
+/* Mamulengo: the editor's own night stage and its pink, a row of marquee
+   bulbs under the name. */
+.mamulengo {
+  --nb-bg: #15121c;
+  --nb-ink: #f1ecf4;
+  --nb-muted: #b9afc4;
+  --nb-accent: #ff5c9a;
+  overflow: hidden;
+  background: radial-gradient(70% 34% at 24% 0%, rgba(255, 92, 154, 0.2), transparent 70%), var(--nb-bg);
+}
+.mamulengo .nb-name::after {
+  content: '';
+  display: block;
+  width: min(100%, 420px);
+  height: 10px;
+  margin-top: 16px;
+  background: radial-gradient(circle, #ffd94c 0 3px, transparent 4px) 0 0 / 20px 10px repeat-x;
+}
+.mamulengo .nb-shot {
+  box-shadow:
+    0 0 0 1px rgba(255, 92, 154, 0.2),
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 70px rgba(255, 92, 154, 0.1);
 }

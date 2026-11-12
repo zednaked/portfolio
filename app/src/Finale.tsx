@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { gsap, FULL_MOTION, GENTLE_MOTION, useIdleGSAP } from './motion';
 import { ui } from './content';
-import { finaleUi } from './content-work';
+import { finaleUi, house } from './content-work';
 import { useLang } from './i18n';
 
 /**
@@ -64,7 +64,7 @@ export function Finale() {
           </p>
           <p className="f-mail">
             <small>{t(finaleUi.available)}</small>
-            <a href="mailto:zednaked@gmail.com">zednaked@gmail.com</a>
+            <a href="mailto:zed@zed.art.br">zed@zed.art.br</a>
           </p>
           <p className="f-links">
             <a className="btn" href={`${import.meta.env.BASE_URL}cv-thiago-goncalves.pdf`}>
@@ -80,6 +80,15 @@ export function Finale() {
         </div>
         {/* The footer lives on the last card, so the card ends the page whole. */}
         <footer className="f-foot">
+          {/* The rest of the house: everything else that lives on this domain. */}
+          <nav className="f-house" aria-label={t(finaleUi.house)}>
+            <span>zed.art.br</span>
+            {house.map((room) => (
+              <a href={`https://${room}.zed.art.br/`} key={room}>
+                {room}
+              </a>
+            ))}
+          </nav>
           <p>
             Thiago Gonçalves · <a href="https://github.com/zednaked">GitHub</a> · {t(ui.colophon)}
           </p>

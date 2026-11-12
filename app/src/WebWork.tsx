@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { deskWork, figmaUrl, nirbija, pageStats, pageStory, webUi, webWork } from './content-work';
+import { deskWork, figmaUrl, mamulengo, nirbija, pageStats, pageStory, webUi, webWork } from './content-work';
 import { useLang } from './i18n';
 import { BudgetCase, CaseCard, CaseIndex, StatLine, StoryList, useCaseMotion } from './cases';
 import { Flood } from './Flood';
@@ -15,6 +15,7 @@ export function WebWork() {
       {/* The act opens on a piece, full width, before the cases. */}
       <Flood />
       {/* The flagship, before the cases: its own band, the colour of the app. */}
+      <Flagship piece={mamulengo} />
       <Flagship piece={nirbija} />
       <section className="wrap web" id="web" aria-labelledby="web-h" ref={root}>
         <h2 className="label" id="web-h">
@@ -29,8 +30,19 @@ export function WebWork() {
             .map((piece) => (
               <CaseCard piece={piece} key={piece.id} />
             ))}
-          {/* Three cases in full; the rest in brief, the playable ad first. */}
-          <CaseIndex pieces={[...webWork.filter((p) => p.compact), ...deskWork]} featured="playable" />
+          {/* Three cases in full; the playable ad in brief. */}
+          <CaseIndex piece={webWork[2]} />
+          {/* The desktop pieces, each with its clip: two cards side by side. */}
+          <section className="desk" aria-labelledby="desk-h">
+            <h3 id="desk-h" className="index-h">
+              {t(webUi.deskLabel)}
+            </h3>
+            <div className="cases-pair">
+              {deskWork.map((piece) => (
+                <CaseCard piece={piece} key={piece.id} />
+              ))}
+            </div>
+          </section>
 
           <article className="case self" aria-labelledby="case-self">
             <div className="case-body">
