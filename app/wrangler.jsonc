@@ -1,0 +1,15 @@
+// Portfólio em https://zed.art.br, servido como arquivos estáticos de um
+// Worker (sem script: nenhuma requisição gasta o limite diário do free tier).
+// Links curtos em public/_redirects; cache em public/_headers.
+//   npm run deploy
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zed-portfolio",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+  },
+  "workers_dev": true,
+  "routes": [{ "pattern": "zed.art.br", "custom_domain": true }],
+}

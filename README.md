@@ -1,7 +1,9 @@
 # Thiago Gonçalves — painting, games and code
 
 A portfolio told in three chapters, PAINT · PLAY · CODE, with a 62-second reel.
-Live at **https://zed.art.br/** (English and Portuguese).
+Live at **https://zed.art.br/** (English and Portuguese), served by Cloudflare
+(Workers static assets). Deploy: `cd app && npm run deploy`. Short links live in
+`app/public/_redirects`.
 
 React 19 · TypeScript (strict) · GSAP (ScrollTrigger, Flip) · Vite.
 Every push runs lint, formatting, types, unit tests and end-to-end tests

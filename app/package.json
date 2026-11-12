@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "check": "npm run lint && npm run format:check && tsc --noEmit && npm test",
-    "budget": "node scripts/budget.mjs"
+    "budget": "node scripts/budget.mjs",
+    "deploy": "npm run build && npx -y wrangler@4.118.0 deploy"
   },
   "dependencies": {
     "@gsap/react": "2.1.2",

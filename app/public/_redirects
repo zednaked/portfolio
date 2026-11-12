@@ -1,0 +1,14 @@
+# Links curtos de zed.art.br. 302 de propósito: o destino pode mudar sem
+# ficar preso no cache do navegador de quem já clicou.
+/itch        https://zedcave.itch.io                   302
+/github      https://github.com/zednaked               302
+/linkedin    https://www.linkedin.com/in/thiago-g/     302
+/cv          /cv-thiago-goncalves.pdf                  302
+/ciberteia   https://ciberteia.zed.art.br/             302
+/cheia       https://cheia.zed.art.br/                 302
+/jangada     https://jangada.zed.art.br/webapp/studio/ 302
+/mamulengo   https://mamulengo.zed.art.br/             302
+/nirbija     https://nirbija.zed.art.br/               302
+/rinha       https://zedcave.itch.io/rinha             302
+# O endereço antigo do GitHub Pages tinha /portfolio/ na frente.
+/portfolio/* /:splat                                   301

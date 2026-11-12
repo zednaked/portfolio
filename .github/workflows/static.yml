@@ -1,6 +1,7 @@
 # Every push and pull request is checked: lint, formatting, types, unit tests,
 # and end-to-end tests (keyboard, axe, language switch) against the production
-# build. master deploys to GitHub Pages only when all of it passes.
+# build. master then publishes a redirect stub to GitHub Pages (the site itself
+# is deployed to Cloudflare from app/ with `npm run deploy`).
 name: Check and deploy
 
 on:
@@ -55,10 +56,13 @@ jobs:
           name: playwright-report
           path: app/playwright-report
           retention-days: 7
+      # O site em si vai para a Cloudflare (npm run deploy, em app/). O Pages
+      # so guarda um redirecionamento de zednaked.github.io/portfolio para
+      # https://zed.art.br, para os links antigos continuarem valendo.
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/master'
         with:
-          path: app/dist
+          path: .github/pages-redirect
 
   deploy:
     needs: check
