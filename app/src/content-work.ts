@@ -425,7 +425,7 @@ export const rinha: Flagship = {
     en: 'Rinha in spectator mode: a red army and a blue army clash on a green map, beside a minimap of the four teams and a panel with each AI’s score and plan.',
     pt: 'Rinha no modo espectador: um exército vermelho e um azul se chocam num mapa verde, ao lado de um minimapa dos quatro times e de um painel com a pontuação e o plano de cada IA.',
   },
-  links: [{ href: 'https://zedcave.itch.io/rinha', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
+  links: [{ href: 'https://arcade.zed.art.br/rinha/', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
   note: { en: 'Made in Godot 4. The source is private.', pt: 'Feito em Godot 4. O código é privado.' },
 };
 
