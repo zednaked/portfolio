@@ -366,7 +366,10 @@ export const ciberteia: Flagship = {
     en: 'Ciberteia in play: a green-on-black terminal under a CRT glow, in the district Quebrada, with its places, routes out and the local traffic of other players.',
     pt: 'Ciberteia em jogo: um terminal verde sobre preto sob brilho de CRT, no distrito Quebrada, com os locais, as rotas de saída e o tráfego local de outros jogadores.',
   },
-  links: [{ href: 'https://ciberteia.zed.art.br/', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
+  links: [
+    { href: 'https://arcade.zed.art.br/ciberteia/', label: { en: 'Play it', pt: 'Jogar' }, btn: true },
+    { href: 'https://zedcave.itch.io/ciberteia-cronicas-do-submundo-digital', label: { en: 'itch.io', pt: 'itch.io' } },
+  ],
   note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
 };
 
@@ -425,7 +428,10 @@ export const rinha: Flagship = {
     en: 'Rinha in spectator mode: a red army and a blue army clash on a green map, beside a minimap of the four teams and a panel with each AI’s score and plan.',
     pt: 'Rinha no modo espectador: um exército vermelho e um azul se chocam num mapa verde, ao lado de um minimapa dos quatro times e de um painel com a pontuação e o plano de cada IA.',
   },
-  links: [{ href: 'https://arcade.zed.art.br/rinha/', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
+  links: [
+    { href: 'https://arcade.zed.art.br/rinha/', label: { en: 'Play it', pt: 'Jogar' }, btn: true },
+    { href: 'https://zedcave.itch.io/rinha', label: { en: 'itch.io', pt: 'itch.io' } },
+  ],
   note: { en: 'Made in Godot 4. The source is private.', pt: 'Feito em Godot 4. O código é privado.' },
 };
 
