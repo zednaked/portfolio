@@ -10,6 +10,7 @@
 /jangada     https://jangada.zed.art.br/webapp/studio/ 302
 /mamulengo   https://mamulengo.zed.art.br/             302
 /nirbija     https://nirbija.zed.art.br/               302
-/rinha       https://zedcave.itch.io/rinha             302
+/rinha       https://arcade.zed.art.br/rinha/          302
+/arcade      https://arcade.zed.art.br/                302
 # O endereço antigo do GitHub Pages tinha /portfolio/ na frente.
 /portfolio/* /:splat                                   301
