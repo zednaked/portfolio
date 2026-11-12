@@ -10,10 +10,10 @@ export default defineConfig({
   // No retries: a flaky test is a bug to fix, not a run to repeat.
   retries: 0,
   reporter: process.env.CI ? 'github' : 'list',
-  use: { baseURL: 'http://127.0.0.1:4173/portfolio/', launchOptions: { executablePath } },
+  use: { baseURL: 'http://127.0.0.1:4173/', launchOptions: { executablePath } },
   webServer: {
     command: 'npx vite preview --port 4173 --strictPort --host 127.0.0.1',
-    url: 'http://127.0.0.1:4173/portfolio/',
+    url: 'http://127.0.0.1:4173/',
     reuseExistingServer: !process.env.CI,
   },
   projects: [

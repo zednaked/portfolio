@@ -7,7 +7,7 @@ import { mkdtempSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-const url = process.argv[2] ?? 'https://zednaked.github.io/portfolio/';
+const url = process.argv[2] ?? 'https://zed.art.br/';
 const LIMITS = { performance: 0.85, accessibility: 1, lcp: 3500, tbt: 300, cls: 0.05 };
 const dir = mkdtempSync(join(tmpdir(), 'lh-'));
 const runs = [0, 1, 2].map((i) => {

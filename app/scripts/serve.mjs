@@ -1,4 +1,4 @@
-// Serves dist/ under /portfolio/ with gzip, the way GitHub Pages does, so the
+// Serves dist/ at the root with gzip, the way GitHub Pages does, so the
 // Lighthouse gate measures what visitors get.  node scripts/serve.mjs [port]
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
@@ -24,7 +24,7 @@ const types = {
   '.json': 'application/json',
 };
 createServer(async (req, res) => {
-  let path = decodeURIComponent(new URL(req.url ?? '/', 'http://x').pathname).replace(/^\/portfolio/, '');
+  let path = decodeURIComponent(new URL(req.url ?? '/', 'http://x').pathname);
   if (path.endsWith('/')) path += 'index.html';
   try {
     let body = await readFile(join(dir, path));
@@ -40,4 +40,4 @@ createServer(async (req, res) => {
     res.writeHead(404);
     res.end();
   }
-}).listen(port, '127.0.0.1', () => console.log(`serving dist on http://127.0.0.1:${port}/portfolio/`));
+}).listen(port, '127.0.0.1', () => console.log(`serving dist on http://127.0.0.1:${port}/`));

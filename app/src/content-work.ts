@@ -366,7 +366,7 @@ export const ciberteia: Flagship = {
     en: 'Ciberteia in play: a green-on-black terminal under a CRT glow, in the district Quebrada, with its places, routes out and the local traffic of other players.',
     pt: 'Ciberteia em jogo: um terminal verde sobre preto sob brilho de CRT, no distrito Quebrada, com os locais, as rotas de saída e o tráfego local de outros jogadores.',
   },
-  links: [{ href: 'https://ciberteia-api.zednaked.workers.dev/', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
+  links: [{ href: 'https://ciberteia.zed.art.br/', label: { en: 'Play it', pt: 'Jogar' }, btn: true }],
   note: { en: 'In Portuguese. The source is private.', pt: 'Em português. O código é privado.' },
 };
 

@@ -2,9 +2,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Served by GitHub Pages under /portfolio/.
+// Served by GitHub Pages at https://zed.art.br/ (custom domain).
 export default defineConfig({
-  base: '/portfolio/',
+  base: '/',
   plugins: [react()],
   build: { target: 'es2022', cssCodeSplit: false },
   test: {

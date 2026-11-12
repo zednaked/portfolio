@@ -17,7 +17,7 @@ const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PAT
 
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
-  await page.goto(`http://127.0.0.1:${PORT}/portfolio/?lang=en`);
+  await page.goto(`http://127.0.0.1:${PORT}/?lang=en`);
   await page.waitForSelector('main .reel');
   // Fonts in and the gentle fades finished, so the copy is the settled page.
   await page.evaluate(() => document.fonts.ready);
