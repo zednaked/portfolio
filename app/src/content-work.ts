@@ -308,7 +308,7 @@ export const nirbija: Flagship = {
     pt: 'O Nirbija no Linux: canais à esquerda, as seis cordas do Drone, o Looper e os dezesseis pads do Sampler abertos ao lado, e o fader master à direita.',
   },
   links: [
-    { href: 'https://zednaked.github.io/nirbija-site/', label: { en: 'See it', pt: 'Ver' }, btn: true },
+    { href: 'https://nirbija.zed.art.br/', label: { en: 'See it', pt: 'Ver' }, btn: true },
     { href: 'https://github.com/zednaked/Nirbija', label: { en: 'Code', pt: 'Código' } },
     { href: 'https://github.com/zednaked/Nirbija/releases', label: { en: 'AppImage', pt: 'AppImage' } },
   ],
@@ -647,7 +647,7 @@ export const webWork: WebPiece[] = [
       en: 'Cheia running a 100-year, one-hour storm over Curitiba, at double speed: on the 3D satellite map the water spreads from the rivers into the low ground.',
       pt: 'O Cheia rodando uma chuva de 100 anos em uma hora sobre Curitiba, em velocidade dobrada: no mapa 3D de satélite a água se espalha dos rios para as áreas baixas.',
     },
-    live: 'https://zednaked.github.io/cheia/',
+    live: 'https://cheia.zed.art.br/',
     code: 'https://github.com/zednaked/cheia',
     story: {
       why: {
@@ -694,7 +694,7 @@ export const webWork: WebPiece[] = [
       en: 'Jangada Studio: a white page with a magenta title, four track tabs, filter sliders and a drone section.',
       pt: 'Jangada Studio: uma página branca com título magenta, quatro abas de trilha, sliders de filtro e uma seção de drone.',
     },
-    live: 'https://zednaked.github.io/jangada/webapp/studio/',
+    live: 'https://jangada.zed.art.br/webapp/studio/',
     code: 'https://github.com/zednaked/jangada',
   },
   {
@@ -724,7 +724,7 @@ export const webWork: WebPiece[] = [
       en: 'The playable ad mid-game: a brown bunny between floating grass platforms, gold coins, a 4 of 5 coin counter and the hint Hold left or right to steer.',
       pt: 'O anúncio jogável no meio da partida: um coelho marrom entre plataformas de grama flutuantes, moedas douradas, o contador 4 de 5 e a dica Hold left or right to steer.',
     },
-    live: 'https://zednaked.github.io/playable-budget/',
+    live: 'https://playable-budget.zed.art.br/',
     code: 'https://github.com/zednaked/playable-budget',
   },
 ];
