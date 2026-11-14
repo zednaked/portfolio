@@ -460,13 +460,13 @@ export const rinha: Flagship = {
   kicker: { en: 'Strategy, drawn in code', pt: 'Estratégia, desenhada em código' },
   kind: { en: 'a real-time strategy game for the browser', pt: 'um jogo de estratégia em tempo real para o navegador' },
   what: {
-    en: 'StarCraft-style real-time strategy in the browser: mine crystal and gas, build a base, climb three tech tiers and fight AI opponents. In spectator mode, a director camera follows the biggest battle.',
-    pt: 'Estratégia em tempo real no estilo StarCraft, no navegador: minere cristal e gás, erga uma base, suba três níveis de tecnologia e enfrente IAs. No modo espectador, uma câmera-diretora segue a maior batalha.',
+    en: 'StarCraft-style real-time strategy in the browser, with three factions that produce, build and heal by different rules. Play against AI opponents, open an online room, or watch: in spectator mode a director camera follows the biggest battle.',
+    pt: 'Estratégia em tempo real no estilo StarCraft, no navegador, com três facções que produzem, constroem e se curam por regras diferentes. Jogue contra IAs, abra uma sala online ou assista: no modo espectador, uma câmera-diretora segue a maior batalha.',
   },
   more: [
     {
-      en: 'Units are built, not painted. Each one is 15 to 28 polygons, and the code animates them by name: a part called Leg strides, a Barrel kicks back when it fires, a Turret aims on its own. A new unit is a scene and a data file, with no animation code and no art pipeline.',
-      pt: 'As unidades são montadas, não pintadas. Cada uma tem de 15 a 28 polígonos, e o código anima pelo nome: a peça chamada Leg dá o passo, o Barrel recua no tiro, a Turret mira sozinha. Unidade nova é uma cena e um arquivo de dados, sem código de animação e sem pipeline de arte.',
+      en: 'Units are built, not painted. Each one is 4 to 28 polygons, and the code animates them by name: a part called Leg strides, a Barrel kicks back when it fires, a Turret aims on its own. A new unit is a data file with its polygons, with no animation code and no art pipeline.',
+      pt: 'As unidades são montadas, não pintadas. Cada uma tem de 4 a 28 polígonos, e o código anima pelo nome: a peça chamada Leg dá o passo, o Barrel recua no tiro, a Turret mira sozinha. Unidade nova é um arquivo de dados com os seus polígonos, sem código de animação e sem pipeline de arte.',
     },
     {
       en: 'No two AIs play alike. Each rolls five traits at the start of a match (aggression, economy, tech, defence, army mix) that set how many workers it wants, when it attacks and what it builds. It plays fair, too: it sees only what its units see, remembers what it scouted and sends scouts for the rest.',
@@ -474,24 +474,24 @@ export const rinha: Flagship = {
     },
   ],
   role: {
-    en: 'Solo: design, GDScript, the AI, the procedural art, the performance work.',
-    pt: 'Sozinho: design, GDScript, a IA, a arte procedural, o trabalho de performance.',
+    en: 'Solo: design, the simulation, the AI, the procedural art, the online rooms, the performance work.',
+    pt: 'Sozinho: design, a simulação, a IA, a arte procedural, as salas online, o trabalho de performance.',
   },
   stats: [
     {
-      value: 169,
+      value: 305,
       unit: '',
       label: {
-        en: 'polygons draw the nine units; there is not one sprite or texture',
-        pt: 'polígonos desenham as nove unidades; não há um sprite ou textura sequer',
+        en: 'polygons draw the 21 units of the three factions, with no sprites',
+        pt: 'polígonos desenham as 21 unidades das três facções, sem sprites',
       },
     },
     {
-      value: 12,
-      unit: '×',
+      value: 3,
+      unit: '',
       label: {
-        en: 'faster frame in the worst case, four armies in one fight: from about 130 ms to 11 ms',
-        pt: 'mais rápido o quadro no pior caso, quatro exércitos numa só batalha: de uns 130 ms para 11 ms',
+        en: 'factions: one trains in queues, one hatches on its own, one fuses its army together in the field',
+        pt: 'facções: uma treina em fila, uma choca sozinha, uma funde o exército no campo',
       },
     },
     {
@@ -506,14 +506,14 @@ export const rinha: Flagship = {
   width: 1600,
   height: 900,
   alt: {
-    en: 'Rinha in spectator mode: a red army and a blue army clash on a green map, beside a minimap of the four teams and a panel with each AI’s score and plan.',
-    pt: 'Rinha no modo espectador: um exército vermelho e um azul se chocam num mapa verde, ao lado de um minimapa dos quatro times e de um painel com a pontuação e o plano de cada IA.',
+    en: 'Rinha in spectator mode: a blue army attacks a base made of stained-glass rose windows under a “Great battle” banner, beside a minimap of the four teams and a panel with each AI’s score and plan.',
+    pt: 'Rinha no modo espectador: um exército azul ataca uma base feita de rosáceas de vitral sob a faixa “Grande batalha”, ao lado de um minimapa dos quatro times e de um painel com a pontuação e o plano de cada IA.',
   },
   links: [
     { href: 'https://arcade.zed.art.br/rinha/', label: { en: 'Play it', pt: 'Jogar' }, btn: true },
     { href: 'https://zedcave.itch.io/rinha', label: { en: 'itch.io', pt: 'itch.io' } },
   ],
-  note: { en: 'Made in Godot 4. The source is private.', pt: 'Feito em Godot 4. O código é privado.' },
+  note: { en: 'First made in Godot 4, then rewritten in C++ and WebAssembly with a WebGL2 renderer. The source is private.', pt: 'Feito primeiro em Godot 4, depois reescrito em C++ e WebAssembly com desenho em WebGL2. O código é privado.' },
 };
 
 export const reidaboca: Flagship = {
