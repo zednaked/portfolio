@@ -125,6 +125,9 @@ export function Act({ chapter, children }: { chapter: ChapterData; children: Rea
   const shape = { circle: 'shape-circle', tri: 'shape-tri', square: 'shape-square' }[chapter.shape];
   return (
     <div className="act" id={chapter.id} ref={root} style={actColors(chapter.color)}>
+      <div className="ch-veil-hold" aria-hidden="true">
+        <div className="ch-veil" />
+      </div>
       <div className="ch-hold">
         <div className="ch-card" aria-hidden="true" style={{ background: chapter.bg, color: chapter.ink }}>
           <div className="tex-paper" />

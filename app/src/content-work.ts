@@ -354,6 +354,14 @@ export const mamulengo: Flagship = {
   },
   stats: [
     {
+      value: 7,
+      unit: ' MB',
+      label: {
+        en: 'a whole client game in production, before any compression (66 MB on the engine it replaced). Two games ship on it, under NDA',
+        pt: 'um jogo de cliente inteiro, em produção, antes de qualquer compressão (66 MB no motor que ele substituiu). Dois jogos rodam nele, sob NDA',
+      },
+    },
+    {
       value: 466,
       unit: '/466',
       label: {
@@ -367,14 +375,6 @@ export const mamulengo: Flagship = {
       label: {
         en: 'the whole core in the browser, WebAssembly, gzipped (456 KB raw)',
         pt: 'o núcleo inteiro no navegador, WebAssembly, com gzip (456 KB sem)',
-      },
-    },
-    {
-      value: 5,
-      unit: '×',
-      label: {
-        en: 'faster, about, than the runtime it replaces: 20 characters posed in 0.043 ms a frame, native',
-        pt: 'mais rápido, aproximadamente, que o runtime que substitui: 20 personagens posados em 0,043 ms por quadro, nativo',
       },
     },
   ],
@@ -479,6 +479,14 @@ export const rinha: Flagship = {
   },
   stats: [
     {
+      value: 10000,
+      unit: '',
+      label: {
+        en: 'units at 60 fps in the browser; the Godot version held 1,000 per side at 11 fps',
+        pt: 'unidades a 60 fps no navegador; a versão em Godot segurava 1.000 por lado a 11 fps',
+      },
+    },
+    {
       value: 305,
       unit: '',
       label: {
@@ -494,14 +502,6 @@ export const rinha: Flagship = {
         pt: 'facções: uma treina em fila, uma choca sozinha, uma funde o exército no campo',
       },
     },
-    {
-      value: 5,
-      unit: '',
-      label: {
-        en: 'personality traits each AI rolls, so no two play the same match',
-        pt: 'traços de personalidade que cada IA sorteia, e nenhuma joga a mesma partida',
-      },
-    },
   ],
   width: 1600,
   height: 900,
@@ -513,7 +513,10 @@ export const rinha: Flagship = {
     { href: 'https://arcade.zed.art.br/rinha/', label: { en: 'Play it', pt: 'Jogar' }, btn: true },
     { href: 'https://zedcave.itch.io/rinha', label: { en: 'itch.io', pt: 'itch.io' } },
   ],
-  note: { en: 'First made in Godot 4, then rewritten in C++ and WebAssembly with a WebGL2 renderer. The source is private.', pt: 'Feito primeiro em Godot 4, depois reescrito em C++ e WebAssembly com desenho em WebGL2. O código é privado.' },
+  note: {
+    en: 'First made in Godot 4, then rewritten in C++ and WebAssembly with a WebGL2 renderer. The source is private.',
+    pt: 'Feito primeiro em Godot 4, depois reescrito em C++ e WebAssembly com desenho em WebGL2. O código é privado.',
+  },
 };
 
 export const reidaboca: Flagship = {

@@ -800,6 +800,44 @@ figcaption span {
   height: 100vh;
   overflow: hidden;
 }
+/* The first card is glass: the header's paint runs on behind it, its whole
+   drip, at any width. A sheet of the page's cream lies over the paint so the
+   card's type reads (.ch-veil, its own layer: inside the card it would be cut
+   away with the collapse and bare the paint before the dark room is up). */
+.ch-veil-hold {
+  display: none;
+}
+.motion-full #paint .ch-veil-hold {
+  display: block;
+  position: relative;
+  z-index: 0;
+  height: 185vh;
+  margin-bottom: -185vh;
+  pointer-events: none;
+}
+.motion-full #paint .ch-veil {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: rgba(241, 234, 216, 0.72);
+}
+.motion-full #paint .ch-card {
+  background: transparent !important;
+}
+.motion-full #paint .ch-card .tex-paper,
+.motion-full #paint .ch-card .tex-xerox {
+  display: none;
+}
+/* The room under the PAINT card starts dark: the gap above the oil wall is
+   the wall's colour, so the card collapses straight into black. */
+.motion-full #paint .act-body {
+  background: linear-gradient(#17110f, #17110f) top / 100% 60svh no-repeat;
+}
+@media (max-width: 760px) {
+  .motion-full #paint .act-body {
+    background-size: 100% 42svh;
+  }
+}
 /* The act starts in the lower part of the screen, under the card: the card's
    collapse uncovers it as it rises, then sinks beneath it (.under). */
 .act-body {
@@ -959,6 +997,18 @@ figcaption span {
      reader's zoom and font size. */
   height: min(calc(100svh - 10vh - 13rem), 680px, calc(var(--cap) * var(--r)));
   aspect-ratio: 1 / var(--r);
+}
+/* On a desktop the strip hangs at one height: each piece capped on its own
+   came out a different height, a row of uneven tops and bottoms. The height
+   is what the widest piece allows (--rmin, its height over its width). */
+@media (min-width: 761px) {
+  .motion-full .paint-strip .reveal img {
+    height: min(calc(100svh - 10vh - 13rem), 680px, calc(min(86vw, 820px) * var(--rmin)));
+  }
+  /* And the cards end on one line too: a one-line caption keeps two lines. */
+  .motion-full .paint-strip figcaption span {
+    min-height: 2lh;
+  }
 }
 /* In the strip a caption is a tag, not the text: two lines each, aligned on a
    common top. The full caption is in the viewer. */
@@ -2530,7 +2580,8 @@ main {
   /* The painting as tall as the screen allows; its label beside it, low. */
   .oil-lead .piece {
     display: grid;
-    grid-template-columns: minmax(0, calc(min(78vh, 820px) * 0.89)) minmax(220px, 1fr);
+    grid-template-columns: minmax(0, calc(min(78vh, 820px) * 0.89)) minmax(220px, 34ch);
+    justify-content: center;
     gap: clamp(28px, 5vw, 80px);
     align-items: end;
   }
@@ -2542,7 +2593,9 @@ main {
     display: flex;
     align-items: flex-start;
     max-width: calc(min(76vh, 820px) * var(--sum) + clamp(40px, 6vw, 64px));
-    margin-left: auto;
+    /* Centred like the medal above it: on a wide screen the two rows had
+       different left edges. */
+    margin-inline: auto;
   }
   .oil-pair > div {
     min-width: 0;

@@ -45,6 +45,19 @@ export function Gallery() {
       // the strip moves, each painting is uncovered as it comes in.
       const strip = root.current?.querySelector<HTMLElement>('.paint-strip');
       const track = strip?.querySelector<HTMLElement>('.gallery');
+      // The header's paint stays whole behind the first chapter card (on a
+      // wide screen it runs well past the header) and goes as this dark wall
+      // comes up, so no rest of it hangs above the wall. It lives here
+      // because the wall is lazy: the header's setup runs before it exists.
+      // (An element, not '.splash': selectors here are scoped to this section.)
+      const wall = root.current?.querySelector('.oil-room');
+      const paint = document.querySelector('.splash');
+      if (wall && paint)
+        gsap.to(paint, {
+          autoAlpha: 0,
+          ease: 'none',
+          scrollTrigger: { trigger: wall, start: 'top 45%', end: 'top 5%', scrub: true },
+        });
       // The oils hang still on their wall: each is uncovered as it comes up,
       // on any screen.
       gsap.utils.toArray<HTMLElement>('.oil-room .piece').forEach((piece) => {
@@ -295,7 +308,11 @@ export function Gallery() {
         <h2 className="label" id="digital-h">
           {t(ui.digitalLabel)}
         </h2>
-        <div className="gallery" onScroll={onStripScroll}>
+        <div
+          className="gallery"
+          onScroll={onStripScroll}
+          style={{ '--rmin': Math.min(...digital.map((art) => art.height / art.width)) } as CSSProperties}
+        >
           {digital.map((art) => piece(art, '(max-width: 760px) 84vw, 600px'))}
         </div>
         {/* Phones swipe the strip: where you are in it, and that there is more. */}
